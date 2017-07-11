@@ -1,0 +1,44 @@
+---
+title: "NEWS; Data Discovery Tool QAQC Updates"
+output: github_document
+  #md_document:
+   # variant: markdown_github
+---
+
+<!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "NEWS-"
+)
+```
+
+```{r, echo = FALSE}
+cat(paste0("Last Update: ",Sys.time()))
+```
+
+Version history.
+
+# Planned Updates
+
+* Entered issues on GitHub for remaining planned updates
+
+# v1.1.0.9001
+2017-07-11
+
+* Added NEWS and README.
+
+* Added RStudio project file.
+
+* Added Notebook for tracking items with the update.
+
+# v1.1.0.9000
+2017-07-11
+
+* Created GitHub repository.  2017-06-16.
+
+* Pulled /app/tool/ files from v1.1 of the ddt into stand alone folder.
+
+* Uses R v3.3.1.

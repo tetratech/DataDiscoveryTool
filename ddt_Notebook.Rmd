@@ -1,0 +1,57 @@
+---
+title: "R Notebook; Data Discovery Tool QAQC Update"
+output: html_notebook
+---
+
+Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal.
+
+According to website v1.1.0.0000 uses R version 3.3.1 (for Mac assume is the same for PC).
+
+A number of packages are included with the ddt and ship in the R portal version.
+
+In order run stand alone version will need the following packages installed.
+
+```{r, eval=FALSE}
+# libraries to be installed
+data.packages = c("assertthat"
+                  , "base64enc"
+                  , "chron"
+                  , "data.table"
+                  , "dataRetrieval"
+                  , "DBI"
+                  , "devtools"
+                  , "dplyr"
+                  , "DT"
+                  , "ggplot2"
+                  , "git2r"
+                  , "htmlwidgets"
+                  , "httpuv"
+                  , "httr"
+                  , "jsonlite"
+                  , "lazyeval"
+                  , "leaflet"
+                  , "lubridate"
+                  , "memoise"
+                  , "openssl"
+                  , "png"
+                  , "R6"
+                  , "raster"
+                  , "rCharts"
+                  , "readr"
+                  , "rstudioapi"
+                  , "scales"
+                  , "shiny"
+                  , "shinyBS"
+                  , "sourcetools"
+                  , "sp"
+                  , "stringr"
+                  , "tibble"
+                  , "whisker"
+                  , "withr"
+                  , "xml2"
+                  , "xtable"
+                  )
+# install via lapply
+lapply(data.packages,function(x) install.packages(x))
+```
+

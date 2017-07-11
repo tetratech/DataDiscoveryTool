@@ -1,0 +1,42 @@
+---
+title: "README; Data Discovery Tool QAQC Updates"
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+```{r, echo = FALSE}
+cat(paste0("Last Update: ",Sys.time()))
+```
+
+Quality control (QC) procedures for water quality data for USEPA's Data Discovery tool for the Water Quality Portal.
+
+
+Installation
+------------
+library(devtools)  #install if needed
+
+install_github("tetratech/DataDiscoveryTool")
+
+Purpose
+------------
+To update the ddt with QA/QC routines from Tt's wqGateway package.
+
+Status
+------------
+Development stage.  
+
+Usage
+------------
+R Shiny application that gathers data from the Water Quality Data Portal.  
+Addtional features will be added into the existing structure.
+
+
