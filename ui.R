@@ -15,15 +15,17 @@ QueryData<-source("external/QueryData.R",local=T)$value
 CheckData<-source("external/CheckData.R",local=T)$value
 Help<-source("external/Help.R",local=T)$value
 ViewData <- source("external/ViewData.R", local = TRUE)$value
+QAQC <- source("external/QAQC.R", local=TRUE)$value
 
-shinyUI(navbarPage("WQP STORET Data Discovery Tool", 
+shinyUI(navbarPage("WQP STORET Data Discovery Tool (QAQC Mod)", 
                    theme = "bootstrap.css",
                    inverse = TRUE,
                    QueryData(),
                    CheckData(),
                    ViewData(),
+                  # QAQC(),
                    Help()
-                            
+                           
 ))
 
 

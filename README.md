@@ -2,9 +2,9 @@ README; Data Discovery Tool QAQC Updates
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-    #> Last Update: 2017-07-11 10:50:12
+    #> Last Update: 2017-07-11 11:06:59
 
-Quality control (QC) procedures for water quality data for USEPA's Data Discovery tool for the Water Quality Portal.
+Quality control (QC) procedures for water quality data for USEPA's Data Discovery Tool for the Water Quality Portal.
 
 Installation
 ------------

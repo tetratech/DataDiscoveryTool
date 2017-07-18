@@ -3,14 +3,14 @@ title: "R Notebook; Data Discovery Tool QAQC Update"
 output: html_notebook
 ---
 
-Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal.
-
-According to website v1.1.0.0000 uses R version 3.3.1 (for Mac assume is the same for PC).
+Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal (v1.1.0.0000).
 
 A number of packages are included with the ddt and ship in the R portal version.
 
 In order run stand alone version will need the following packages installed.
 
+For updates the code was pulled out of R Portal and run as stand alone code.  
+This code was uploaded to GitHub for tracking purposes.
 ```{r, eval=FALSE}
 # libraries to be installed
 data.packages = c("assertthat"
@@ -36,7 +36,7 @@ data.packages = c("assertthat"
                   , "png"
                   , "R6"
                   , "raster"
-                  , "rCharts"
+                  #, "rCharts" #non-CRANN
                   , "readr"
                   , "rstudioapi"
                   , "scales"
@@ -54,4 +54,67 @@ data.packages = c("assertthat"
 # install via lapply
 lapply(data.packages,function(x) install.packages(x))
 ```
+```{r, eval=FALSE}
+# Install non-CRANN packages
+require(devtools)
+install_github("ramnathv/rCharts")
 
+```
+
+May need shinyFiles if loading and saving Queries and Fileters is problematic.
+
+
+# Version
+## R
+According to website v1.1.0.0000 uses R version 3.3.1 (for Mac assume is the same for PC).
+## Code
+Started with v1.1.0.9000 on GitHub.  Each update increments the development number (9000).
+
+# Test Data
+Selection Parameters
+
+* HUC = 04010301
+* Char Group = Nutrient
+* Site Type = Stream
+
+wqGateway
+
+* Results = 417,417 obs. of 65 variables
+* Stations =    566 obs. of 36 variables
+
+ddt, HUC only
+
+* Results = 259,939
+* Stations =  1,001
+
+ddt, HUC, CharGroup, and SiteType
+
+* Results = 9,423
+* Stations =  199
+
+WQP Web Service Query URL
+https://www.waterqualitydata.us/Result/search?siteType=Stream&huc=04010301&characteristicType=Nutrient&mimeType=tsv&sorted=no
+
+
+# Query Data
+
+Add 2 buttons (Save Query and Load Query).
+
+UpdateSelectize not coming out right.
+
+Overwrite contents with "NA" or "0".  "NULL" will not put anything in the box so it retains the current state.
+```{r, eval=FALSE}
+# check RDS
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern=" *.rds")
+myFiles
+myList <- readRDS(file.path(myDir,myFiles[length(myFiles)]))
+myList
+myList$county
+```
+
+Need to check if empty and respond with NA or 0.
+
+
+
+# Check Data

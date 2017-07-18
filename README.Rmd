@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
-Quality control (QC) procedures for water quality data for USEPA's Data Discovery tool for the Water Quality Portal.
+Quality control (QC) procedures for water quality data for USEPA's Data Discovery Tool for the Water Quality Portal.
 
 
 Installation

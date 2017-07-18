@@ -125,8 +125,168 @@ shinyServer(
     output$URL<-renderText({
       url()
     })
+    # # Tt QrySave ####
+    # lst.url <- reactive({
+    #   list.url <- list(input$West, input$South, input$East, input$North, input$LAT, input$LONG, input$distance, input$date_Lo, input$date_Hi)
+    # })
+    # output$lst.URL <- renderText({lst.url})
     
-  
+    output$SaveQuery2 <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_Query_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")}
+      ,content = function(file) {
+        # Create List
+        ls_query_save <- list(input$state
+                              ,input$county
+                              ,input$huc_ID
+                              ,input$LAT
+                              ,input$LONG
+                              ,input$distance
+                              ,input$North
+                              ,input$South
+                              ,input$East
+                              ,input$West
+                              ,input$date_Lo
+                              ,input$date_Hi
+                              ,input$media
+                              ,input$group
+                              ,input$chars
+                              ,input$site_type
+                              ,input$org_id
+                              ,input$site_id)
+        # Set List Names
+        names(ls_query_save) <- c("state"
+                                  ,"county"
+                                  ,"huc_ID"
+                                  ,"LAT"
+                                  ,"LONG"
+                                  ,"distance"
+                                  ,"North"
+                                  ,"South"
+                                  ,"East"
+                                  ,"West"
+                                  ,"date_Lo"
+                                  ,"date_Hi"
+                                  ,"media"
+                                  ,"group"
+                                  ,"chars"
+                                  ,"site_type"
+                                  ,"org_id"
+                                  ,"site_id")
+        # Save List
+        strFile <- paste0("DDT_Query_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+        saveRDS(ls_query_save, file)  
+      }
+    )
+    
+    # # mod query based on user file
+    # output$LoadQry2 <- renderTable({
+    #   # define
+    #   q <- input$LoadQuery2
+    #   # Error check
+    #   if(is.null(q)) return(NULL)
+    #   # define list
+    #   ls_query_load <- readRDS(q$datapath)
+    #   # Update Query Info onscreen
+    #     # Location
+    #     updateSelectizeInput(session, "state", selected="WISCONSIN") #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
+    #     updateSelectizeInput(session, "county", selected=ls_query_load$county)
+    #     updateTextInput(session, "huc_ID", value=ls_query_load$huc_ID)
+    #     updateNumericInput(session,"LAT",value=ls_query_load$LAT)
+    #     updateNumericInput(session,"LONG",value=ls_query_load$LONG)
+    #     updateNumericInput(session,"distance",value=ls_query_load$distance)
+    #     updateNumericInput(session,"North",value=ls_query_load$North)
+    #     updateNumericInput(session,"South",value=ls_query_load$South)
+    #     updateNumericInput(session,"East",value=ls_query_load$East)
+    #     updateNumericInput(session,"West",value=ls_query_load$West)
+    #     # Sampling Parameters
+    #     updateDateInput(session, "date_Lo", value=ls_query_load$date_Lo) #YYYY-MM-DD
+    #     updateDateInput(session, "date_Hi", value=ls_query_load$date_Hi)
+    #     updateSelectizeInput(session, "media", selected=ls_query_load$media, options= list())     ## not working
+    #     updateSelectizeInput(session, "group", selected=ls_query_load$group, options=list())   ## not working
+    #     updateSelectizeInput(session, "chars", selected=ls_query_load$chars, options=list())                   ## not working
+    #     # Site Parameters
+    #     updateSelectizeInput(session, "site_type", selected=ls_query_load$site_type)                 ## not working
+    #     updateSelectizeInput(session, "org_id", selected=ls_query_load$org_id)                ## not working
+    #     updateTextInput(session, "site_id", value=ls_query_load$site_id)
+    #   
+    # })
+    
+    
+    # Update Query based on User File
+    observeEvent(input$UpdateQuery, {
+      # Get Query File specs
+      q <- input$LoadQueryFile
+      # Error check
+      if(is.null(q)) return(NULL)
+      # define list
+      ls_query_load <- readRDS(q$datapath)
+      # Update Query Info onscreen
+      
+      updateSelectizeInput(session, "state", selected=ls_query_load$state) #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
+          updateSelectizeInput(session, "county", selected=ls_query_load$county)
+          updateTextInput(session, "huc_ID", value=ls_query_load$huc_ID)
+          updateNumericInput(session,"LAT",value=ls_query_load$LAT)
+          updateNumericInput(session,"LONG",value=ls_query_load$LONG)
+          updateNumericInput(session,"distance",value=ls_query_load$distance)
+          updateNumericInput(session,"North",value=ls_query_load$North)
+          updateNumericInput(session,"South",value=ls_query_load$South)
+          updateNumericInput(session,"East",value=ls_query_load$East)
+          updateNumericInput(session,"West",value=ls_query_load$West)
+          # Sampling Parameters
+          updateDateInput(session, "date_Lo", value=ls_query_load$date_Lo) #YYYY-MM-DD
+          updateDateInput(session, "date_Hi", value=ls_query_load$date_Hi)
+          updateSelectizeInput(session, "media", selected=ls_query_load$media, options= list())     ## not working
+          updateSelectizeInput(session, "group", selected=ls_query_load$group, options=list())   ## not working
+          updateSelectizeInput(session, "chars", selected=ls_query_load$chars, options=list())                   ## not working
+          # Site Parameters
+          updateSelectizeInput(session, "site_type", selected=ls_query_load$site_type)                 ## not working
+          updateSelectizeInput(session, "org_id", selected=ls_query_load$org_id)                ## not working
+          updateTextInput(session, "site_id", value=ls_query_load$site_id)
+    #   # Location
+    #  # updateSelectizeInput(session, "state", selected="WISCONSIN") #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
+    #  # updateSelectizeInput(session, "county", selected="US, WISCONSIN, MARINETTE")
+    # #  updateTextInput(session, "huc_ID", value="04010301")
+    #   updateNumericInput(session,"LAT",value=0)
+    #   updateNumericInput(session,"LONG",value=0)
+    #   updateNumericInput(session,"distance",value=0)
+    #   updateNumericInput(session,"North",value=0)
+    #   updateNumericInput(session,"South",value=0)
+    #   updateNumericInput(session,"East",value=0)
+    #   updateNumericInput(session,"West",value=0)
+    #   # Sampling Parameters
+    #   updateDateInput(session, "date_Lo", value=NA) #YYYY-MM-DD
+    #   updateDateInput(session, "date_Hi", value=NA)
+    #   updateSelectizeInput(session, "media", selected="Water", options= list())     ## not working
+    #   updateSelectizeInput(session, "group", selected="Nutrient", options=list())   ## not working
+    #   updateSelectizeInput(session, "chars", selected="Ammonia", options=list())                   ## not working
+    #   # Site Parameters
+    #   updateSelectizeInput(session, "site_type", selected="Stream")                 ## not working
+    #   updateSelectizeInput(session, "org_id", selected="Stream")                ## not working
+    #   updateTextInput(session, "site_id", value=NA)
+    #   ## not working ~~~~~~~~~~~~~~~~~~~~~~
+    #   # County, media, group, chars, site_type, org_id
+    })
+    #
+    # observeEvent(input$SaveQuery, {
+    #   # Create List
+    #   ls_query_save <- list(input$state
+    #                        ,input$county
+    #                        ,input$huc_ID
+    #     
+    #                   )
+    #   # Set List Names
+    #   names(ls_query_save) <- c("statecode"
+    #                        ,"countycode"
+    #                        ,"huc8s"
+    #                        # ,"lat"
+    #                        # ,"long"
+    #                        # ,"within"
+    #                        )
+    #   # Save List
+    #   strFile <- paste0("DDT_Query_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+    #   saveRDS(ls_query_save)
+    # })                
     
     # Run the header pull
    # RECORDS<-eventReactive(input$CHECK, {
