@@ -190,31 +190,37 @@ function(){
       ))),fluidRow(br()), 
              fluidRow(wellPanel(fluidRow(h4("WQP Web Service Query URL", style  = "text-align:center")),
                verbatimTextOutput("URL")))
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Tt Mod, Save/Load Buttons ####
         # # Tt Button to Save URL parts, use lst.url
         # ,fluidRow(br()),
         #       fluidRow(wellPanel(fluidRow(h4("URL Parts", style  = "text-align:center")),
         #           verbatimTextOutput("lst.URL")))
-        ,fluidRow(
-          column(1,
-                 downloadButton("SaveQuery2","Save Query File"))
+        
+        ,br()
+        ,fluidRow(column(1,downloadButton("SaveQuery2","Save Query File")
+                         )
+                  
           # ,column(1,
           #        bsButton("SaveQuery", label="Save Query", style="primary")
           #        ,bsPopover("SaveQuery", "Save Query", trigger = "hover", placement="right", options = list(container = "body")
           #                   ,"This button saves the query selections for later use."))
-          )
+          
+          ,bsPopover("SaveQuery2", "Save Query File", "Click to save the query selections for use later.",
+            "top", trigger = "hover", options = list(container = "body")
+            )
+        )
+        #,fluidRow(br())
         ,fluidRow(br())
-        ,fluidRow(br())
-        ,fluidRow(
-          column(3,
-                 fileInput("LoadQueryFile","Load Query File",accept=".rds"))
+        ,fluidRow(column(8,fileInput("LoadQueryFile","Load Query File",accept=".rds")
+                 )
           )
         #,fluidRow(br())
-        ,fluidRow(column(1,
-                  bsButton("UpdateQuery", label="Update Query From File", style="primary")
+        ,fluidRow(column(1,bsButton("UpdateQuery", label="Update Query From File", style="primary")
                   ,bsPopover("UpdateQuery", "Update Query", trigger = "hover", placement="right", options = list(container = "body")
-                           ,"This button updates the query selections from a user selected query file. Must upload file first before clicking this button."))
+                  ,"This button updates the query selections from a user selected query file. Must upload file first before clicking this button."))
         )
-
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   )}
 
 

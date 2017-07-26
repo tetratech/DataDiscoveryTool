@@ -12,6 +12,10 @@ function() {
                                                      "top", trigger = "hover", options = list(container = "body"))),
                                   br(),
                                 bsCollapse(multiple = TRUE, # open = 'Filter Organization, Station & Parameter',
+                                           #~~~~~~~~~~~~~~~~~~
+                                           # Tt Mod, panel group ID ####
+                                           id = "view_sp",
+                                           #~~~~~~~~~~~~~~~~~~
                                     bsCollapsePanel('Filter by Organization', style = 'info',
                                                     fluidRow(column(1), column(10, radioButtons('org_sel', "", c("Select All"=1, "Deselect All"=2), selected =1))),
                                                     uiOutput('sporg')),
@@ -35,11 +39,47 @@ function() {
                                                     uiOutput('spmethod')),
                                     bsCollapsePanel('Filter by Result Qualifier', style = 'info',  
                                                     fluidRow(column(1), column(10, radioButtons('qual_sel', "", c("Select All"=1, "Deselect All"=2), selected =1))),
-                                                    uiOutput('spqual'))),
+                                                    uiOutput('spqual')),
+                                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    # Tt Mod, Add Filters ####
+                                    bsCollapsePanel('Filter by Activity Type Code', style = 'info',  
+                                                    fluidRow(column(1), column(10, radioButtons('acttype_sel', "", c("Select All"=1, "Deselect All"=2), selected =1))),
+                                                    uiOutput('spacttype')),
+                                    bsCollapsePanel('Filter by Sample Collection Equipment Name', style = 'info',  
+                                                    fluidRow(column(1), column(10, radioButtons('equip_sel', "", c("Select All"=1, "Deselect All"=2), selected =1))),
+                                                    uiOutput('spequip')),
+                                    bsCollapsePanel('Filter by Result Status ID', style = 'info',  
+                                                    fluidRow(column(1), column(10, radioButtons('statusid_sel', "", c("Select All"=1, "Deselect All"=2), selected =1))),
+                                                    uiOutput('spstatusid'))
+                                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    ),
                                 h4("Select value range:"),
                                   uiOutput('spvalue'), 
                                 fluidRow(
                                   dateRangeInput("spdate", "Select a Date Range:"))
+                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                ## Tt Mod, Save/Load Buttons ####
+                                ,br()
+                                ,fluidRow(column(1),
+                                  column(1, downloadButton("SaveFilters","Save Filters File")
+                                                )
+                                         ,bsPopover("SaveFilters", "Save Filters File", "Click to save the filter selections for use later.",
+                                                    "top", trigger = "hover", options = list(container = "body"))
+                                )
+                                ,br()
+                                ,br()
+                                ,fluidRow(column(1),
+                                  column(9,
+                                         fileInput("LoadFiltersFile","Load Filters File",accept=".rds"))
+                                )
+                                #,br()
+                                ,fluidRow(column(1),
+                                          column(1,
+                                                 bsButton("UpdateFilters", label="Update Filters From File", style="primary")
+                                                 ,bsPopover("UpdateFilters", "Update Filters", trigger = "hover", placement="right", options = list(container = "body")
+                                                            ,"This button updates the filter selections from a user selected filters file. Must upload file first before clicking this button."))
+                                )
+                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 ),
                      mainPanel( 
                          tabsetPanel(type = "tabs",

@@ -13,6 +13,24 @@ function(){
            #                                               "Set Non-Detections equal to the 1/2 times the Limit of Detection"=4)))))),
            tabsetPanel(type = "tabs",
                        tabPanel("Home",
+                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                ## Tt Mod, Load/Save Buttons ####
+                                wellPanel(fluidRow(h4("Tt Mod, download data", style = "text-align: center")),
+                                  fluidRow(column(5),column(2, downloadButton("SaveData","Save Data"))),
+                                  fluidRow(br())
+                                  # ,fluidRow(
+                                  #   column(3,
+                                  #          fileInput("LoadDataFile","Load Data File",accept=".rds")
+                                  #   )
+                                  # )
+                                  # #,fluidRow(br())
+                                  # ,fluidRow(column(1,
+                                  #                  bsButton("UpdateData", label="Update Data From File", style="primary")
+                                  #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
+                                  #                             ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
+                                  # )
+                                ),
+                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 wellPanel(fluidRow(column(1),
                                                    column(10,
                                                           h3("Data Summary", style = "text-align:center"),

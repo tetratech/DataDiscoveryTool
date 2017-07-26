@@ -1,16 +1,14 @@
 ---
-title: "R Notebook; Data Discovery Tool QAQC Update"
+title: "Notes on Data Discovery Tool QAQC Update"
 output: html_notebook
 ---
 
 Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal (v1.1.0.0000).
 
+# Packages
 A number of packages are included with the ddt and ship in the R portal version.
 
-In order run stand alone version will need the following packages installed.
-
-For updates the code was pulled out of R Portal and run as stand alone code.  
-This code was uploaded to GitHub for tracking purposes.
+In order run as a stand alone version will need the following packages installed.
 ```{r, eval=FALSE}
 # libraries to be installed
 data.packages = c("assertthat"
@@ -54,6 +52,7 @@ data.packages = c("assertthat"
 # install via lapply
 lapply(data.packages,function(x) install.packages(x))
 ```
+
 ```{r, eval=FALSE}
 # Install non-CRANN packages
 require(devtools)
@@ -61,14 +60,50 @@ install_github("ramnathv/rCharts")
 
 ```
 
-May need shinyFiles if loading and saving Queries and Fileters is problematic.
+May need shinyFiles if loading and saving Queries and Filters becomes problematic.
 
+# Warning Message
+Get 3 warnings whether run the app from ui.R or server.R.  The "if" statement mentioned is not in 
+the code. 
+```{r, eval=FALSE}
+Warning in if (getAttribs(panels[[i]])$value %in% open) { :
+  the condition has length > 1 and only the first element will be used
+Warning in if (getAttribs(panels[[i]])$value %in% open) { :
+  the condition has length > 1 and only the first element will be used
+Warning in if (getAttribs(panels[[i]])$value %in% open) { :
+  the condition has length > 1 and only the first element will be used
+```
+
+# GitHub
+For updates the code was pulled out of R Portal and run as stand alone code.  
+This code was uploaded to GitHub for tracking purposes.
+
+https://github.com/tetratech/DataDiscoveryTool
 
 # Version
 ## R
 According to website v1.1.0.0000 uses R version 3.3.1 (for Mac assume is the same for PC).
+
+Using v3.4.1 (32-bit) for development of modifications.
+
 ## Code
 Started with v1.1.0.9000 on GitHub.  Each update increments the development number (9000).
+
+To make use of RStudio's outlining features adding "Tt Mod" comments to each section where make changes in R files.  See example below.
+
+```{r, eval=FALSE}
+  ## Tt Mod, Check Data, Save Data ####
+  output$SaveData <- downloadHandler(
+    filename = function() {
+      strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")}
+    ,content = function(file) {
+      saveRDS(all_data(),file)
+    }
+  )
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+No changes to other code will be made that are not necessary for the features that are being added to the tool.
 
 # Test Data
 Selection Parameters
@@ -93,6 +128,7 @@ ddt, HUC, CharGroup, and SiteType
 * Stations =  199
 
 WQP Web Service Query URL
+
 https://www.waterqualitydata.us/Result/search?siteType=Stream&huc=04010301&characteristicType=Nutrient&mimeType=tsv&sorted=no
 
 
@@ -100,21 +136,69 @@ https://www.waterqualitydata.us/Result/search?siteType=Stream&huc=04010301&chara
 
 Add 2 buttons (Save Query and Load Query).
 
-UpdateSelectize not coming out right.
+UpdateSelectize boxes not coming out right.  Need to add "choices" and "selected" to update string.  The boxes still work with original 'choices' after the update.
 
 Overwrite contents with "NA" or "0".  "NULL" will not put anything in the box so it retains the current state.
+
+Test different Query files.
 ```{r, eval=FALSE}
 # check RDS
 myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
-myFiles <- list.files(path=myDir, pattern=" *.rds")
+myFiles <- list.files(path=myDir, pattern="DDT_Query_*")
 myFiles
-myList <- readRDS(file.path(myDir,myFiles[length(myFiles)]))
+myList <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
 myList
 myList$county
 ```
 
 Need to check if empty and respond with NA or 0.
 
+The "URL" updates when changes are made to the input boxes.
+
+# View Data
+Added filters for ActivityTypeCode, SampleCollectionEquipmentName, and ResultStatusID.
+
+Need to hook into "filtered_data()".
+
+Test different Filters files.
+```{r, eval=FALSE}
+# check RDS
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Filters_*")
+myFiles
+myList <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+myList
+```
+
+For update statements:
+
+1. Modify "choices" to match original code??
+
+2. Update Filters code with "NULL" where appropriate.
+
+* Timing issue.  Is working but when click on header to expand the Filter different code runs.
+To populate the box.
+
+* Need to programatically expand the boxes when "apply" the filter.
 
 
 # Check Data
+1. Add button to load data.
+2. Modify save data to use 2 files (Keep and Exclude data).  May want "metadata" file as well.
+
+Will most likely need to modify the structure of the "data" data frame.
+
+Test different Data files.
+```{r, eval=FALSE}
+# check RDS
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_*")
+myFiles
+myData <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+str(myData)
+View(myData)
+```
+
+# Style Questions
+
+1. Buttons for Query and View inside or outside of "wells" (gray outline box).  For now have one of each so can see differences.  Need to pick one for the final.
