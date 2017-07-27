@@ -43,11 +43,15 @@ function(){
                                 wellPanel(fluidRow(column(1),
                                                    column(10,
                                                           fluidRow(h3(" Please select a method to deal with Non-Detections", style = "text-align: center")),
+                                                          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                          ## Tt Mod, Non Detect Options ####
                                                           fluidRow(radioButtons("ND_method", " ",
-                                                                                c("Ignore Non-Detections - remove from data set"=1,
+                                                                                c(#"Ignore Non-Detections - remove from data set"=1,
                                                                                   "Set Non-Detections equal to zero"=2,
                                                                                   "Set Non-Detections equal to the Limit of Detection"=3,
-                                                                                  "Set Non-Detections equal to the 1/2 times the Limit of Detection"=4)))))),
+                                                                                  "Set Non-Detections equal to the 1/2 times the Limit of Detection"=4)
+                                                                                ,selected=4))))),
+                                                          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 wellPanel(fluidRow(h3("Available Data Sets", style = "text-align: center")),
                                           fluidRow(h4("All Data: "), h5("This table  displays all of the raw data records imported from the Water Quality Portal")),
                                           fluidRow(h4("Non Detects: "), h5("These are the records with values for the 'Result Detection Condition Text' field equal to 'Not Detected' or 'Present below Quantitation Limit'")),

@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-07-26 19:55:19
+    #> Last Update: 2017-07-26 20:21:58
 
 Version history.
 
@@ -11,7 +11,23 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
+v1.1.0.9004
+===========
+
+2017-07-26
+
+-   Non Detects on Check Data tab. Issue \#8
+-   Comment out (remove) "Remove ND" option. 20170726.
+-   Change ND default option to "1/2 MDL" (\#4). 20170726.
+
 v1.1.0.9003
+===========
+
+2017-07-26
+
+-   Resubmitted previous commit due to error in version number.
+
+v0.0.0.9003
 ===========
 
 2017-07-26

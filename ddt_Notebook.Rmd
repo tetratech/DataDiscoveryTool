@@ -184,7 +184,13 @@ To populate the box.
 
 # Check Data
 1. Add button to load data.
+
 2. Modify save data to use 2 files (Keep and Exclude data).  May want "metadata" file as well.
+
+3. Non-Detects.  
+Modify to use 1/2 MDL as default.  
+Remove "remove option".  
+Add DL_Lo and DL-Hi fields to the data.
 
 Will most likely need to modify the structure of the "data" data frame.
 
