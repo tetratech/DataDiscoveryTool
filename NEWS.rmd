@@ -26,6 +26,11 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.0.9007
+2017-07-31
+
+* Another attempt to get ResultLower and ResultUpper in getData.R added to the commit.
+
 #v1.1.0.9006
 2017-07-31
 

@@ -5,6 +5,8 @@ getWQPData_app <- function(urlCall){
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Tt Mod, Add DetectionLimit Lo and Hi
   ## If DL is NA will Lo will return NA otherwise will be zero.  Hi is DL.
+  retval$ResultLower <- 0 * retval$DetectionQuantitationLimitMeasure.MeasureValue 
+  retval$ResultUpper <- retval$DetectionQuantitationLimitMeasure.MeasureValue
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   urlStation <- gsub("/Result/", "/Station/", urlCall)
   if(!all(is.na(retval))){
