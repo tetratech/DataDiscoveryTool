@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-07-26 20:21:58
+    #> Last Update: 2017-07-31 11:32:09
 
 Version history.
 
@@ -10,6 +10,14 @@ Planned Updates
 ===============
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
+
+v1.1.0.9005
+===========
+
+2017-07-31 (Start)
+
+-   On the "Check Data" tab add "QA/QC" before "Summary".
+    This is the section with the checking for usnits and sut.
 
 v1.1.0.9004
 ===========

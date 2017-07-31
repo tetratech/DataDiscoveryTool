@@ -2,6 +2,10 @@ library(dataRetrieval)
 #This is a new module that retrieves the data and replaces readWQPdata_app.R.  It appears to perform much faster
 getWQPData_app <- function(urlCall){
   retval <- importWQP(urlCall,FALSE, tz="")
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Tt Mod, Add DetectionLimit Lo and Hi
+  ## If DL is NA will Lo will return NA otherwise will be zero.  Hi is DL.
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   urlStation <- gsub("/Result/", "/Station/", urlCall)
   if(!all(is.na(retval))){
     siteInfo <- importWQP(urlStation, FALSE, tz="")

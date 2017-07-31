@@ -125,6 +125,19 @@ function(){
                                           "top", trigger = "hover", options = list(container = "body")),
                                 br(),
                                 fluidRow(DT::dataTableOutput("Filtered"))),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       # Tt Mod, QAQC tab
+                       tabPanel("QAQC",
+                                fluidRow((h3("Quality Assurance / Quality Control", style = "text-align: center")))
+                                ,fluidRow(h4("Modify data for consitent units...blah, blah, blah...need good text explanation for what doing at this step.", style = "text-align: center"))
+                                ,fluidRow(wellPanel(fluidRow(column(1), column(2, h3("title?")))
+                                                    ,fluidRow(column(1), column(2, h4("more help text or replace the text above?")))
+                                                    ,fluidRow(column(1), column(2, "Describe needing to use Excel and iterative nature of the process, save file
+                                                                                , TRUE/FALSE, fields included, etc."))
+                                                    )
+                                          )
+                                ),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("Summary",
                                 fluidRow(
                                   h3("Click the button below to run a summary of the data", style = "text-align: center")),

@@ -82,6 +82,8 @@ https://github.com/tetratech/DataDiscoveryTool
 
 # Version
 ## R
+Troubleshooting_v1.pdf (included in files) says that the R version is 3.2.0.
+
 According to website v1.1.0.0000 uses R version 3.3.1 (for Mac assume is the same for PC).
 
 Using v3.4.1 (32-bit) for development of modifications.
@@ -204,6 +206,71 @@ myData <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
 str(myData)
 View(myData)
 ```
+
+# Data Format
+DDT uses importWQP() rather than readWQPdata().  The former returns only a data frame.  The later returns a sites/stations file as well.  They take different inputs (URL vs. parameters) and the help examples are different so have to construct similar data requests so can compare.
+```{r, eval=FALSE}
+# load library
+library(dataRetrieval)
+
+# "import" uses a URL
+datarequest_import <- constructWQPURL('USGS-01594440','01075', '', '') 
+                      # siteNumbers, parameterCd, startDate, endDate, zip=FALSE
+data_import <- importWQP(datarequest_import)  # runtime = 10 seconds
+dim(data_import) # 65 65
+str(data_import) # Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	65 obs. of  65 variables:
+
+# "read" uses parameters
+datarequest_read <- c(siteid="USGS-01594440", USGSPCode="01075")
+data_read <- readWQPdata(datarequest_read)    # runtime > 15 *minutes*
+dim(data_read) # 45559 65
+str(data_read)   # 2 tables ?
+```
+Different results and different run times.  importWQP is *much* faster so that is what is used to get "data" via the "IMPORT" button.  Uses getData.R; constructs a URL based on inputs on the Query Data tab.
+
+The number of records prior on the same pop up is done through a call to the webservices URL and getting the info in the header.
+
+```{r, eval=FALSE}
+# get station and record info. 
+
+# define URL
+myURL <- "https://www.waterqualitydata.us/Result/search?statecode=US%3A55&siteType=Stream&huc=04010301&sampleMedia=Water&characteristicType=Nutrient&startDateLo=01-01-2000&startDateHi=12-31-2015&mimeType=tsv&sorted=no"
+
+# show HEAD
+HEAD(myURL)
+
+# show headers
+headers(HEAD(myURL))
+```
+
+
+## Add Detection Limit Fields
+
+Add DL Hi and Lo
+
+* DetectionLimitLo <- 0
+* DetectionLimitHi <- DetectionQuantitationLimitMeasure.MeasureValue
+
+```{r, eval=FALSE}
+# load library
+library(dataRetrieval)
+
+# "import" uses a URL
+datarequest_import <- constructWQPURL('USGS-01594440','01075', '', '') 
+                      # siteNumbers, parameterCd, startDate, endDate, zip=FALSE
+data_import <- importWQP(datarequest_import)  # runtime = 10 seconds
+dim(data_import) # 65 65
+str(data_import) # Cla
+
+# Add DL Lo and Hi
+data_import$DetectionLimit_Lo <- 0
+data_import$DetectionLimit_Hi<- data_import$DetectionQuantitationLimitMeasure.MeasureValue
+
+
+
+```
+
+
 
 # Style Questions
 

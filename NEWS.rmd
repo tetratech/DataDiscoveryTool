@@ -26,6 +26,14 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.0.9005
+2017-07-31 (Interim Build)
+
+* On the "Check Data" tab add "QA/QC" before "Summary".  
+This is the section with the checking for units, methods, and parameter names.
+
+* Previously modified "data" download to add 2 new fields "DetectionLimit_Lo" (0) and "DetectionLimit_Hi" (MDL).  Changed names to "ResultLower" and "ResultUpper".
+
 #v1.1.0.9004
 2017-07-26
 

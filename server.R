@@ -216,28 +216,35 @@ shinyServer(
       q <- input$LoadQueryFile
       # Error check
       if(is.null(q)) return(NULL)
+      # Error checking
+      if (exists("lst_query_load")==TRUE){##IF.exists.START
+        rm(lst_query_load)
+      }##IF.exists.END
       # define list
       lst_query_load <- readRDS(q$datapath)
-      # Update Query Info onscreen
-      updateSelectizeInput(session, "state", choices=lst_query_load$state, selected=lst_query_load$state) #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
+      # # Update Query Info onscreen (to user selections)
+      ## Location
+      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=lst_query_load$state) #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
       updateSelectizeInput(session, "county", choices=lst_query_load$county, selected=lst_query_load$county)
       updateTextInput(session, "huc_ID", value=lst_query_load$huc_ID)
-      updateNumericInput(session,"LAT",value=lst_query_load$LAT)
-      updateNumericInput(session,"LONG",value=lst_query_load$LONG)
-      updateNumericInput(session,"distance",value=lst_query_load$distance)
-      updateNumericInput(session,"North",value=lst_query_load$North)
-      updateNumericInput(session,"South",value=lst_query_load$South)
-      updateNumericInput(session,"East",value=lst_query_load$East)
-      updateNumericInput(session,"West",value=lst_query_load$West)
-      # Sampling Parameters
+      updateNumericInput(session,"LAT", value=lst_query_load$LAT, min = 0, max = 100)
+      updateNumericInput(session,"LONG", value=lst_query_load$LONG, min = 0, max = 100)
+      updateNumericInput(session,"distance", value=lst_query_load$distance, min = 0, max = 100)
+      updateNumericInput(session,"North", value=lst_query_load$North, min = -100, max = 100)
+      updateNumericInput(session,"South", value=lst_query_load$South, min = -100, max = 100)
+      updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
+      updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
+      ## Sampling Parameters
+        updateDateInput(session, "date_Lo", value=NA)
       updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
+        updateDateInput(session, "date_Hi", value=NA)
       updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
-      updateSelectizeInput(session, "media", choices=lst_query_load$media, selected=lst_query_load$media)     
-      updateSelectizeInput(session, "group", choices=lst_query_load$group, selected=lst_query_load$group)  
-      updateSelectizeInput(session, "chars", choices=lst_query_load$chars, selected=lst_query_load$chars)                   
-      # Site Parameters
-      updateSelectizeInput(session, "site_type", choices=lst_query_load$site_type, selected=lst_query_load$site_type)                 
-      updateSelectizeInput(session, "org_id", choices=lst_query_load$org_id, selected=lst_query_load$org_id)                
+      updateSelectizeInput(session, "media", choices=lst_query_load$media, selected=lst_query_load$media)
+      updateSelectizeInput(session, "group", choices=lst_query_load$group, selected=lst_query_load$group)
+      updateSelectizeInput(session, "chars", choices=lst_query_load$chars, selected=lst_query_load$chars)
+      ## Site Parameters
+      updateSelectizeInput(session, "site_type", choices=lst_query_load$site_type, selected=lst_query_load$site_type)
+      updateSelectizeInput(session, "org_id", choices=lst_query_load$org_id, selected=lst_query_load$org_id)
       updateTextInput(session, "site_id", value=lst_query_load$site_id)
     })
     #
