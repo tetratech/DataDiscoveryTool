@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-07-31 11:32:09
+    #> Last Update: 2017-07-31 12:21:06
 
 Version history.
 
@@ -11,13 +11,22 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
+v1.1.0.9006
+===========
+
+2017-07-31
+
+-   Name change for ResultLower and ResultUpper not picked up in last commit.
+
 v1.1.0.9005
 ===========
 
-2017-07-31 (Start)
+2017-07-31 (Interim Build)
 
 -   On the "Check Data" tab add "QA/QC" before "Summary".
-    This is the section with the checking for usnits and sut.
+    This is the section with the checking for units, methods, and parameter names.
+
+-   Previously modified "data" download to add 2 new fields "DetectionLimit\_Lo" (0) and "DetectionLimit\_Hi" (MDL). Changed names to "ResultLower" and "ResultUpper".
 
 v1.1.0.9004
 ===========

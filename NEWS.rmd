@@ -26,6 +26,11 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.0.9006
+2017-07-31
+
+* Name change for ResultLower and ResultUpper not picked up in last commit. 
+
 #v1.1.0.9005
 2017-07-31 (Interim Build)
 
