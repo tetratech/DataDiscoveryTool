@@ -227,6 +227,26 @@ shinyServer(
       # define list
       lst_query_load <- readRDS(q$datapath)
       # # Update Query Info onscreen (to user selections)
+      # reset all fields
+      updateSelectizeInput(session, "state", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
+      updateTextInput(session, "huc_ID", value=character(0))
+      updateNumericInput(session,"LAT", value=0)
+      updateNumericInput(session,"LONG", value=0)
+      updateNumericInput(session,"distance", value=0)
+      updateNumericInput(session,"North", value=0)
+      updateNumericInput(session,"South", value=0)
+      updateNumericInput(session,"East", value=0)
+      updateNumericInput(session,"West", value=0)
+      updateDateInput(session, "date_Lo", value=NA)
+      updateDateInput(session, "date_Hi", value=NA)
+      updateSelectizeInput(session, "media", choices=NULL, selected=character(0)) # not blanking
+      updateSelectizeInput(session, "group", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0)) # not blanking
+      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0)) # not blanking
+      updateSelectizeInput(session, "org_id", choices=NULL, selected=character(0))
+      updateTextInput(session, "site_id", value=character(0))
+      #
       ## Location
       updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=lst_query_load$state) #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
       updateSelectizeInput(session, "county", choices=lst_query_load$county, selected=lst_query_load$county)
@@ -239,9 +259,9 @@ shinyServer(
       updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
       updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
       ## Sampling Parameters
-        updateDateInput(session, "date_Lo", value=NA)
+        #updateDateInput(session, "date_Lo", value=NA)
       updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
-        updateDateInput(session, "date_Hi", value=NA)
+        #updateDateInput(session, "date_Hi", value=NA)
       updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
       updateSelectizeInput(session, "media", choices=lst_query_load$media, selected=lst_query_load$media)
       updateSelectizeInput(session, "group", choices=lst_query_load$group, selected=lst_query_load$group)

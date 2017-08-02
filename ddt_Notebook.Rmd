@@ -94,7 +94,7 @@ Started with v1.1.0.9000 on GitHub.  Each update increments the development numb
 To make use of RStudio's outlining features adding "Tt Mod" comments to each section where make changes in R files.  See example below.
 
 ```{r, eval=FALSE}
-  ## Tt Mod, Check Data, Save Data ####
+  ## Tt Mod, Check Data, Save Data 
   output$SaveData <- downloadHandler(
     filename = function() {
       strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")}
@@ -149,6 +149,7 @@ myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
 myFiles <- list.files(path=myDir, pattern="DDT_Query_*")
 myFiles
 myList <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+myList <- readRDS(file.path(myDir,myFiles[2]))
 myList
 myList$county
 ```
