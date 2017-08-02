@@ -203,6 +203,8 @@ myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
 myFiles <- list.files(path=myDir, pattern="DDT_Data_*")
 myFiles
 myData <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+#myData <- readRDS(file.path(myDir,myFiles[4]))
+names(myData)
 str(myData)
 View(myData)
 ```
@@ -270,6 +272,131 @@ data_import$DetectionLimit_Hi<- data_import$DetectionQuantitationLimitMeasure.Me
 
 ```
 
+## Testing - data frames
+
+###Output DATA (retval)
+```{r, eval=FALSE}
+# check RDS
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_retval_*")
+myFiles
+myData <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+str(myData)
+View(myData)
+```
+
+###Output DATA (siteInfo)
+```{r}
+# check RDS
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_SiteInfo_*")
+myFiles
+myData <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
+str(myData)
+View(myData)
+```
+
+###Test Merge
+
+Fields not modified in ddt yet so can use WQX names.
+, by.x=c("Organization", "Station")
+```{r, eval=FALSE}
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+retval   <- readRDS(file.path(myDir,"DDT_Data_retval_20170802_105845.rds"))
+siteInfo <- readRDS(file.path(myDir,"DDT_Data_SiteInfo_20170802_105845.rds"))
+
+    MoreFlds <- c("OrganizationIdentifier", "MonitoringLocationIdentifier"
+                  , "MonitoringLocationName", "LatitudeMeasure", "LongitudeMeasure"
+                  , "HUCEightDigitCode", "huc8name"
+                  , "StateName", "CountyName"
+                  , "MonitoringLocationTypeName")
+    
+    MoreFlds %in% names(siteInfo)
+
+    c("OrganizationIdentifier", "MonitoringLocationIdentifier") %in% names(siteInfo)
+    c("OrganizationIdentifier", "MonitoringLocationIdentifier") %in% names(retval)
+    
+    MoreFlds %in% names(retval)
+    
+
+# merge
+retval.merge <- merge(retval,siteInfo[,MoreFlds]
+                    , by.x=c("OrganizationIdentifier", "MonitoringLocationIdentifier")
+                    , by.y=c("OrganizationIdentifier", "MonitoringLocationIdentifier")
+                    , all.x=TRUE, sort=FALSE)
+# QC numbers
+dim(retval)
+dim(siteInfo)
+dim(retval.merge)
+# X + Y - 2by = total columns
+ncol(retval) + ncol(siteInfo[,MoreFlds]) - 2 == ncol(retval.merge)
+
+```
+
+
+# getData.R
+Saving output to check
+```{r, eval=FALSE}
+# # # # testing (temporary)
+      myDateTime <- format(Sys.time(),"%Y%m%d_%H%M%S")
+      #
+      myFile <- file.path("C:","Users","Erik.Leppo","Downloads",paste0("DDT_Data_SiteInfo_",myDateTime))
+      saveRDS(siteInfo,paste0(myFile,".rds"))
+      write.csv(siteInfo,paste0(myFile,".csv"))
+      #
+      myFile <- file.path("C:","Users","Erik.Leppo","Downloads",paste0("DDT_Data_retval_",myDateTime))
+      saveRDS(retval,paste0(myFile,".rds"))
+      write.csv(retval,paste0(myFile,".csv"))
+      #
+      myFile <- file.path("C:","Users","Erik.Leppo","Downloads",paste0("DDT_Data_retval_MERGE_",myDateTime))
+      saveRDS(retval.merge,paste0(myFile,".rds"))
+      write.csv(retval.merge,paste0(myFile,".csv"))
+```
+
+
+
+###County Info
+```{r, eval=FALSE}
+myDir <- file.path("C:","Users","Erik.Leppo","OneDrive - Tetra Tech, Inc"
+                   ,"MyDocs_OneDrive", "GitHub", "DataDiscoveryTool", "external")
+myFile <- "Counties.csv"
+#
+counties <- read.csv(file.path(myDir,myFile),header=FALSE
+                     ,colClasses=c("factor","integer","character","factor","factor"))
+head(counties)
+# Counties in ddt is not counties.csv but counties_dropdown.csv
+
+myCountyInfo <- counties[,2:4]
+names(myCountyInfo) <- c("StateCode","CountyCode","CountyName")
+#
+head(myCountyInfo)
+
+### Merge County into SiteInfo
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+siteInfo <- readRDS(file.path(myDir,"DDT_Data_SiteInfo_20170802_094326.rds"))
+# remove last field
+names(siteInfo)
+siteInfo <- siteInfo[,-46]
+
+MergeCounty <- merge(siteInfo, myCountyInfo
+                     , by = c("StateCode","CountyCode")
+                     , all.x=TRUE)
+head(MergeCounty)
+
+
+
+```
+
+# Check data
+data2
+```{r}
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+data2   <- readRDS(file.path(myDir,"DDT_Data_data2_20170802_140407.rds"))
+names(data2)
+
+x <- c("")
+
+```
 
 
 # Style Questions

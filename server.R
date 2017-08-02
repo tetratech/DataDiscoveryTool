@@ -7,6 +7,10 @@ library(rCharts)
 library(scales)
 library(jsonlite)
 options(scipen=30)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Tt Mod, Add Library ####
+library(XLConnect)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
 source("external/readWQPdata_app.R", local=TRUE)
@@ -447,6 +451,21 @@ url_display<-eventReactive(input$CHECK, {
         data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = 0.5*(DetectionQuantitationLimitMeasure.MeasureValue), 
                                                                                                                Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
       }
+      
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Tt Mod, data, extra fields ####
+      #Add extra fields so have original names (may remove later)
+      # data2[,"LatitudeMeasure"]           <- data2[,"Latitude"]
+      # data2[,"LongitudeMeasure"]           <- data2[,"Longitude"]
+      data2[,"MonitoringLocationIdentifier"] <- data2[,"Station"]
+      data2[,"OrganizationIdentifier"]       <- data2[,"Organization"]
+      data2[,"CharacteristicName"]           <- data2[,"Characteristic"]
+      data2[,"ResultMeasureValue"]           <- data2[,"Result"]
+      data2[,"ResultMeasure.MeasureUnitCode"]           <- data2[,"Unit"]
+      data2[,"ResultAnalyticalMethod.MethodIdentifier"] <- data2[,"Method_ID"]
+      data2[,"ResultAnalyticalMethod.MethodName"]       <- data2[,"Method"]
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
       return(data2)
     })
     all_data<-reactive({

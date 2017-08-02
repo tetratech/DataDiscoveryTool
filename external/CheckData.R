@@ -15,20 +15,22 @@ function(){
                        tabPanel("Home",
                                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 ## Tt Mod, Load/Save Buttons ####
-                                wellPanel(fluidRow(h4("Tt Mod, download data", style = "text-align: center")),
-                                  fluidRow(column(5),column(2, downloadButton("SaveData","Save Data"))),
-                                  fluidRow(br())
-                                  # ,fluidRow(
-                                  #   column(3,
-                                  #          fileInput("LoadDataFile","Load Data File",accept=".rds")
-                                  #   )
-                                  # )
-                                  # #,fluidRow(br())
-                                  # ,fluidRow(column(1,
-                                  #                  bsButton("UpdateData", label="Update Data From File", style="primary")
-                                  #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
-                                  #                             ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
-                                  # )
+                                wellPanel(fluidRow(h4("Tt Mod, load data (load button is here as a placeholder)", style = "text-align: center"))
+                                          , fluidRow(column(5),column(2, downloadButton("SaveData","Save Data")))
+                                          , fluidRow(br())
+                                          , fluidRow("As an alternative to retrieving data the buttons below can be used to load a previously saved dataset.")
+                                          , fluidRow(br())
+                                          , fluidRow(
+                                            column(3,
+                                                   fileInput("LoadDataFile","Load Data File",accept=".rds")
+                                            )
+                                          )
+                                          , fluidRow(br())
+                                          # ,fluidRow(column(1,
+                                          #                  bsButton("UpdateData", label="Update Data From File", style="primary")
+                                          #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
+                                          #                             ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
+                                          # )
                                 ),
                                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 wellPanel(fluidRow(column(1),
@@ -114,6 +116,20 @@ function(){
                                           "top", trigger = "hover", options = list(container = "body")),
                                 br(),
                                 fluidRow(DT::dataTableOutput("DUPS"))),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       # Tt Mod, QAQC tab ####
+                       tabPanel("QAQC",
+                                fluidRow((h3("Quality Assurance / Quality Control", style = "text-align: center")))
+                                ,fluidRow(h4("Modify data for consistent units, methods, sample fraction, etc.", style = "text-align: center"))
+                                ,fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Data Set", style = "text-align: center")))
+                                                    ,fluidRow(column(1), column(10, "Changes made here will be reflected in the 'Filtered' data set.", style = "text-align: center"))
+                                                    ,fluidRow(column(1), column(2, "Describe needing to use Excel and iterative nature of the process, save file
+                                                                                , TRUE/FALSE, fields included, etc."))
+                                                    )
+                                          )
+                                ,fluidRow("show the Excel file here with buttons to save")
+                                ),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("Filtered Data",
                                 fluidRow(
                                   h3("Filtered Data Set", style = "text-align: center")),
@@ -125,19 +141,6 @@ function(){
                                           "top", trigger = "hover", options = list(container = "body")),
                                 br(),
                                 fluidRow(DT::dataTableOutput("Filtered"))),
-                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       # Tt Mod, QAQC tab
-                       tabPanel("QAQC",
-                                fluidRow((h3("Quality Assurance / Quality Control", style = "text-align: center")))
-                                ,fluidRow(h4("Modify data for consitent units...blah, blah, blah...need good text explanation for what doing at this step.", style = "text-align: center"))
-                                ,fluidRow(wellPanel(fluidRow(column(1), column(2, h3("title?")))
-                                                    ,fluidRow(column(1), column(2, h4("more help text or replace the text above?")))
-                                                    ,fluidRow(column(1), column(2, "Describe needing to use Excel and iterative nature of the process, save file
-                                                                                , TRUE/FALSE, fields included, etc."))
-                                                    )
-                                          )
-                                ),
-                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("Summary",
                                 fluidRow(
                                   h3("Click the button below to run a summary of the data", style = "text-align: center")),

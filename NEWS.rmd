@@ -26,23 +26,30 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.0.9008
+2017-08-02
+
+* Add additional fields to data in getData.R and server.R that are needed for the QAQC module.  20170802.
+
+* Minor edits to the QAQC tab.  20170331.
+
 #v1.1.0.9007
 2017-07-31
 
-* Another attempt to get ResultLower and ResultUpper in getData.R added to the commit.
+* Another attempt to get ResultLower and ResultUpper in getData.R added to the commit.  20170731.
 
 #v1.1.0.9006
 2017-07-31
 
-* Name change for ResultLower and ResultUpper not picked up in last commit. 
+* Name change for ResultLower and ResultUpper not picked up in last commit.  20170731. 
 
 #v1.1.0.9005
 2017-07-31 (Interim Build)
 
-* On the "Check Data" tab add "QA/QC" before "Summary".  
+* Add tab "QA/QC" on the "Check Data" tab.  
 This is the section with the checking for units, methods, and parameter names.
 
-* Previously modified "data" download to add 2 new fields "DetectionLimit_Lo" (0) and "DetectionLimit_Hi" (MDL).  Changed names to "ResultLower" and "ResultUpper".
+* Previously modified "data" download (getData.R) to add 2 new fields "DetectionLimit_Lo" (0) and "DetectionLimit_Hi" (MDL).  Changed names to "ResultLower" and "ResultUpper".
 
 #v1.1.0.9004
 2017-07-26
