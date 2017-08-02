@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-02 19:35:39
+    #> Last Update: 2017-08-02 19:38:33
 
 Version history.
 
@@ -10,6 +10,13 @@ Planned Updates
 ===============
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
+
+v1.1.0.9011
+===========
+
+2017-08-02
+
+-   Had used a function in a file for the button. Removed but left in source() command. Removed here. Issue \#2. 20170802.
 
 v1.1.0.9010
 ===========

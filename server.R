@@ -10,7 +10,6 @@ options(scipen=30)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Tt Mod, Add Library ####
 library(XLConnect)
-source("external/ClearQuery.R", local=TRUE)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
