@@ -196,7 +196,13 @@ function(){
         # ,fluidRow(br()),
         #       fluidRow(wellPanel(fluidRow(h4("URL Parts", style  = "text-align:center")),
         #           verbatimTextOutput("lst.URL")))
-        
+        ,br()
+        ,fluidRow(column(1,bsButton("ClearQuery", label="Clear Query Selections", style="primary")
+                         ,bsPopover("ClearQuery", "Clear Query", trigger = "hover", placement="right", options = list(container = "body")
+                                    ,"This button clears the user's query selections.")
+                         )
+                  )
+
         ,br()
         ,fluidRow(column(1,downloadButton("SaveQuery2","Save Query File")
                          )

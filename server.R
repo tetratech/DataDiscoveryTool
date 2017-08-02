@@ -10,6 +10,7 @@ options(scipen=30)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Tt Mod, Add Library ####
 library(XLConnect)
+source("external/ClearQuery.R", local=TRUE)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
@@ -180,40 +181,6 @@ shinyServer(
       }
     )
     
-    # # mod query based on user file
-    # output$LoadQry2 <- renderTable({
-    #   # define
-    #   q <- input$LoadQuery2
-    #   # Error check
-    #   if(is.null(q)) return(NULL)
-    #   # define list
-    #   ls_query_load <- readRDS(q$datapath)
-    #   # Update Query Info onscreen
-    #     # Location
-    #     updateSelectizeInput(session, "state", selected="WISCONSIN") #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
-    #     updateSelectizeInput(session, "county", selected=ls_query_load$county)
-    #     updateTextInput(session, "huc_ID", value=ls_query_load$huc_ID)
-    #     updateNumericInput(session,"LAT",value=ls_query_load$LAT)
-    #     updateNumericInput(session,"LONG",value=ls_query_load$LONG)
-    #     updateNumericInput(session,"distance",value=ls_query_load$distance)
-    #     updateNumericInput(session,"North",value=ls_query_load$North)
-    #     updateNumericInput(session,"South",value=ls_query_load$South)
-    #     updateNumericInput(session,"East",value=ls_query_load$East)
-    #     updateNumericInput(session,"West",value=ls_query_load$West)
-    #     # Sampling Parameters
-    #     updateDateInput(session, "date_Lo", value=ls_query_load$date_Lo) #YYYY-MM-DD
-    #     updateDateInput(session, "date_Hi", value=ls_query_load$date_Hi)
-    #     updateSelectizeInput(session, "media", selected=ls_query_load$media, options= list())     ## not working
-    #     updateSelectizeInput(session, "group", selected=ls_query_load$group, options=list())   ## not working
-    #     updateSelectizeInput(session, "chars", selected=ls_query_load$chars, options=list())                   ## not working
-    #     # Site Parameters
-    #     updateSelectizeInput(session, "site_type", selected=ls_query_load$site_type)                 ## not working
-    #     updateSelectizeInput(session, "org_id", selected=ls_query_load$org_id)                ## not working
-    #     updateTextInput(session, "site_id", value=ls_query_load$site_id)
-    #   
-    # })
-    
-    
     # Update Query based on User File
     observeEvent(input$UpdateQuery, {
       # Get Query File specs
@@ -227,8 +194,11 @@ shinyServer(
       # define list
       lst_query_load <- readRDS(q$datapath)
       # # Update Query Info onscreen (to user selections)
+      #
+      # clear selections
+      #clearQuerySelection()
       # reset all fields
-      updateSelectizeInput(session, "state", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=character(0))
       updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
       updateTextInput(session, "huc_ID", value=character(0))
       updateNumericInput(session,"LAT", value=0)
@@ -240,10 +210,10 @@ shinyServer(
       updateNumericInput(session,"West", value=0)
       updateDateInput(session, "date_Lo", value=NA)
       updateDateInput(session, "date_Hi", value=NA)
-      updateSelectizeInput(session, "media", choices=NULL, selected=character(0)) # not blanking
+      updateSelectizeInput(session, "media", choices=NULL, selected=character(0))
       updateSelectizeInput(session, "group", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0)) # not blanking
-      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0)) # not blanking
+      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0))
       updateSelectizeInput(session, "org_id", choices=NULL, selected=character(0))
       updateTextInput(session, "site_id", value=character(0))
       #
@@ -271,6 +241,34 @@ shinyServer(
       updateSelectizeInput(session, "org_id", choices=lst_query_load$org_id, selected=lst_query_load$org_id)
       updateTextInput(session, "site_id", value=lst_query_load$site_id)
     })
+    
+    observeEvent(input$ClearQuery, {
+      # Clear User Selections for Query
+      #clearQuerySelection()
+      # reset all fields
+      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=character(0))
+      updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
+      updateTextInput(session, "huc_ID", value=character(0))
+      updateNumericInput(session,"LAT", value=0)
+      updateNumericInput(session,"LONG", value=0)
+      updateNumericInput(session,"distance", value=0)
+      updateNumericInput(session,"North", value=0)
+      updateNumericInput(session,"South", value=0)
+      updateNumericInput(session,"East", value=0)
+      updateNumericInput(session,"West", value=0)
+      updateDateInput(session, "date_Lo", value=NA)
+      updateDateInput(session, "date_Hi", value=NA)
+      updateSelectizeInput(session, "media", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "group", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0))
+      updateSelectizeInput(session, "org_id", choices=NULL, selected=character(0))
+      updateTextInput(session, "site_id", value=character(0))
+      #
+    })
+    
+    
+    
     #
     # observeEvent(input$SaveQuery, {
     #   # Create List
