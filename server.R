@@ -197,7 +197,9 @@ shinyServer(
       # clear selections
       #clearQuerySelection()
       # reset all fields
-      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=character(0))
+      updateSelectizeInput(session, "state"
+                           , choices=as.character(states$desc)
+                           , selected=character(0))
       updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
       updateTextInput(session, "huc_ID", value=character(0))
       updateNumericInput(session,"LAT", value=0)
@@ -217,8 +219,10 @@ shinyServer(
       updateTextInput(session, "site_id", value=character(0))
       #
       ## Location
-      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=lst_query_load$state) #c("WISCONSIN","ILLINOIS")) #spelled out all CAPS
-      updateSelectizeInput(session, "county", choices=lst_query_load$county, selected=lst_query_load$county)
+      updateSelectizeInput(session, "state"
+                           , choices=as.character(states$desc)
+                           , selected=lst_query_load$state)
+      
       updateTextInput(session, "huc_ID", value=lst_query_load$huc_ID)
       updateNumericInput(session,"LAT", value=lst_query_load$LAT, min = 0, max = 100)
       updateNumericInput(session,"LONG", value=lst_query_load$LONG, min = 0, max = 100)
@@ -228,17 +232,98 @@ shinyServer(
       updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
       updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
       ## Sampling Parameters
-        #updateDateInput(session, "date_Lo", value=NA)
-      updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
-        #updateDateInput(session, "date_Hi", value=NA)
-      updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
-      updateSelectizeInput(session, "media", choices=lst_query_load$media, selected=lst_query_load$media)
-      updateSelectizeInput(session, "group", choices=lst_query_load$group, selected=lst_query_load$group)
-      updateSelectizeInput(session, "chars", choices=lst_query_load$chars, selected=lst_query_load$chars)
+
+      
+      
+      # Below variables don't work if a blank date.
+      updateDateInput(session, "date_Lo", value="1776-07-04")
+      updateDateInput(session, "date_Hi", value="1776-07-04")
+      
+      if(is.null(lst_query_load$state)) {
+        countiesdt <- data.table(counties)
+        updateSelectizeInput(session, "county"
+                            , choices=as.character(countiesdt$desc)
+                            , selected=character(0)
+                            , options = list(items=character(0))
+                            )
+      } else {
+        countiesdt <- data.table(counties)
+        updateSelectizeInput(session, "county"
+                             , choices=as.character(countiesdt$desc) #countydt[state %in% input$state ,as.character(unique(desc))]
+                             , selected=lst_query_load$county
+                             , options = list(items=lst_query_load$county)
+        )
+      }
+    
+      
+      
+      # updateSelectizeInput(session, "county"
+      #                      , choices=if(is.null(lst_query_load$state)) {
+      #                                   as.character(countiesdt$desc)
+      #                                 } else {
+      #                                 countydt[state %in% input$state ,as.character(unique(desc))]
+      #                                 }
+      #                                 )
+      #                       , selected=lst_query_load$county
+      #                       , options = list(items=lst_query_load$county)
+      #                       )
+
+
+      updateSelectizeInput(session, "media"
+                           , choices=lst_query_load$media
+                           , selected=lst_query_load$media
+                           , options = list(items=lst_query_load$media)
+                           )
+      updateSelectizeInput(session, "group"
+                           , choices=lst_query_load$group
+                           , selected=lst_query_load$group
+                           , options = list(items=lst_query_load$group)
+                           )
+      updateSelectizeInput(session, "chars"
+                           , choices=lst_query_load$chars
+                           , selected=lst_query_load$chars
+                           , options = list(items=lst_query_load$chars)
+                           )
       ## Site Parameters
-      updateSelectizeInput(session, "site_type", choices=lst_query_load$site_type, selected=lst_query_load$site_type)
-      updateSelectizeInput(session, "org_id", choices=lst_query_load$org_id, selected=lst_query_load$org_id)
+      updateSelectizeInput(session, "site_type"
+                           , choices=lst_query_load$site_type
+                           , selected=lst_query_load$site_type
+                           , options = list(items=lst_query_load$site_type)
+                           )
+      updateSelectizeInput(session, "org_id"
+                           , choices=lst_query_load$org
+                           , selected=lst_query_load$org
+                           , options = list(items=lst_query_load$org#, 
+                                            # valueField = 'value',
+                                            # labelField = 'desc',
+                                            # searchField = 'desc',
+                                            # options = list(),
+                                            # create = FALSE,
+                                            # load = I("function(query, callback) {
+                                            #           if (!query.length) return callback();
+                                            #           $.ajax({
+                                            #           url: 'https://www.waterqualitydata.us/Codes/organization?mimeType=json',
+                                            #           type: 'GET',
+                                            #           error: function() {
+                                            #           callback();
+                                            #           },
+                                            #           success: function(res) {
+                                            #           callback(res.codes);
+                                            #           }
+                                            #           });)}")
+                                            )
+                            )
       updateTextInput(session, "site_id", value=lst_query_load$site_id)
+      # Update the Dates last
+      ## Remove temp value
+      updateDateInput(session, "date_Lo", value=NA)
+      updateDateInput(session, "date_Hi", value=NA)
+      ## Update with user provided value
+      updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
+      updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
+      
+      
+      
     })
     
     observeEvent(input$ClearQuery, {

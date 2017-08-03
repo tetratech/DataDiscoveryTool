@@ -149,7 +149,7 @@ myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
 myFiles <- list.files(path=myDir, pattern="DDT_Query_*")
 myFiles
 myList <- readRDS(file.path(myDir,myFiles[length(myFiles)])) # load the last one
-myList <- readRDS(file.path(myDir,myFiles[2]))
+#myList <- readRDS(file.path(myDir,myFiles[8]))
 myList
 myList$county
 ```

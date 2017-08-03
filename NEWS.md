@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-02 19:38:33
+    #> Last Update: 2017-08-03 15:46:07
 
 Version history.
 
@@ -10,6 +10,23 @@ Planned Updates
 ===============
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
+
+v1.1.0.9013
+===========
+
+2017-08-03
+
+-   Updated Query Load button. Issue \#2. 20170803
+-   Fixed issue with Counties not loading more than the first.
+-   Fixed issue with UpdateSelectizeInput fields needing "items" in JSON options.
+-   Fixed issue with UpdateSelectizeInput fields not working unless a date is provided.
+
+v1.1.0.9012
+===========
+
+2017-08-02
+
+-   Enabled "Load Data" button on the Check Data tab. Issue \#7. 20170802.
 
 v1.1.0.9011
 ===========

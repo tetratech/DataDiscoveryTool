@@ -25,12 +25,12 @@ function(){
                                                    fileInput("LoadDataFile","Load Data File",accept=".rds")
                                             )
                                           )
-                                          , fluidRow(br())
-                                          # ,fluidRow(column(1,
-                                          #                  bsButton("UpdateData", label="Update Data From File", style="primary")
-                                          #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
-                                          #                             ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
-                                          # )
+                                          # fluidRow(br())
+                                          ,fluidRow(column(1,
+                                                           bsButton("UpdateData", label="Update Data From File **NOT ACTIVE**", style="primary")
+                                                           ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
+                                                                      ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
+                                          )
                                 ),
                                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 wellPanel(fluidRow(column(1),

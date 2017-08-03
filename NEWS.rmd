@@ -26,6 +26,19 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.0.9013
+2017-08-03
+
+* Updated Query Load button.  Issue #2. 20170803
++ Fixed issue with Counties not loading more than the first.
++ Fixed issue with UpdateSelectizeInput fields needing "items" in JSON options.
++ Fixed issue with UpdateSelectizeInput fields not working unless a date is provided. 
+
+#v1.1.0.9012
+2017-08-02
+
+* Enabled "Load Data" button on the Check Data tab. Issue #7.  20170802.
+
 #v1.1.0.9011
 2017-08-02
 
