@@ -195,7 +195,7 @@ shinyServer(
       # # Update Query Info onscreen (to user selections)
       #
       # clear selections
-      #clearQuerySelection()
+      #clearQuerySelection() #[Not working as intended so have code below]
       # reset all fields
       updateSelectizeInput(session, "state"
                            , choices=as.character(states$desc)
@@ -232,9 +232,6 @@ shinyServer(
       updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
       updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
       ## Sampling Parameters
-
-      
-      
       # Below variables don't work if a blank date.
       updateDateInput(session, "date_Lo", value="1776-07-04")
       updateDateInput(session, "date_Hi", value="1776-07-04")
@@ -243,7 +240,7 @@ shinyServer(
         countiesdt <- data.table(counties)
         updateSelectizeInput(session, "county"
                             , choices=as.character(countiesdt$desc)
-                            , selected=character(0)
+                            , selected=lst_query_load$county #character(0)
                             , options = list(items=character(0))
                             )
       } else {
@@ -254,20 +251,6 @@ shinyServer(
                              , options = list(items=lst_query_load$county)
         )
       }
-    
-      
-      
-      # updateSelectizeInput(session, "county"
-      #                      , choices=if(is.null(lst_query_load$state)) {
-      #                                   as.character(countiesdt$desc)
-      #                                 } else {
-      #                                 countydt[state %in% input$state ,as.character(unique(desc))]
-      #                                 }
-      #                                 )
-      #                       , selected=lst_query_load$county
-      #                       , options = list(items=lst_query_load$county)
-      #                       )
-
 
       updateSelectizeInput(session, "media"
                            , choices=lst_query_load$media
@@ -321,14 +304,11 @@ shinyServer(
       ## Update with user provided value
       updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
       updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
-      
-      
-      
     })
     
     observeEvent(input$ClearQuery, {
       # Clear User Selections for Query
-      #clearQuerySelection()
+      #clearQuerySelection() #[Function not working as intended so have code below]
       # reset all fields
       updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=character(0))
       updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
@@ -351,9 +331,7 @@ shinyServer(
       #
     })
     
-    
-    
-    #
+        #
     # observeEvent(input$SaveQuery, {
     #   # Create List
     #   ls_query_save <- list(input$state
@@ -473,9 +451,13 @@ url_display<-eventReactive(input$CHECK, {
     # Save
     output$SaveData <- downloadHandler(
       filename = function() {
-        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")}
-      ,content = function(file) {
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+        #strFile <- paste0("DDT_IMAGE_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
+      }
+      , content = function(file) {
         saveRDS(all_data(),file)
+        # testing, save environment
+        #save.image(file)
       }
     )
     # Update Data based on User File
@@ -488,6 +470,10 @@ url_display<-eventReactive(input$CHECK, {
       data_load <- readRDS(q$datapath)
       #
       data <- data_load
+      
+      showNotification(ui=paste0("Data file loaded; ",q$datapath)
+                       , duration=20, closeButton=TRUE, id="UpdateDataNtfctn")
+      
     })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -1245,6 +1231,7 @@ observeEvent(input$UpdateFilters, {
     #updateCollapse(session, id="view_sp", close="Filter by Organization")
   }##IF.org.END
   #
+  
   if(is.null(lst_filters_load$stt)==FALSE) {##IF.stt.START
     updateCollapse(session, id="view_sp", open="Filter by Station")
     # data <- data.table(filtered_data())
