@@ -26,6 +26,22 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.1.9001
+
+* Various interim updates.
+
+* Add CheckData - QAQC buttons for save/load.
++ Save button keeps the header info and adds in the decision info.
++ Default decisions loaded at start up.
+
+* dataQAQC.R 
++ Function to import QAQC decisions from Excel.
++ Function to merge and apply QAQC decisions (returns a data table).
+
+* Added DDT_QAQC_BLANK.xlsx and DDT_QAQC_Default.xlsx to "external".
+
+* UI.r.  Identified Tt Mods.
+
 #v1.1.1.0000
 2017-08-04
 

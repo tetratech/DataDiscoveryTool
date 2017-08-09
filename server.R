@@ -10,6 +10,7 @@ options(scipen=30)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Tt Mod, Add Library ####
 library(XLConnect)
+source("external/dataQAQC.R", local=TRUE)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
@@ -448,7 +449,7 @@ url_display<-eventReactive(input$CHECK, {
     })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ## Tt Mod, CheckData, Save/Load Buttons ####
-    # Save
+    # Save Data
     output$SaveData <- downloadHandler(
       filename = function() {
         strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
@@ -472,9 +473,73 @@ url_display<-eventReactive(input$CHECK, {
       data <- data_load
       
       showNotification(ui=paste0("Data file loaded; ",q$datapath)
-                       , duration=20, closeButton=TRUE, id="UpdateDataNtfctn")
+                       , duration=20, closeButton=TRUE, id="UpdateDataNote")
+    })
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # End one section and start another.
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ## Tt Mod, CheckData, QAQC tab ####
+    
+    # # QAQC Decision Data
+    # data_QAQC2 <- reactive({
+    #   #
+    #   data.frame(read_dataQAQC(strFile="external/DDT_QAQC_Default.xlsx"))
+    #   #
+    # })
+    
+    # Apply QAQC Decisions
+    observeEvent(input$ApplyQAQC, {
+      # 
+      data_QAQC
+      # Create Merge Key
+      
+      
       
     })
+    
+    # Save QAQC
+    output$SaveQAQC <- downloadHandler(
+      filename = function() {
+         strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".xlsx")}
+      , content = function(file) {
+        #
+        # Copy BLANK XLSX
+        file.copy(from="external/DDT_QAQC_BLANK.xlsx"
+                  , to=file)
+        # Then copy in data
+        mySheet <- "Methods Table"
+        wb <- XLConnect::loadWorkbook(file)
+        XLConnect::writeWorksheet(wb, data=data_QAQC, sheet=mySheet, startRow=7, header=FALSE)
+        XLConnect::saveWorkbook(wb)
+        #
+        }
+    )
+    
+    # Save QAQC (User)
+    ## Need to have user modify first ##
+    #
+    #Load QAQC
+    observeEvent(input$UpdateQAQC, {
+      # Get QAQC Load file
+      strFile_LoadQAQC <- input$LoadQAQCFile
+      #strFile_LoadQAQC <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+      # Error Check
+      if(is.null(strFile_LoadQAQC)) return(NULL)
+      # load file
+      #data_QAQC <- XLConnect::readWorksheetFromFile(strFile_LoadQAQC$datapath, sheet="Methods Table", startRow=6, header=TRUE)
+      data_QAQC <- read_dataQAQC(strFile=strFile_LoadQAQC$datapath)
+      
+            # # # test
+            # myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+            # strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+            # saveRDS(data_QAQC, file.path(myDir,strFile))
+      #
+    })
+    
+    #
+    # QAQC Table (default data loaded in global.R)
+    # output$dt_QAQC = DT::renderDataTable(data_QAQC, server=TRUE)
+    # outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     

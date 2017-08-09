@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-04 12:24:28
+    #> Last Update: 2017-08-08 15:38:16
 
 Version history.
 
@@ -10,6 +10,23 @@ Planned Updates
 ===============
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
+
+v1.1.1.9001
+===========
+
+-   Various interim updates.
+
+-   Add CheckData - QAQC buttons for save/load.
+-   Save button keeps the header info and adds in the decision info.
+-   Default decisions loaded at start up.
+
+-   dataQAQC.R
+-   Function to import QAQC decisions from Excel.
+-   Function to merge and apply QAQC decisions (returns a data table).
+
+-   Added DDT\_QAQC\_BLANK.xlsx and DDT\_QAQC\_Default.xlsx to "external".
+
+-   UI.r. Identified Tt Mods.
 
 v1.1.1.0000
 ===========

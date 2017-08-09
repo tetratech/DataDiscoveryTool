@@ -411,6 +411,18 @@ myData <- load(file.path(myDir,myFiles[length(myFiles)]))
 
 ```
 
+# DDT_QAQC
+
+```{r, eval=FALSE}
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_QAQC_*")
+myFiles
+myData <- readRDS(file.path(myDir,myFiles[1])) 
+dim(myData)
+View(myData)
+
+
+```
 
 # Style Questions
 
