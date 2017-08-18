@@ -9,7 +9,7 @@ read_dataQAQC <- function(strFile) {
 data_QAQC <- read_dataQAQC(strFile="external/DDT_QAQC_Default.xlsx")
 
 # Apply QAQC Decisions
-ApplyQAQCDecisions <- function(){ #df.Data, df.QAQC) {
+ApplyQAQCDecisions <- function(...){ #df.Data, df.QAQC) {
   #
   # df.Data <- All_data()
   # df.QAQC <- data_QAQC

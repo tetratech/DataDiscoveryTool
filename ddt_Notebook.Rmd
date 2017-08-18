@@ -48,6 +48,7 @@ data.packages = c("assertthat"
                   , "withr"
                   , "xml2"
                   , "xtable"
+                  , "XLconnect"
                   )
 # install via lapply
 lapply(data.packages,function(x) install.packages(x))
@@ -390,12 +391,16 @@ head(MergeCounty)
 
 # Check data
 data2
-```{r}
+```{r, eval=FALSE}
 myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
-data2   <- readRDS(file.path(myDir,"DDT_Data_data2_20170802_140407.rds"))
-names(data2)
+myFiles <- list.files(path=myDir, pattern="DDT_Data_*")
+myFiles
+myData   <- readRDS(file.path(myDir,myFiles[6]))
+myData   <- readRDS(file.path(myDir,myFiles[length(myFiles)]))
+names(myData)
+dim(myData)
+str(myData)
 
-x <- c("")
 
 ```
 
@@ -423,6 +428,259 @@ View(myData)
 
 
 ```
+
+# Edit DataTable
+## DT library
+https://github.com/rstudio/DT/issues/28
+```{r, eval=FALSE}
+devtools::install_github('rstudio/DT@feature/editor')
+
+library(shiny)
+library(DT)
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
+  ),
+  server = function(input, output, session) {
+    x = iris
+    x$Date = Sys.time() + seq_len(nrow(x))
+    output$x1 = DT::renderDataTable(x, selection = 'none', rownames = FALSE)
+    
+    proxy = dataTableProxy('x1')
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      x[i, j] <<- DT:::coerceValue(v, x[i, j])
+      replaceData(proxy, x, resetPaging = FALSE, rownames = FALSE)
+    })
+  }
+)
+```
+
+Attempt with just my data file
+
+
+```{r, eval=FALSE}
+#devtools::install_github('rstudio/DT@feature/editor')
+
+library(shiny)
+library(DT)
+library(XLConnect)
+
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
+  ),
+  server = function(input, output, session) {
+    
+    # load my File
+    data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx"
+                                              , sheet="Methods Table", startRow=6, header=TRUE)
+    
+    #x = data_QAQC
+
+    output$x1 = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE)
+    
+    proxy_dt_QAQC = dataTableProxy('x1')
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        data_QAQC[i, j] <<- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE)
+      }
+      
+    })
+  }
+)
+```
+
+
+Radio buttons
+http://rstudio.github.io/DT/011-radio.html
+
+Manipulate a table
+https://yihui.shinyapps.io/DT-proxy/
+
+
+
+## rhandsontable library
+http://stla.github.io/stlapblog/posts/shiny_editTable.html
+```{r, eval=FALSE}
+library(rhandsontable)
+library(shiny)
+editTable <- function(DF, outdir=getwd(), outfilename="table"){
+  ui <- shinyUI(fluidPage(
+    
+    titlePanel("Edit and save a table"),
+    sidebarLayout(
+      sidebarPanel(
+        helpText("Shiny app based on an example given in the rhandsontable package.", 
+                 "Right-click on the table to delete/insert rows.", 
+                 "Double-click on a cell to edit"),
+        
+        wellPanel(
+          h3("Table options"),
+          radioButtons("useType", "Use Data Types", c("TRUE", "FALSE"))
+        ),
+        br(), 
+        
+        wellPanel(
+          h3("Save table"), 
+          div(class='row', 
+              div(class="col-sm-6", 
+                  actionButton("save", "Save")),
+              div(class="col-sm-6",
+                  radioButtons("fileType", "File type", c("ASCII", "RDS")))
+          )
+        )
+        
+      ),
+      
+      mainPanel(
+        wellPanel(
+          uiOutput("message", inline=TRUE)
+        ),
+        
+        actionButton("cancel", "Cancel last action"),
+        br(), br(),
+        
+        rHandsontableOutput("hot"),
+        br(),
+        
+        wellPanel(
+          h3("Add a column"),
+          div(class='row',
+              div(class="col-sm-5",
+                  uiOutput("ui_newcolname"),
+                  actionButton("addcolumn", "Add")),
+              div(class="col-sm-4",
+                  radioButtons("newcolumntype", "Type", c("integer", "double", "character"))),
+              div(class="col-sm-3")
+          )
+        )
+        
+      )
+    )
+  ))
+  
+  server <- shinyServer(function(input, output) {
+    
+    values <- reactiveValues()
+    
+    ## Handsontable
+    observe({
+      if (!is.null(input$hot)) {
+        values[["previous"]] <- isolate(values[["DF"]])
+        DF = hot_to_r(input$hot)
+      } else {
+        if (is.null(values[["DF"]]))
+          DF <- DF
+        else
+          DF <- values[["DF"]]
+      }
+      values[["DF"]] <- DF
+    })
+    
+    output$hot <- renderRHandsontable({
+      DF <- values[["DF"]]
+      if (!is.null(DF))
+        rhandsontable(DF, useTypes = as.logical(input$useType), stretchH = "all")
+    })
+    
+    ## Save 
+    observeEvent(input$save, {
+      fileType <- isolate(input$fileType)
+      finalDF <- isolate(values[["DF"]])
+      if(fileType == "ASCII"){
+        dput(finalDF, file=file.path(outdir, sprintf("%s.txt", outfilename)))
+      }
+      else{
+        saveRDS(finalDF, file=file.path(outdir, sprintf("%s.rds", outfilename)))
+      }
+    }
+    )
+    
+     ## Cancel last action
+     observeEvent(input$cancel, {
+       if(!is.null(isolate(values[["previous"]]))) values[["DF"]] <- isolate(values[["previous"]])
+     })
+
+     ## Add column
+     output$ui_newcolname <- renderUI({
+       textInput("newcolumnname", "Name", sprintf("newcol%s", 1+ncol(values[["DF"]])))
+     })
+     observeEvent(input$addcolumn, {
+       DF <- isolate(values[["DF"]])
+       values[["previous"]] <- DF
+       newcolumn <- eval(parse(text=sprintf('%s(nrow(DF))', isolate(input$newcolumntype))))
+       values[["DF"]] <- setNames(cbind(DF, newcolumn, stringsAsFactors=FALSE), c(names(DF), isolate(input$newcolumnname)))
+     })
+    
+    ## Message
+    output$message <- renderUI({
+      if(input$save==0){
+        helpText(sprintf("This table will be saved in folder \"%s\" once you press the Save button.", outdir))
+      }else{
+        outfile <- ifelse(isolate(input$fileType)=="ASCII", "table.txt", "table.rds")
+        fun <- ifelse(isolate(input$fileType)=="ASCII", "dget", "readRDS")
+        list(helpText(sprintf("File saved: \"%s\".", file.path(outdir, outfile))),
+             helpText(sprintf("Type %s(\"%s\") to get it.", fun, outfile)))
+      }
+    })
+    
+  })
+  
+  ## run app 
+  runApp(list(ui=ui, server=server))
+  return(invisible())
+}
+
+
+# Create DF
+( DF <- data.frame(Value = 1:10, Status = TRUE, Name = LETTERS[1:10],
+                 Date = seq(from = Sys.Date(), by = "days", length.out = 10),
+                 stringsAsFactors = FALSE) )
+
+# Run the App
+editTable(DF, outdir="~/Documents/", outfilename="newDF")
+
+```
+### slim example
+http://jrowen.github.io/rhandsontable/
+(will show in "viewer" in RStudio)
+```{r, eval=FALSE}
+DF = data.frame(val = 1:10, bool = TRUE, big = LETTERS[1:10],
+                small = letters[1:10],
+                dt = seq(from = Sys.Date(), by = "days", length.out = 10),
+                stringsAsFactors = FALSE)
+
+rhandsontable(DF, readOnly = TRUE, width = 550, height = 300) %>%
+  hot_cols(columnSorting = TRUE) %>% 
+  hot_col("bool", readOnly = FALSE) %>%
+  hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+
+
+```
+
+__Validate values__
+
+validator = "
+           function (value, callback) {
+            setTimeout(function(){
+              callback(value != TRUE);
+            }, 1000)
+           }"
 
 # Style Questions
 

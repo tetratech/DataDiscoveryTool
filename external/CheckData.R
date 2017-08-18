@@ -117,9 +117,9 @@ function(){
                                 br(),
                                 fluidRow(DT::dataTableOutput("DUPS"))),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       # Tt Mod, QAQC tab ####
-                       tabPanel("QAQC",
-                                fluidRow((h3("Quality Assurance / Quality Control", style = "text-align: center")))
+                       # Tt Mod, QAQC tabs ####
+                       tabPanel("QAQC Decisions",
+                                fluidRow((h3("Quality Assurance / Quality Control Decisions", style = "text-align: center")))
                                 , fluidRow(h4("Modify characteristic data for consistent name, units, and sample fraction.", style = "text-align: center"))
                                 , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Data Set", style = "text-align: center")))
                                                     , fluidRow(column(1), column(10, "Changes made here will be reflected in the 'Filtered' data set.", style = "text-align: center"))
@@ -160,7 +160,13 @@ function(){
                                 )
                                 , br()
                                 , fluidRow(column(3, bsButton("ApplyQAQC", label="Apply QAQC Decisions to Data", style="primary")))
-                                #, fluidRow(DT::dataTableOutput("dt_QAQC"))
+                                , fluidRow(DT::dataTableOutput("dt_QAQC"))
+                                #, fluidRow(DT::dataTableOutput("All_Data")) # adding lines disable upload of Saved Query.
+                                ),
+                       tabPanel("QAQC Advanced",
+                                fluidRow((h3("Quality Assurance / Quality Control Advanced", style="text-align: center")))
+                                , fluidRow("button for generating summary by decision.  2nd button for output.")
+                                , fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
                                 ),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("Filtered Data",

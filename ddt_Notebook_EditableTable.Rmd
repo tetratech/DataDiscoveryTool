@@ -1,0 +1,108 @@
+---
+title: "Editable Table"
+output: html_notebook
+---
+
+Data Discovery Tool (ddt) v1.1.1.9002 (working).
+
+Attempt to create an editable table of the QAQC Decision file (knowledge base).
+
+* Copy the accompanying file (DDT_QAQC_Default.xlsx) to your working directory.
+
+* Will need to use "devtools" to get from GitHub a special version of "DT" (see code below).
+
+
+# Example
+
+https://github.com/rstudio/DT/issues/28
+
+
+https://yihui.shinyapps.io/DT-proxy/
+
+```{r, eval=FALSE}
+#devtools::install_github('rstudio/DT@feature/editor')
+# above version of DT required for table editing
+
+library(shiny)
+library(DT)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
+  ),
+  server = function(input, output, session) {
+    
+    x = iris
+    x$Date = Sys.time() + seq_len(nrow(x))
+    
+    output$x1 = DT::renderDataTable(x, selection = 'none', rownames = FALSE)
+    
+    proxy = dataTableProxy('x1')
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      x[i, j] <<- DT:::coerceValue(v, x[i, j])
+      replaceData(proxy, x, resetPaging = FALSE, rownames = FALSE)
+    })
+  }
+)
+```
+
+# Working Example with Knowledge Base
+
+Only allows True or False in "apply" column.
+
+```{r, eval=FALSE}
+#devtools::install_github('rstudio/DT@feature/editor') # only need to install once
+# above version of DT required for table editing
+
+library(shiny)
+library(DT)
+library(XLConnect)
+
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1x')
+  ),
+  server = function(input, output, session) {
+    
+    # load my File
+    data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx"
+                                              , sheet="Methods Table", startRow=6, header=TRUE)
+    
+    #x = data_QAQC
+    myCaption <- "Double-click to edit a cell.  'TRUE' and 'FALSE' are the only values allowed.  And only for column 'apply'."
+
+    output$x1x = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE
+                                    , caption = myCaption
+                                    )
+    
+    #formatStyle(table="x1",columns="apply", backgroundColor='blue', fontWeight = 'bold') 
+    #, searchHighlight=TRUE
+    
+    proxy_dt_QAQC = dataTableProxy('x1x')
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        data_QAQC[i, j] <<- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE)
+      }
+      
+    })
+  }
+)
+```
+
+
+

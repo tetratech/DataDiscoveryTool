@@ -11,6 +11,8 @@ options(scipen=30)
 ## Tt Mod, Add Library ####
 library(XLConnect)
 source("external/dataQAQC.R", local=TRUE)
+# Special version of DT needed to enable editable tables
+#devtools::install_github('rstudio/DT@feature/editor')
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
@@ -445,9 +447,13 @@ url_display<-eventReactive(input$CHECK, {
                     siteid = site(), huc = huc8s(), sampleMedia = sample_media(), characteristicType = char_group(), characteristicName = char(),
                     startDateLo = as.Date(input$date_Lo, format = '%m-%d-%Y'), startDateHi = as.Date(input$date_Hi, format = '%m-%d-%Y'))
      #The next line of code is new, and calls the new module for getting the data 
-     return(getWQPData_app(url))
+      return(getWQPData_app(url))
     })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ## Tt Mod, data, reactive ####
+    data0 <- reactiveValues(data=NULL)  #create
+    
+    
     ## Tt Mod, CheckData, Save/Load Buttons ####
     # Save Data
     output$SaveData <- downloadHandler(
@@ -456,13 +462,16 @@ url_display<-eventReactive(input$CHECK, {
         #strFile <- paste0("DDT_IMAGE_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
       }
       , content = function(file) {
-        saveRDS(all_data(),file)
+        #saveRDS(all_data(),file)
+        saveRDS(data(),file)
         # testing, save environment
         #save.image(file)
       }
     )
     # Update Data based on User File
-    observeEvent(input$UpdateData, {
+   #data <- observeEvent(input$UpdateData, {
+    #observeEvent(input$UpdateData, {
+    data_load <- eventReactive(input$UpdateData, {  
       # Get Query File specs
       q <- input$LoadDataFile
       # Error check
@@ -470,10 +479,31 @@ url_display<-eventReactive(input$CHECK, {
       # define list
       data_load <- readRDS(q$datapath)
       #
-      data <- data_load
+      #data <- data.table(data_load)
+      #all_data <- data
+      # data, data_dt, all_data()   ?????
+      # data_dt <- data_load
+      # print(str(data_dt))
+      # print(dim(data_load))
+      # print(dim(data))
+      # print(dim(data_dt))
+      #  flush.console
+      # 
+      # val$data <- data_load
       
+      # don't work
+      # data()$siteInfo <- data_load$siteInfo
+      # data()$variableInfo <- data_load$variableInfo
+      # data()$url <- data_load$url
+      # data()$queryTime <- data_load$queryTime
+      
+        
+      
+
       showNotification(ui=paste0("Data file loaded; ",q$datapath)
                        , duration=20, closeButton=TRUE, id="UpdateDataNote")
+      
+      return(data_load)
     })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # End one section and start another.
@@ -496,6 +526,41 @@ url_display<-eventReactive(input$CHECK, {
       
       
     })
+    
+    #QAQC Decisions Table - example from all_data()
+    # output$dt_QAQC = DT::renderDataTable(
+    #   all_data()[, display, drop=FALSE],  escape = -1, rownames = FALSE,
+    #   extensions = 'Buttons', options = list(dom = 'lfrBtip', buttons = I('colvis'),
+    #                                          pageLength = 100,
+    #                                          lengthMenu = c(100, 200, 500),
+    #                                          columnDefs = list(list(visible =  F, targets = list(5,6,7,8)))
+    #   ), server = TRUE)
+    
+    data_QAQC_caption <- "Double-click to edit a cell.  'TRUE' and 'FALSE' are the only values allowed.  And only for column 'apply'."
+    output$dt_QAQC <- DT::renderDataTable(data_QAQC, server=TRUE, selection='none', rownames=FALSE
+                                          , caption=data_QAQC_caption)
+    outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    #formatStyle(table="dt_QAQC",columns='apply', backgroundColor='blue', fontWeight = 'bold') 
+    
+    proxy_dt_QAQC <- dataTableProxy("dt_QAQC")
+    
+    observeEvent(input$x1_cell_edit, {
+      info=input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        dt_QAQC[i,j] <<- DT::coerceValue(toupper(v), data_QAQC[i,j])
+        DT::replaceData(proxy_dt_QAQC, data_QAQC, resetPaging=FALSE, rownames=FALSE)
+      }
+      
+      #need to update actual table (might be done with above statement)
+      
+    })
+    
+    
     
     # Save QAQC
     output$SaveQAQC <- downloadHandler(

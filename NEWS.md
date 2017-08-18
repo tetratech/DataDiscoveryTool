@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-08 15:38:16
+    #> Last Update: 2017-08-18 13:41:44
 
 Version history.
 
@@ -11,8 +11,38 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
+-   Query Data
+-   Boxes not always updating. Sometimes have to his "update" a 2nd time.
+-   Entering a County without a state.
+
+-   View Data
+-   Filters not always updating. Sometimes have to hit "update" a 2nd time.
+-   Error in original with removing then readding things. Leave "as is".
+
+-   Check Data
+-   Need ability to "upload" data file. Needs to flow to other tabs.
+-   QAQC. Need ability to "upload" a new decision file.
+-   QAQC. Need to display decisions in a table.
+-   QAQC. Need ability to update decisions on screen.
+-   QAQC. Summary stats by decision.
+-   QAQC. Add all existing parameter combinations to decision file.
+
+v1.1.1.9002
+===========
+
+2017-08-18
+
+-   QAQC. Renamed tab to QAQC Decisions and added QAQC Summary. 20170809.
+
+-   Added QAQC Decisions table. 20170809.
+
+-   QAQC Decisions table. Added "edit" feature. 20170809.
+-   devtools::install\_github(<'rstudio/DT@feature/editor'>)
+
 v1.1.1.9001
 ===========
+
+2017-08-08
 
 -   Various interim updates.
 

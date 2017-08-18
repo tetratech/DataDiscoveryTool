@@ -11,6 +11,8 @@ library(stringr)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Tt Mod, Add Library ####
 library(XLConnect)
+# Special version of DT needed to enable editable tables
+#devtools::install_github('rstudio/DT@feature/editor')
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

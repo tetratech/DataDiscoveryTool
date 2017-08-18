@@ -1,0 +1,75 @@
+---
+title: "Data Discovery Tool, Packages"
+output: html_notebook
+---
+2017-08-14
+
+The Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal (v1.1.0.0000).
+
+# Packages
+A number of packages are included with the ddt and ship in the R portal version.
+
+In order run as a stand alone version the user will need the to install multiple packages as noted in the R code below.
+
+The only "new" package added for the QAQC work by Tetra Tech is "XLConnect".
+```{r, eval=FALSE}
+# libraries to be installed
+data.packages = c("assertthat"
+                  , "base64enc"
+                  , "chron"
+                  , "data.table"
+                  , "dataRetrieval"
+                  , "DBI"
+                  , "devtools"
+                  , "dplyr"
+                  , "DT"
+                  , "ggplot2"
+                  , "git2r"
+                  , "htmlwidgets"
+                  , "httpuv"
+                  , "httr"
+                  , "jsonlite"
+                  , "lazyeval"
+                  , "leaflet"
+                  , "lubridate"
+                  , "memoise"
+                  , "openssl"
+                  , "png"
+                  , "R6"
+                  , "raster"
+                  #, "rCharts" #non-CRANN
+                  , "readr"
+                  , "rstudioapi"
+                  , "scales"
+                  , "shiny"
+                  , "shinyBS"
+                  , "sourcetools"
+                  , "sp"
+                  , "stringr"
+                  , "tibble"
+                  , "whisker"
+                  , "withr"
+                  , "xml2"
+                  , "xtable"
+                  , "XLConnect"
+                  )
+# install via lapply
+lapply(data.packages,function(x) install.packages(x))
+```
+
+One package, rCharts, is a non-CRANN package and needs to be installed separately.
+```{r, eval=FALSE}
+# Install non-CRANN packages
+require(devtools)
+install_github("ramnathv/rCharts")
+
+```
+
+If after running the ddt the user is presented with an error message about not having a package then the user should reinstall that specific package.
+```{r, eval=FALSE}
+# libraries to be installed
+data.packages = c("MissingPackage")
+# install via lapply
+lapply(data.packages,function(x) install.packages(x))
+```
+
