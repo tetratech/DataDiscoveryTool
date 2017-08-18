@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-18 13:41:44
+    #> Last Update: 2017-08-18 15:33:05
 
 Version history.
 
@@ -26,6 +26,16 @@ Planned Updates
 -   QAQC. Need ability to update decisions on screen.
 -   QAQC. Summary stats by decision.
 -   QAQC. Add all existing parameter combinations to decision file.
+
+v1.1.1.9003
+===========
+
+2017-08-18
+
+-   Updates after USEPA review.
+-   Query Data. Move new buttons alongside existing buttons. 20170818.
+-   View Data. Move new buttons alongside existing buttons. 20170818.
+-   View Data. Remove "code", "name", and "id" from new filters. 20170818.
 
 v1.1.1.9002
 ===========

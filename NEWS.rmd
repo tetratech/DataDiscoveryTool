@@ -42,6 +42,14 @@ https://github.com/tetratech/DataDiscoveryTool/issues
 + QAQC.  Summary stats by decision.
 + QAQC.  Add all existing parameter combinations to decision file.
 
+#v1.1.1.9003
+2017-08-18
+
+* Updates after USEPA review.
++ Query Data. Move new buttons alongside existing buttons.  20170818.
++ View Data.  Move new buttons alongside existing buttons.  20170818.
++ View Data.  Remove "code", "name", and "id" from new filters.  20170818.
+
 #v1.1.1.9002
 2017-08-18
 
