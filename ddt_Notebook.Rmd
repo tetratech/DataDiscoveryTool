@@ -659,6 +659,7 @@ editTable(DF, outdir="~/Documents/", outfilename="newDF")
 ### slim example
 http://jrowen.github.io/rhandsontable/
 (will show in "viewer" in RStudio)
+Did not use this method.  Stayed with DT library.
 ```{r, eval=FALSE}
 DF = data.frame(val = 1:10, bool = TRUE, big = LETTERS[1:10],
                 small = letters[1:10],
@@ -667,12 +668,51 @@ DF = data.frame(val = 1:10, bool = TRUE, big = LETTERS[1:10],
 
 rhandsontable(DF, readOnly = TRUE, width = 550, height = 300) %>%
   hot_cols(columnSorting = TRUE) %>% 
-  hot_col("bool", readOnly = FALSE) %>%
-  hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+    hot_col("bool", readOnly = FALSE) %>%
+      hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 
 
 ```
 
+# QAQC, Advanced
+## Parameter Combos
+ddt version replace myData with all_data()
+```{r, eval=FALSE}
+# 0. get a data file to use as an example
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_*")
+myFiles
+myData   <- readRDS(file.path(myDir,myFiles[5]))
+# 1. get all combos, include number and min/max
+myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
+              , "USGSPCode", "Unit", "Result")
+myData4QAQC <- myData[,myFields]
+
+
+myData.QAQC <- unique(myData4QAQC[,-6])
+
+# summarize #library(dplyr)
+myData.QAQC.Summary <- myData4QAQC %>%
+                        group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
+                          summarise(n=n(),min=min(Result,na.rm=TRUE),max=max(Result,na.rm=TRUE))
+View(myData.QAQC.Summary)
+
+#table(myData[,myFields[-6]],myData[,myFields[6]])
+
+
+# 2. mark as "new"
+
+x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
+
+
+
+
+```
+
+
+
+
+# OTHER
 __Validate values__
 
 validator = "

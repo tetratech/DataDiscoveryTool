@@ -612,6 +612,7 @@ url_display<-eventReactive(input$CHECK, {
         data_QAQC[i,j] <<- DT:::coerceValue(toupper(v), data_QAQC[i,j])
         DT::replaceData(proxy_dt_QAQC, data_QAQC, resetPaging=FALSE, rownames=FALSE)
       }
+      # may need column for matching "data".
       
       #need to update actual table (might be done with above statement)
       
@@ -621,6 +622,60 @@ url_display<-eventReactive(input$CHECK, {
     # QAQC Table (default data loaded in global.R)
     # output$dt_QAQC = DT::renderDataTable(data_QAQC, server=TRUE)
     # outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+    
+    # QAQC Combos
+    QAQC_combos_data<-reactive({
+      #
+      # 0. get "all data"
+      #data.frame(data_dt()) # reactive to get all_data()
+      myData <- all_data()
+      # define desired fields
+      myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
+                    , "USGSPCode", "Unit", "Result")
+      # subset to desired fields
+      myData4QAQC <- myData[,myFields]
+      # summarize with dplyr
+      myData.QAQC.Summary <- myData4QAQC %>%
+        group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
+          summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
+     # match with QAQC Decisions
+     # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
+      
+      
+      # return data.frame
+      return(data.frame(myData.QAQC.Summary))
+      #
+    })
+    #
+    # QAQC Combos table
+    dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
+    output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
+                                                                 , caption=dt_QAQC_combos_data_caption
+                                                                 , rownames=FALSE
+                                                                 , selection='none'
+                                                                 # , server=TRUE
+                                                                )
+                                                     ) 
+    
+    
+    
+    # 
+    
+    
+    
+    observeEvent(input$QAQC_CombosAdd, {
+      # update QAQC decision table
+      # mark all entries in this table as match
+      # Save and reload
+      
+    })
+    
+    
+    
+    
+    
+    
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     

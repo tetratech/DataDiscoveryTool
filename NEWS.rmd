@@ -42,6 +42,11 @@ https://github.com/tetratech/DataDiscoveryTool/issues
 + QAQC.  Summary stats by decision.
 + QAQC.  Add all existing parameter combinations to decision file.  Save to file and reload.
 
+#v1.1.1.9006
+2017-08-25
+
+* Check Data.  QAQC.  Advanced.  Added table for all combinations for QAQC.  2070825.
+
 #v1.1.1.9005
 2017-08-25
 

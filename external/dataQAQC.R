@@ -14,7 +14,7 @@ data_QAQC <- read_data_QAQC(strFile="external/DDT_QAQC_Default.xlsx", strSheet =
 # Apply QAQC Decisions
 ApplyQAQCDecisions <- function(...){ #df.Data, df.QAQC) {
   #
-  # df.Data <- All_data()
+  # df.Data <- all_data()
   # df.QAQC <- data_QAQC
   #
   # TESTING ***

@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-25 06:37:55
+    #> Last Update: 2017-08-25 12:28:23
 
 Version history.
 
@@ -26,6 +26,13 @@ Planned Updates
 -   QAQC. Need ability to update decisions on screen.
 -   QAQC. Summary stats by decision.
 -   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
+
+v1.1.1.9006
+===========
+
+2017-08-25
+
+-   Check Data. QAQC. Advanced. Added table for all combinations for QAQC. 2070825.
 
 v1.1.1.9005
 ===========
