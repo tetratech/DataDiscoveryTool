@@ -1,12 +1,15 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Tt Mod, data QA QC function ####
 # library(XLConnect) [added to server.R]
-read_dataQAQC <- function(strFile) {
-  XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE)
+read_data_QAQC <- function(strFile, strSheet, intStartRow) {
+                XLConnect::readWorksheetFromFile(strFile
+                                                 , sheet=strSheet
+                                                 , startRow=intStartRow
+                                                 , header=TRUE) #, drop=c(1,2))
 }
   #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
   #
-data_QAQC <- read_dataQAQC(strFile="external/DDT_QAQC_Default.xlsx")
+data_QAQC <- read_data_QAQC(strFile="external/DDT_QAQC_Default.xlsx", strSheet = "Methods Table", intStartRow=6)
 
 # Apply QAQC Decisions
 ApplyQAQCDecisions <- function(...){ #df.Data, df.QAQC) {
@@ -16,7 +19,7 @@ ApplyQAQCDecisions <- function(...){ #df.Data, df.QAQC) {
   #
   # TESTING ***
   strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
-  data_QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE)
+  data_QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE) #, drop=c(1,2))
   
   #
   strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_Data_20170804_081355_multipleParam.rds")

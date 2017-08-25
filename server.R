@@ -536,30 +536,6 @@ url_display<-eventReactive(input$CHECK, {
     #                                          columnDefs = list(list(visible =  F, targets = list(5,6,7,8)))
     #   ), server = TRUE)
     
-    data_QAQC_caption <- "Double-click to edit a cell.  'TRUE' and 'FALSE' are the only values allowed.  And only for column 'apply'."
-    output$dt_QAQC <- DT::renderDataTable(data_QAQC, server=TRUE, selection='none', rownames=FALSE
-                                          , caption=data_QAQC_caption)
-    outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
-    #formatStyle(table="dt_QAQC",columns='apply', backgroundColor='blue', fontWeight = 'bold') 
-    
-    proxy_dt_QAQC <- dataTableProxy("dt_QAQC")
-    
-    observeEvent(input$x1_cell_edit, {
-      info=input$x1_cell_edit
-      str(info)
-      i = info$row
-      j = info$col + 1
-      v = info$value
-      # Change Value "v" only IF column = 8 AND logical (T/F)
-      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
-        dt_QAQC[i,j] <<- DT::coerceValue(toupper(v), data_QAQC[i,j])
-        DT::replaceData(proxy_dt_QAQC, data_QAQC, resetPaging=FALSE, rownames=FALSE)
-      }
-      
-      #need to update actual table (might be done with above statement)
-      
-    })
-    
     
     
     # Save QAQC
@@ -592,13 +568,53 @@ url_display<-eventReactive(input$CHECK, {
       if(is.null(strFile_LoadQAQC)) return(NULL)
       # load file
       #data_QAQC <- XLConnect::readWorksheetFromFile(strFile_LoadQAQC$datapath, sheet="Methods Table", startRow=6, header=TRUE)
-      data_QAQC <- read_dataQAQC(strFile=strFile_LoadQAQC$datapath)
+      data_QAQC <- read_data_QAQC(strFile=strFile_LoadQAQC$datapath
+                                  ,strSheet="Methods Table"
+                                  ,intStartRow=6)
       
             # # # test
             # myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
             # strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
             # saveRDS(data_QAQC, file.path(myDir,strFile))
       #
+    })
+    
+    #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+    
+    ApplyQAQC.column <- 8
+    data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red 
+    [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE."
+    
+    output$dt_QAQC = DT::renderDataTable(DT::datatable(data_QAQC
+                                                       , caption=data_QAQC_caption
+                                                       , rownames=FALSE
+                                                       , selection='none'
+                                                      # , server=TRUE
+                                                      ) %>% formatStyle(columns=ApplyQAQC.column
+                                                                        ,target="cell"
+                                                                        ,background=styleEqual(c(0,1)
+                                                                                               ,c('lightgreen','red'))
+                                                                        ,fontWeight='bold')
+                                          )
+    #outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+    proxy_dt_QAQC <- DT::dataTableProxy('dt_QAQC')
+    #DT::selectColumns(proxy_dt_QAQC, 7)
+    
+    observeEvent(input$dt_QAQC_cell_edit, {
+      info=input$dt_QAQC_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        data_QAQC[i,j] <<- DT:::coerceValue(toupper(v), data_QAQC[i,j])
+        DT::replaceData(proxy_dt_QAQC, data_QAQC, resetPaging=FALSE, rownames=FALSE)
+      }
+      
+      #need to update actual table (might be done with above statement)
+      
     })
     
     #

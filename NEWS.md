@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-18 15:33:05
+    #> Last Update: 2017-08-25 06:37:55
 
 Version history.
 
@@ -25,7 +25,27 @@ Planned Updates
 -   QAQC. Need to display decisions in a table.
 -   QAQC. Need ability to update decisions on screen.
 -   QAQC. Summary stats by decision.
--   QAQC. Add all existing parameter combinations to decision file.
+-   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
+
+v1.1.1.9005
+===========
+
+2017-08-25
+
+-   Address comments from USEPA HQ review.
+-   Move new "action" buttons to same locations as existing buttons.
+-   QAQC Decision file. Change header names.
+-   Filters clean up names of new ones.
+-   QAQC Decision table.
+-   Fix bug to allow edits to Apply column.
+-   Color code and bold Apply column.
+
+v1.1.1.9004
+===========
+
+2017-08-21
+
+-   QAQC. Decision file use different row for display.
 
 v1.1.1.9003
 ===========

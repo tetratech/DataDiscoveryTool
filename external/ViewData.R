@@ -20,7 +20,7 @@ function() {
                                                        "top", trigger = "hover", options = list(container = "body"))
                                   )
                                   #,br()
-                                  ,br()
+                                  #,br()
                                   ,fluidRow(column(1),
                                             column(9,
                                                    fileInput("LoadFiltersFile","Load Filters File",accept=".rds"))

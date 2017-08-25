@@ -11,6 +11,9 @@ Attempt to create an editable table of the QAQC Decision file (knowledge base).
 
 * Will need to use "devtools" to get from GitHub a special version of "DT" (see code below).
 
+```{r, eval=FALSE}
+devtools::install_github('rstudio/DT@feature/editor')
+```
 
 # Example
 
@@ -19,6 +22,41 @@ https://github.com/rstudio/DT/issues/28
 
 https://yihui.shinyapps.io/DT-proxy/
 
+
+### formatting
+https://rstudio.github.io/DT/010-style.html
+
+# original
+```{r, eval=FALSE}
+library(shiny)
+library(DT)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
+  ),
+  server = function(input, output, session) {
+    x = iris
+    x$Date = Sys.time() + seq_len(nrow(x))
+    output$x1 = DT::renderDataTable(x, selection = 'none')
+
+    proxy = dataTableProxy('x1')
+
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col
+      v = info$value
+      x[i, j] <<- DT:::coerceValue(v, x[i, j])
+      replaceData(proxy, x, resetPaging = FALSE)
+    })
+  }
+)
+```
+
+
+# slightly modified
 ```{r, eval=FALSE}
 #devtools::install_github('rstudio/DT@feature/editor')
 # above version of DT required for table editing
@@ -35,7 +73,7 @@ shinyApp(
     x = iris
     x$Date = Sys.time() + seq_len(nrow(x))
     
-    output$x1 = DT::renderDataTable(x, selection = 'none', rownames = FALSE)
+    output$x1 = DT::renderDataTable(x, rownames = FALSE, selection='none')
     
     proxy = dataTableProxy('x1')
     
@@ -67,7 +105,198 @@ library(XLConnect)
 
 shinyApp(
   ui = fluidPage(
-    DT::dataTableOutput('x1x')
+    DT::dataTableOutput('x1')
+  ),
+  
+  server = function(input, output, session) {
+    
+    # QAQC Apply Column Settings
+    col.ApplyQAQC <- 8
+    color.ApplyQAQC <- 'yellow'
+    # table caption
+    myCaption <- "Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE."
+    #
+    
+    # load my File
+    # data_QAQC <-  DT::datatable(XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx"
+    #                                           , sheet="Methods Table"
+    #                                           , startRow=6
+    #                                           , header=TRUE
+    #                                           #, drop=c(13,14)
+    #                                           )
+    #                             , caption=myCaption
+    #                             , rownames=FALSE
+    #                             , selection='none'
+    #                             #, server=TRUE
+    #                             # ) %>% formatStyle(columns=col.ApplyQAQC
+    #                             #                   ,background=color.ApplyQAQC
+    #                             #                   ,fontWeight='bold')
+    #                             # Could potentially color cells based on content;
+    #                             # https://rstudio.github.io/DT/010-style.html
+    #                             # can't get working with column 8 and TRUE/FALSE
+    #                             ) %>% formatStyle(columns=8
+    #                                             , target="cell"
+    #                                             , background=styleEqual(c(1,0)
+    #                                                                     ,c('lightgreen','red'))
+    #                                             , fontWeight='bold'
+    #                                             )
+    #                             # #works on column 10 (units)
+    #                             # ) %>% formatStyle(columns=10
+    #                             #                 , target="cell"
+    #                             #                 , background=styleEqual(c("µg/L","mg/m2")
+    #                             #                                         ,c('lightgreen','red'))
+    #                             #                 )
+
+     data_QAQC <-  XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx"
+                                              , sheet="Methods Table"
+                                              , startRow=6
+                                              , header=TRUE
+                                              )
+    
+    #x = data_QAQC
+    
+    # have to do formating on datatable before render.  Render has reduced options.
+    
+    # output$x1 = DT::renderDataTable(data_QAQC
+    #                                  , server=TRUE
+    #                                 #, selection = list(target="column",selected=7)
+    #                                 #, rownames = FALSE
+    #                                 #, caption = myCaption
+    #                                 # , options = list(
+    #                                             # , formatStyle(columns=8
+    #                                             #             #, target="column"
+    #                                             #             , background="yellow")
+    #                                             # #)
+    #                                 ) 
+    
+    output$x1 = DT::renderDataTable(DT::datatable(data_QAQC
+                                                  , caption=myCaption
+                                                  , rownames=FALSE
+                                                  , selection='none'
+                                                  ) %>% formatStyle(columns=8
+                                                        , target="cell"
+                                                        , background=styleEqual(c(1,0)
+                                                                                ,c('lightgreen','red'))
+                                                        , fontWeight='bold'
+                                                        )
+                                                  
+      
+                                    )
+    
+
+   # %>% formatStyle(8,background='yellow')
+    
+    #formatStyle(table="x1",columns="apply", backgroundColor='blue', fontWeight = 'bold') 
+    #, searchHighlight=TRUE
+    
+    proxy_dt_QAQC = dataTableProxy('x1') 
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==col.ApplyQAQC & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+      #if(j==col.ApplyQAQC) {
+        data_QAQC[i, j] <<- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE) 
+        # lose formatting of replaced table
+      }
+      
+    })
+  }
+)
+```
+
+# Try 2 to mimic ddt
+20170824
+```{r, eval=FALSE}
+
+library(shiny)
+library(DT)
+library(XLConnect)
+
+source("external/dataQAQC.R", local=TRUE)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('dt_QAQC')
+  ),
+  
+  server = function(input, output, session) {
+    
+    
+    # read_data_QAQC <- function(strFile, strSheet, intStartRow) {
+    #             XLConnect::readWorksheetFromFile(strFile
+    #                                              , sheet=strSheet
+    #                                              , startRow=intStartRow
+    #                                              , header=TRUE) #, drop=c(1,2))
+    # }
+    #   #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+    #   #
+    # data_QAQC <- read_data_QAQC(strFile="external/DDT_QAQC_Default.xlsx", strSheet = "Methods Table", intStartRow=6)
+    # 
+    
+    #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx"
+   #                                          , sheet="Methods Table", startRow=6, header=TRUE)
+        
+    
+    ApplyQAQC.column <- 8
+    data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red 
+    [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE."
+    
+    output$dt_QAQC = DT::renderDataTable(DT::datatable(data_QAQC
+                                                       , caption=data_QAQC_caption
+                                                       , rownames=FALSE
+                                                       , selection='none'
+                                                      # , server=TRUE
+                                                      ) %>% formatStyle(columns=ApplyQAQC.column
+                                                                        ,target="cell"
+                                                                        ,background=styleEqual(c(1,0)
+                                                                                    ,c('lightgreen','red'))
+                                                                        ,fontWeight='bold')
+                                          )
+    #outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+    proxy_dt_QAQC <- DT::dataTableProxy('dt_QAQC')
+    
+    observeEvent(input$dt_QAQC_cell_edit, {
+      info = input$dt_QAQC_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value "v" only IF column = 8 AND logical (T/F)
+      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        data_QAQC[i, j] <<- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE)
+      }
+      
+      #need to update actual table (might be done with above statement)
+      
+    })
+  
+  }
+)
+
+
+```
+
+
+# working version with Knowledge Base
+20170809 email
+```{r, eval=FALSE}
+#devtools::install_github('rstudio/DT@feature/editor') # only need to install once
+
+library(shiny)
+library(DT)
+library(XLConnect)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
   ),
   server = function(input, output, session) {
     
@@ -78,14 +307,12 @@ shinyApp(
     #x = data_QAQC
     myCaption <- "Double-click to edit a cell.  'TRUE' and 'FALSE' are the only values allowed.  And only for column 'apply'."
 
-    output$x1x = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE
-                                    , caption = myCaption
-                                    )
+    output$x1 = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE
+                                    , caption = myCaption)
     
     #formatStyle(table="x1",columns="apply", backgroundColor='blue', fontWeight = 'bold') 
-    #, searchHighlight=TRUE
     
-    proxy_dt_QAQC = dataTableProxy('x1x')
+    proxy_dt_QAQC = dataTableProxy('x1')
     
     observeEvent(input$x1_cell_edit, {
       info = input$x1_cell_edit
@@ -103,6 +330,5 @@ shinyApp(
   }
 )
 ```
-
 
 

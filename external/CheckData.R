@@ -21,7 +21,7 @@ function(){
                                           , fluidRow("As an alternative to retrieving data the buttons below can be used to load a previously saved dataset.")
                                           , fluidRow(br())
                                           , fluidRow(
-                                            column(3,
+                                            column(7,
                                                    fileInput("LoadDataFile","Load Data File",accept=".rds")
                                             )
                                           )
@@ -121,47 +121,47 @@ function(){
                        tabPanel("QAQC Decisions",
                                 fluidRow((h3("Quality Assurance / Quality Control Decisions", style = "text-align: center")))
                                 , fluidRow(h4("Modify characteristic data for consistent name, units, and sample fraction.", style = "text-align: center"))
-                                , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Data Set", style = "text-align: center")))
+                                , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Decision File", style = "text-align: center")))
+                                                    , fluidRow(column(1), column(10, "Save/load Excel file with QAQC information.", style = "text-align: center"))
                                                     , fluidRow(column(1), column(10, "Changes made here will be reflected in the 'Filtered' data set.", style = "text-align: center"))
                                                     , fluidRow(column(1), column(10, "In the table below will be a table of records of parameter names, units, and sample fractions. 
                                                                                 The user will have the ability to accept (Apply=TRUE) or refute (Apply=FALSE) each transformation.
                                                                                 The user can edit the file below and save or edit in Excel and reload."
-                                                                                , style = "text-align: center"
-                                                                                )
-                                                              )
-                                                     #, fluidRow(column(3, downloadButton("SaveQAQC_Default", "Save Default QAQC File"))
-                                                     #            # , bsPopover("SaveQAQC_Default", "Save Default QAQC", "Click to save an .XLSX file containing the default QAQC decisions."
-                                                     #            #             , placement="top", trigger = "hover", options = list(container = "body"))
-                                                     #           )
+                                                                                 , style = "text-align: center"
                                                     )
-                                          )
-                                , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Decision File", style = "text-align: center")))
-                                                    , fluidRow(column(1), column(10, "Save/load Excel file with QAQC information.", style = "text-align: center"))
-                                                    , fluidRow(column(1), column(2, "Describe needing to use Excel and iterative nature of the process, save file
-                                                                                , TRUE/FALSE, fields included, etc."))
+                                                    )
+                                                    #, fluidRow(column(3, downloadButton("SaveQAQC_Default", "Save Default QAQC File"))
+                                                    #            # , bsPopover("SaveQAQC_Default", "Save Default QAQC", "Click to save an .XLSX file containing the default QAQC decisions."
+                                                    #            #             , placement="top", trigger = "hover", options = list(container = "body"))
+                                                    #           )
                                                     
-                                                    , fluidRow(br())
-                                                    , fluidRow(column(3, fileInput("LoadQAQCFile","Load QAQC File",accept=".xlsx"))
+                                                   # , fluidRow(br())
+                                                    , fluidRow(column(3, downloadButton("SaveQAQC","Save QAQC File"))
+                                                               , bsPopover("SaveQAQC", "Save QAQC", "Click to save an .XLSX file containing the QAQC decisions.",
+                                                                           "top", trigger = "hover", options = list(container = "body"))
+                                                               )
+                                                    #, br()
+                                                    , fluidRow(column(7, fileInput("LoadQAQCFile","Load QAQC File",accept=".xlsx"))
                                                               )
                                                     , fluidRow(column(1,bsButton("UpdateQAQC", label="Update QAQC From File", style="primary")
                                                                      ,bsPopover("UpdateQAQC", "Update QA/QC", trigger = "hover", placement="right", options = list(container = "body")
                                                                                 ,"This button updates the QA/QC selections from a user selected QA/QC Excel file. Must upload file first before clicking this button."))
-                                                    )
+                                                              )
+                                                    , br()
+                                                    , fluidRow(column(3, bsButton("ApplyQAQC", label="Apply QAQC Decisions to Data", style="primary")))
+                                                    
                                                     # , fluidRow(column(1,bsButton("UpdateQAQC_Default", label="Update QAQC Defaults", style="primary")
                                                     #                  ,bsPopover("UpdateQAQC_Default", "Default QA/QC", trigger = "hover", placement="right", options = list(container = "body")
                                                     #                             ,"This button updates the QA/QC selections from a user selected QA/QC Excel file. Must upload file first before clicking this button."))
                                                     # )
                                                     )
                                           )
-                                , fluidRow("show the Excel file here so can edit")
-                                , fluidRow(column(3, downloadButton("SaveQAQC","Save QAQC File"))
-                                           , bsPopover("SaveQAQC", "Save QAQC", "Click to save an .XLSX file containing the QAQC decisions.",
-                                                       "top", trigger = "hover", options = list(container = "body"))
-                                )
-                                , br()
-                                , fluidRow(column(3, bsButton("ApplyQAQC", label="Apply QAQC Decisions to Data", style="primary")))
-                                , fluidRow(DT::dataTableOutput("dt_QAQC"))
-                                #, fluidRow(DT::dataTableOutput("All_Data")) # adding lines disable upload of Saved Query.
+                                , fluidRow(column(12,DT::dataTableOutput('dt_QAQC')))
+                                
+                                
+                                
+                                
+                                
                                 ),
                        tabPanel("QAQC Advanced",
                                 fluidRow((h3("Quality Assurance / Quality Control Advanced", style="text-align: center")))

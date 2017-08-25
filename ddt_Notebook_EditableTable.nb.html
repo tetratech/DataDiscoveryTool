@@ -178,13 +178,61 @@ $(document).ready(function () {
 <li><p>Copy the accompanying file (DDT_QAQC_Default.xlsx) to your working directory.</p></li>
 <li><p>Will need to use “devtools” to get from GitHub a special version of “DT” (see code below).</p></li>
 </ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCdyc3R1ZGlvL0RUQGZlYXR1cmUvZWRpdG9yJykifQ== -->
+<pre class="r"><code>devtools::install_github('rstudio/DT@feature/editor')</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <div id="example" class="section level1">
 <h1>Example</h1>
 <p><a href="https://github.com/rstudio/DT/issues/28" class="uri">https://github.com/rstudio/DT/issues/28</a></p>
 <p><a href="https://yihui.shinyapps.io/DT-proxy/" class="uri">https://yihui.shinyapps.io/DT-proxy/</a></p>
+<div id="formatting" class="section level3">
+<h3>formatting</h3>
+<p><a href="https://rstudio.github.io/DT/010-style.html" class="uri">https://rstudio.github.io/DT/010-style.html</a></p>
+</div>
+</div>
+<div id="original" class="section level1">
+<h1>original</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSIsIiMgYWJvdmUgdmVyc2lvbiBvZiBEVCByZXF1aXJlZCBmb3IgdGFibGUgZWRpdGluZyIsIiIsImxpYnJhcnkoc2hpbnkpIiwibGlicmFyeShEVCkiLCIiLCJzaGlueUFwcCgiLCIgIHVpID0gZmx1aWRQYWdlKCIsIiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCd4MScpIiwiICApLCIsIiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgeyIsIiAgICAiLCIgICAgeCA9IGlyaXMiLCIgICAgeCREYXRlID0gU3lzLnRpbWUoKSArIHNlcV9sZW4obnJvdyh4KSkiLCIgICAgIiwiICAgIG91dHB1dCR4MSA9IERUOjpyZW5kZXJEYXRhVGFibGUoeCwgc2VsZWN0aW9uID0gJ25vbmUnLCByb3duYW1lcyA9IEZBTFNFKSIsIiAgICAiLCIgICAgcHJveHkgPSBkYXRhVGFibGVQcm94eSgneDEnKSIsIiAgICAiLCIgICAgb2JzZXJ2ZUV2ZW50KGlucHV0JHgxX2NlbGxfZWRpdCwgeyIsIiAgICAgIGluZm8gPSBpbnB1dCR4MV9jZWxsX2VkaXQiLCIgICAgICBzdHIoaW5mbykiLCIgICAgICBpID0gaW5mbyRyb3ciLCIgICAgICBqID0gaW5mbyRjb2wgKyAxIiwiICAgICAgdiA9IGluZm8kdmFsdWUiLCIgICAgICB4W2ksIGpdIDw8LSBEVDo6OmNvZXJjZVZhbHVlKHYsIHhbaSwgal0pIiwiICAgICAgcmVwbGFjZURhdGEocHJveHksIHgsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpIiwiICAgIH0pIiwiICB9IiwiKSJdfQ== -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoc2hpbnkpIiwibGlicmFyeShEVCkiLCIiLCJzaGlueUFwcCgiLCIgIHVpID0gZmx1aWRQYWdlKCIsIiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCd4MScpIiwiICApLCIsIiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgeyIsIiAgICB4ID0gaXJpcyIsIiAgICB4JERhdGUgPSBTeXMudGltZSgpICsgc2VxX2xlbihucm93KHgpKSIsIiAgICBvdXRwdXQkeDEgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKHgsIHNlbGVjdGlvbiA9ICdub25lJykiLCIiLCIgICAgcHJveHkgPSBkYXRhVGFibGVQcm94eSgneDEnKSIsIiIsIiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkeDFfY2VsbF9lZGl0LCB7IiwiICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdCIsIiAgICAgIHN0cihpbmZvKSIsIiAgICAgIGkgPSBpbmZvJHJvdyIsIiAgICAgIGogPSBpbmZvJGNvbCIsIiAgICAgIHYgPSBpbmZvJHZhbHVlIiwiICAgICAgeFtpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh2LCB4W2ksIGpdKSIsIiAgICAgIHJlcGxhY2VEYXRhKHByb3h5LCB4LCByZXNldFBhZ2luZyA9IEZBTFNFKSIsIiAgICB9KSIsIiAgfSIsIikiXX0= -->
+<pre class="r"><code>library(shiny)
+library(DT)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
+  ),
+  server = function(input, output, session) {
+    x = iris
+    x$Date = Sys.time() + seq_len(nrow(x))
+    output$x1 = DT::renderDataTable(x, selection = 'none')
+
+    proxy = dataTableProxy('x1')
+
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col
+      v = info$value
+      x[i, j] &lt;&lt;- DT:::coerceValue(v, x[i, j])
+      replaceData(proxy, x, resetPaging = FALSE)
+    })
+  }
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="slightly-modified" class="section level1">
+<h1>slightly modified</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSIsIiMgYWJvdmUgdmVyc2lvbiBvZiBEVCByZXF1aXJlZCBmb3IgdGFibGUgZWRpdGluZyIsIiIsImxpYnJhcnkoc2hpbnkpIiwibGlicmFyeShEVCkiLCIiLCJzaGlueUFwcCgiLCIgIHVpID0gZmx1aWRQYWdlKCIsIiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCd4MScpIiwiICApLCIsIiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgeyIsIiAgICAiLCIgICAgeCA9IGlyaXMiLCIgICAgeCREYXRlID0gU3lzLnRpbWUoKSArIHNlcV9sZW4obnJvdyh4KSkiLCIgICAgIiwiICAgIG91dHB1dCR4MSA9IERUOjpyZW5kZXJEYXRhVGFibGUoeCwgcm93bmFtZXMgPSBGQUxTRSwgc2VsZWN0aW9uPSdub25lJykiLCIgICAgIiwiICAgIHByb3h5ID0gZGF0YVRhYmxlUHJveHkoJ3gxJykiLCIgICAgIiwiICAgIG9ic2VydmVFdmVudChpbnB1dCR4MV9jZWxsX2VkaXQsIHsiLCIgICAgICBpbmZvID0gaW5wdXQkeDFfY2VsbF9lZGl0IiwiICAgICAgc3RyKGluZm8pIiwiICAgICAgaSA9IGluZm8kcm93IiwiICAgICAgaiA9IGluZm8kY29sICsgMSIsIiAgICAgIHYgPSBpbmZvJHZhbHVlIiwiICAgICAgeFtpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh2LCB4W2ksIGpdKSIsIiAgICAgIHJlcGxhY2VEYXRhKHByb3h5LCB4LCByZXNldFBhZ2luZyA9IEZBTFNFLCByb3duYW1lcyA9IEZBTFNFKSIsIiAgICB9KSIsIiAgfSIsIikiXX0= -->
 <pre class="r"><code>#devtools::install_github('rstudio/DT@feature/editor')
 # above version of DT required for table editing
 
@@ -200,7 +248,7 @@ shinyApp(
     x = iris
     x$Date = Sys.time() + seq_len(nrow(x))
     
-    output$x1 = DT::renderDataTable(x, selection = 'none', rownames = FALSE)
+    output$x1 = DT::renderDataTable(x, rownames = FALSE, selection='none')
     
     proxy = dataTableProxy('x1')
     
@@ -224,7 +272,7 @@ shinyApp(
 <p>Only allows True or False in “apply” column.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSAjIG9ubHkgbmVlZCB0byBpbnN0YWxsIG9uY2UiLCIjIGFib3ZlIHZlcnNpb24gb2YgRFQgcmVxdWlyZWQgZm9yIHRhYmxlIGVkaXRpbmciLCIiLCJsaWJyYXJ5KHNoaW55KSIsImxpYnJhcnkoRFQpIiwibGlicmFyeShYTENvbm5lY3QpIiwiIiwiIiwic2hpbnlBcHAoIiwiICB1aSA9IGZsdWlkUGFnZSgiLCIgICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgneDF4JykiLCIgICksIiwiICBzZXJ2ZXIgPSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0LCBzZXNzaW9uKSB7IiwiICAgICIsIiAgICAjIGxvYWQgbXkgRmlsZSIsIiAgICBkYXRhX1FBUUMgPC0gWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoXCJleHRlcm5hbC9ERFRfUUFRQ19EZWZhdWx0Lnhsc3hcIiIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PVwiTWV0aG9kcyBUYWJsZVwiLCBzdGFydFJvdz02LCBoZWFkZXI9VFJVRSkiLCIgICAgIiwiICAgICN4ID0gZGF0YV9RQVFDIiwiICAgIG15Q2FwdGlvbiA8LSBcIkRvdWJsZS1jbGljayB0byBlZGl0IGEgY2VsbC4gICdUUlVFJyBhbmQgJ0ZBTFNFJyBhcmUgdGhlIG9ubHkgdmFsdWVzIGFsbG93ZWQuICBBbmQgb25seSBmb3IgY29sdW1uICdhcHBseScuXCIiLCIiLCIgICAgb3V0cHV0JHgxeCA9IERUOjpyZW5kZXJEYXRhVGFibGUoZGF0YV9RQVFDLCBzZXJ2ZXI9VFJVRSwgc2VsZWN0aW9uID0gJ25vbmUnLCByb3duYW1lcyA9IEZBTFNFIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBjYXB0aW9uID0gbXlDYXB0aW9uIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSIsIiAgICAiLCIgICAgI2Zvcm1hdFN0eWxlKHRhYmxlPVwieDFcIixjb2x1bW5zPVwiYXBwbHlcIiwgYmFja2dyb3VuZENvbG9yPSdibHVlJywgZm9udFdlaWdodCA9ICdib2xkJykgIiwiICAgICMsIHNlYXJjaEhpZ2hsaWdodD1UUlVFIiwiICAgICIsIiAgICBwcm94eV9kdF9RQVFDID0gZGF0YVRhYmxlUHJveHkoJ3gxeCcpIiwiICAgICIsIiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkeDFfY2VsbF9lZGl0LCB7IiwiICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdCIsIiAgICAgIHN0cihpbmZvKSIsIiAgICAgIGkgPSBpbmZvJHJvdyIsIiAgICAgIGogPSBpbmZvJGNvbCArIDEiLCIgICAgICB2ID0gaW5mbyR2YWx1ZSIsIiAgICAgICMgQ2hhbmdlIFZhbHVlIFwidlwiIG9ubHkgSUYgY29sdW1uID0gOCBBTkQgbG9naWNhbCAoVC9GKSIsIiAgICAgIGlmKGo9PTggJiAodG91cHBlcih2KT09XCJGQUxTRVwiIHwgdG91cHBlcih2KT09XCJUUlVFXCIpKSB7IiwiICAgICAgICBkYXRhX1FBUUNbaSwgal0gPDwtIERUOjo6Y29lcmNlVmFsdWUodG91cHBlcih2KSwgZGF0YV9RQVFDW2ksIGpdKSIsIiAgICAgICAgcmVwbGFjZURhdGEocHJveHlfZHRfUUFRQywgZGF0YV9RQVFDLCByZXNldFBhZ2luZyA9IEZBTFNFLCByb3duYW1lcyA9IEZBTFNFKSIsIiAgICAgIH0iLCIgICAgICAiLCIgICAgfSkiLCIgIH0iLCIpIl19 -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSAjIG9ubHkgbmVlZCB0byBpbnN0YWxsIG9uY2UiLCIjIGFib3ZlIHZlcnNpb24gb2YgRFQgcmVxdWlyZWQgZm9yIHRhYmxlIGVkaXRpbmciLCIiLCJsaWJyYXJ5KHNoaW55KSIsImxpYnJhcnkoRFQpIiwibGlicmFyeShYTENvbm5lY3QpIiwiIiwiIiwic2hpbnlBcHAoIiwiICB1aSA9IGZsdWlkUGFnZSgiLCIgICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgneDEnKSIsIiAgKSwiLCIgICIsIiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgeyIsIiAgICAiLCIgICAgIyBRQVFDIEFwcGx5IENvbHVtbiBTZXR0aW5ncyIsIiAgICBjb2wuQXBwbHlRQVFDIDwtIDgiLCIgICAgY29sb3IuQXBwbHlRQVFDIDwtICd5ZWxsb3cnIiwiICAgICMgdGFibGUgY2FwdGlvbiIsIiAgICBteUNhcHRpb24gPC0gXCJEb3VibGUtY2xpY2sgdG8gZWRpdCBhIGNlbGwgaW4gY29sdW1uIEFwcGx5LlFBUUMgKGhpZ2hsaWdodGVkIGluIGdyZWVuIFtUUlVFXSBvciByZWQgW0ZBTFNFXSkuICBFZGl0cyBhcmUgb25seSBhbGxvd2VkIGluIHRoaXMgY29sdW1uIGFuZCBvbmx5IGZvciB0aGUgdmFsdWVzIFRSVUUgYW5kIEZBTFNFLlwiIiwiICAgICMiLCIgICAgIiwiICAgICMgbG9hZCBteSBGaWxlIiwiICAgICMgZGF0YV9RQVFDIDwtICBEVDo6ZGF0YXRhYmxlKFhMQ29ubmVjdDo6cmVhZFdvcmtzaGVldEZyb21GaWxlKFwiZXh0ZXJuYWwvRERUX1FBUUNfRGVmYXVsdC54bHN4XCIiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PVwiTWV0aG9kcyBUYWJsZVwiIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzdGFydFJvdz02IiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBoZWFkZXI9VFJVRSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMsIGRyb3A9YygxMywxNCkiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgY2FwdGlvbj1teUNhcHRpb24iLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCByb3duYW1lcz1GQUxTRSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNlbGVjdGlvbj0nbm9uZSciLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgc2VydmVyPVRSVUUiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyApICU+JSBmb3JtYXRTdHlsZShjb2x1bW5zPWNvbC5BcHBseVFBUUMiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAgICAgICAgICAgICAgICAgICAsYmFja2dyb3VuZD1jb2xvci5BcHBseVFBUUMiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAgICAgICAgICAgICAgICAgICAsZm9udFdlaWdodD0nYm9sZCcpIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgQ291bGQgcG90ZW50aWFsbHkgY29sb3IgY2VsbHMgYmFzZWQgb24gY29udGVudDsiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBodHRwczovL3JzdHVkaW8uZ2l0aHViLmlvL0RULzAxMC1zdHlsZS5odG1sIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgY2FuJ3QgZ2V0IHdvcmtpbmcgd2l0aCBjb2x1bW4gOCBhbmQgVFJVRS9GQUxTRSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICApICU+JSBmb3JtYXRTdHlsZShjb2x1bW5zPTgiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgdGFyZ2V0PVwiY2VsbFwiIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGJhY2tncm91bmQ9c3R5bGVFcXVhbChjKDEsMCkiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICxjKCdsaWdodGdyZWVuJywncmVkJykpIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGZvbnRXZWlnaHQ9J2JvbGQnIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgI3dvcmtzIG9uIGNvbHVtbiAxMCAodW5pdHMpIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgKSAlPiUgZm9ybWF0U3R5bGUoY29sdW1ucz0xMCIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAsIHRhcmdldD1cImNlbGxcIiIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAsIGJhY2tncm91bmQ9c3R5bGVFcXVhbChjKFwiwrVnL0xcIixcIm1nL20yXCIpIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICxjKCdsaWdodGdyZWVuJywncmVkJykpIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgICAgICAgICAgICAgICAgICkiLCIiLCIgICAgIGRhdGFfUUFRQyA8LSAgWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoXCJleHRlcm5hbC9ERFRfUUFRQ19EZWZhdWx0Lnhsc3hcIiIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PVwiTWV0aG9kcyBUYWJsZVwiIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc3RhcnRSb3c9NiIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGhlYWRlcj1UUlVFIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkiLCIgICAgIiwiICAgICN4ID0gZGF0YV9RQVFDIiwiICAgICIsIiAgICAjIGhhdmUgdG8gZG8gZm9ybWF0aW5nIG9uIGRhdGF0YWJsZSBiZWZvcmUgcmVuZGVyLiAgUmVuZGVyIGhhcyByZWR1Y2VkIG9wdGlvbnMuIiwiICAgICIsIiAgICAjIG91dHB1dCR4MSA9IERUOjpyZW5kZXJEYXRhVGFibGUoZGF0YV9RQVFDIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzZXJ2ZXI9VFJVRSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgc2VsZWN0aW9uID0gbGlzdCh0YXJnZXQ9XCJjb2x1bW5cIixzZWxlY3RlZD03KSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgcm93bmFtZXMgPSBGQUxTRSIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgY2FwdGlvbiA9IG15Q2FwdGlvbiIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAsIG9wdGlvbnMgPSBsaXN0KCIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAsIGZvcm1hdFN0eWxlKGNvbHVtbnM9OCIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAgICAgICAgICAgICAjLCB0YXJnZXQ9XCJjb2x1bW5cIiIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAgICAgICAgICAgICAsIGJhY2tncm91bmQ9XCJ5ZWxsb3dcIikiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgIykiLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgIiwiICAgICIsIiAgICBvdXRwdXQkeDEgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKERUOjpkYXRhdGFibGUoZGF0YV9RQVFDIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGNhcHRpb249bXlDYXB0aW9uIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHJvd25hbWVzPUZBTFNFIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNlbGVjdGlvbj0nbm9uZSciLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgJT4lIGZvcm1hdFN0eWxlKGNvbHVtbnM9OCIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCB0YXJnZXQ9XCJjZWxsXCIiLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgYmFja2dyb3VuZD1zdHlsZUVxdWFsKGMoMSwwKSIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLGMoJ2xpZ2h0Z3JlZW4nLCdyZWQnKSkiLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgZm9udFdlaWdodD0nYm9sZCciLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkiLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIsIiAgICAgICIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkiLCIgICAgIiwiIiwiICAgIyAlPiUgZm9ybWF0U3R5bGUoOCxiYWNrZ3JvdW5kPSd5ZWxsb3cnKSIsIiAgICAiLCIgICAgI2Zvcm1hdFN0eWxlKHRhYmxlPVwieDFcIixjb2x1bW5zPVwiYXBwbHlcIiwgYmFja2dyb3VuZENvbG9yPSdibHVlJywgZm9udFdlaWdodCA9ICdib2xkJykgIiwiICAgICMsIHNlYXJjaEhpZ2hsaWdodD1UUlVFIiwiICAgICIsIiAgICBwcm94eV9kdF9RQVFDID0gZGF0YVRhYmxlUHJveHkoJ3gxJykgIiwiICAgICIsIiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkeDFfY2VsbF9lZGl0LCB7IiwiICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdCIsIiAgICAgIHN0cihpbmZvKSIsIiAgICAgIGkgPSBpbmZvJHJvdyIsIiAgICAgIGogPSBpbmZvJGNvbCArIDEiLCIgICAgICB2ID0gaW5mbyR2YWx1ZSIsIiAgICAgICMgQ2hhbmdlIFZhbHVlIFwidlwiIG9ubHkgSUYgY29sdW1uID0gOCBBTkQgbG9naWNhbCAoVC9GKSIsIiAgICAgIGlmKGo9PWNvbC5BcHBseVFBUUMgJiAodG91cHBlcih2KT09XCJGQUxTRVwiIHwgdG91cHBlcih2KT09XCJUUlVFXCIpKSB7IiwiICAgICAgI2lmKGo9PWNvbC5BcHBseVFBUUMpIHsiLCIgICAgICAgIGRhdGFfUUFRQ1tpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh0b3VwcGVyKHYpLCBkYXRhX1FBUUNbaSwgal0pIiwiICAgICAgICByZXBsYWNlRGF0YShwcm94eV9kdF9RQVFDLCBkYXRhX1FBUUMsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpICIsIiAgICAgICAgIyBsb3NlIGZvcm1hdHRpbmcgb2YgcmVwbGFjZWQgdGFibGUiLCIgICAgICB9IiwiICAgICAgIiwiICAgIH0pIiwiICB9IiwiKSJdfQ== -->
 <pre class="r"><code>#devtools::install_github('rstudio/DT@feature/editor') # only need to install once
 # above version of DT required for table editing
 
@@ -235,7 +283,204 @@ library(XLConnect)
 
 shinyApp(
   ui = fluidPage(
-    DT::dataTableOutput('x1x')
+    DT::dataTableOutput('x1')
+  ),
+  
+  server = function(input, output, session) {
+    
+    # QAQC Apply Column Settings
+    col.ApplyQAQC &lt;- 8
+    color.ApplyQAQC &lt;- 'yellow'
+    # table caption
+    myCaption &lt;- &quot;Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE.&quot;
+    #
+    
+    # load my File
+    # data_QAQC &lt;-  DT::datatable(XLConnect::readWorksheetFromFile(&quot;external/DDT_QAQC_Default.xlsx&quot;
+    #                                           , sheet=&quot;Methods Table&quot;
+    #                                           , startRow=6
+    #                                           , header=TRUE
+    #                                           #, drop=c(13,14)
+    #                                           )
+    #                             , caption=myCaption
+    #                             , rownames=FALSE
+    #                             , selection='none'
+    #                             #, server=TRUE
+    #                             # ) %&gt;% formatStyle(columns=col.ApplyQAQC
+    #                             #                   ,background=color.ApplyQAQC
+    #                             #                   ,fontWeight='bold')
+    #                             # Could potentially color cells based on content;
+    #                             # https://rstudio.github.io/DT/010-style.html
+    #                             # can't get working with column 8 and TRUE/FALSE
+    #                             ) %&gt;% formatStyle(columns=8
+    #                                             , target=&quot;cell&quot;
+    #                                             , background=styleEqual(c(1,0)
+    #                                                                     ,c('lightgreen','red'))
+    #                                             , fontWeight='bold'
+    #                                             )
+    #                             # #works on column 10 (units)
+    #                             # ) %&gt;% formatStyle(columns=10
+    #                             #                 , target=&quot;cell&quot;
+    #                             #                 , background=styleEqual(c(&quot;µg/L&quot;,&quot;mg/m2&quot;)
+    #                             #                                         ,c('lightgreen','red'))
+    #                             #                 )
+
+     data_QAQC &lt;-  XLConnect::readWorksheetFromFile(&quot;external/DDT_QAQC_Default.xlsx&quot;
+                                              , sheet=&quot;Methods Table&quot;
+                                              , startRow=6
+                                              , header=TRUE
+                                              )
+    
+    #x = data_QAQC
+    
+    # have to do formating on datatable before render.  Render has reduced options.
+    
+    # output$x1 = DT::renderDataTable(data_QAQC
+    #                                  , server=TRUE
+    #                                 #, selection = list(target=&quot;column&quot;,selected=7)
+    #                                 #, rownames = FALSE
+    #                                 #, caption = myCaption
+    #                                 # , options = list(
+    #                                             # , formatStyle(columns=8
+    #                                             #             #, target=&quot;column&quot;
+    #                                             #             , background=&quot;yellow&quot;)
+    #                                             # #)
+    #                                 ) 
+    
+    output$x1 = DT::renderDataTable(DT::datatable(data_QAQC
+                                                  , caption=myCaption
+                                                  , rownames=FALSE
+                                                  , selection='none'
+                                                  ) %&gt;% formatStyle(columns=8
+                                                        , target=&quot;cell&quot;
+                                                        , background=styleEqual(c(1,0)
+                                                                                ,c('lightgreen','red'))
+                                                        , fontWeight='bold'
+                                                        )
+                                                  
+      
+                                    )
+    
+
+   # %&gt;% formatStyle(8,background='yellow')
+    
+    #formatStyle(table=&quot;x1&quot;,columns=&quot;apply&quot;, backgroundColor='blue', fontWeight = 'bold') 
+    #, searchHighlight=TRUE
+    
+    proxy_dt_QAQC = dataTableProxy('x1') 
+    
+    observeEvent(input$x1_cell_edit, {
+      info = input$x1_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value &quot;v&quot; only IF column = 8 AND logical (T/F)
+      if(j==col.ApplyQAQC &amp; (toupper(v)==&quot;FALSE&quot; | toupper(v)==&quot;TRUE&quot;)) {
+      #if(j==col.ApplyQAQC) {
+        data_QAQC[i, j] &lt;&lt;- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE) 
+        # lose formatting of replaced table
+      }
+      
+    })
+  }
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="try-2-to-mimic-ddt" class="section level1">
+<h1>Try 2 to mimic ddt</h1>
+<p>20170824</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoc2hpbnkpIiwibGlicmFyeShEVCkiLCJsaWJyYXJ5KFhMQ29ubmVjdCkiLCIiLCJzb3VyY2UoXCJleHRlcm5hbC9kYXRhUUFRQy5SXCIsIGxvY2FsPVRSVUUpIiwiIiwic2hpbnlBcHAoIiwiICB1aSA9IGZsdWlkUGFnZSgiLCIgICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgnZHRfUUFRQycpIiwiICApLCIsIiAgIiwiICBzZXJ2ZXIgPSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0LCBzZXNzaW9uKSB7IiwiICAgICIsIiAgICAiLCIgICAgIyByZWFkX2RhdGFfUUFRQyA8LSBmdW5jdGlvbihzdHJGaWxlLCBzdHJTaGVldCwgaW50U3RhcnRSb3cpIHsiLCIgICAgIyAgICAgICAgICAgICBYTENvbm5lY3Q6OnJlYWRXb3Jrc2hlZXRGcm9tRmlsZShzdHJGaWxlIiwiICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzaGVldD1zdHJTaGVldCIsIiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc3RhcnRSb3c9aW50U3RhcnRSb3ciLCIgICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGhlYWRlcj1UUlVFKSAjLCBkcm9wPWMoMSwyKSkiLCIgICAgIyB9IiwiICAgICMgICAjZGF0YV9RQVFDIDwtIFhMQ29ubmVjdDo6cmVhZFdvcmtzaGVldEZyb21GaWxlKFwiZXh0ZXJuYWwvRERUX1FBUUNfRGVmYXVsdC54bHN4XCIsIHNoZWV0PVwiTWV0aG9kcyBUYWJsZVwiLCBzdGFydFJvdz02LCBoZWFkZXI9VFJVRSkiLCIgICAgIyAgICMiLCIgICAgIyBkYXRhX1FBUUMgPC0gcmVhZF9kYXRhX1FBUUMoc3RyRmlsZT1cImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeFwiLCBzdHJTaGVldCA9IFwiTWV0aG9kcyBUYWJsZVwiLCBpbnRTdGFydFJvdz02KSIsIiAgICAjICIsIiAgICAiLCIgICAgI2RhdGFfUUFRQyA8LSBYTENvbm5lY3Q6OnJlYWRXb3Jrc2hlZXRGcm9tRmlsZShcImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeFwiIiwiICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc2hlZXQ9XCJNZXRob2RzIFRhYmxlXCIsIHN0YXJ0Um93PTYsIGhlYWRlcj1UUlVFKSIsIiAgICAgICAgIiwiICAgICIsIiAgICBBcHBseVFBUUMuY29sdW1uIDwtIDgiLCIgICAgZGF0YV9RQVFDX2NhcHRpb24gPC0gXCJEb3VibGUtY2xpY2sgdG8gZWRpdCBhIGNlbGwgaW4gY29sdW1uIEFwcGx5LlFBUUMgKGhpZ2hsaWdodGVkIGluIGdyZWVuIFtUUlVFXSBvciByZWQgIiwiICAgIFtGQUxTRV0pLiAgRWRpdHMgYXJlIG9ubHkgYWxsb3dlZCBpbiB0aGlzIGNvbHVtbiBhbmQgb25seSBmb3IgdGhlIHZhbHVlcyBUUlVFIGFuZCBGQUxTRS5cIiIsIiAgICAiLCIgICAgb3V0cHV0JGR0X1FBUUMgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKERUOjpkYXRhdGFibGUoZGF0YV9RQVFDIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgY2FwdGlvbj1kYXRhX1FBUUNfY2FwdGlvbiIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHJvd25hbWVzPUZBTFNFIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc2VsZWN0aW9uPSdub25lJyIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgLCBzZXJ2ZXI9VFJVRSIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgJT4lIGZvcm1hdFN0eWxlKGNvbHVtbnM9QXBwbHlRQVFDLmNvbHVtbiIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICx0YXJnZXQ9XCJjZWxsXCIiLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsYmFja2dyb3VuZD1zdHlsZUVxdWFsKGMoMSwwKSIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICxjKCdsaWdodGdyZWVuJywncmVkJykpIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLGZvbnRXZWlnaHQ9J2JvbGQnKSIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkiLCIgICAgI291dHB1dE9wdGlvbnMob3V0cHV0LCAnZHRfUUFRQycsIHN1c3BlbmRXaGVuSGlkZGVuPVRSVUUpIiwiICAgICIsIiAgICBwcm94eV9kdF9RQVFDIDwtIERUOjpkYXRhVGFibGVQcm94eSgnZHRfUUFRQycpIiwiICAgICIsIiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkZHRfUUFRQ19jZWxsX2VkaXQsIHsiLCIgICAgICBpbmZvID0gaW5wdXQkZHRfUUFRQ19jZWxsX2VkaXQiLCIgICAgICBzdHIoaW5mbykiLCIgICAgICBpID0gaW5mbyRyb3ciLCIgICAgICBqID0gaW5mbyRjb2wgKyAxIiwiICAgICAgdiA9IGluZm8kdmFsdWUiLCIgICAgICAjIENoYW5nZSBWYWx1ZSBcInZcIiBvbmx5IElGIGNvbHVtbiA9IDggQU5EIGxvZ2ljYWwgKFQvRikiLCIgICAgICBpZihqPT04ICYgKHRvdXBwZXIodik9PVwiRkFMU0VcIiB8IHRvdXBwZXIodik9PVwiVFJVRVwiKSkgeyIsIiAgICAgICAgZGF0YV9RQVFDW2ksIGpdIDw8LSBEVDo6OmNvZXJjZVZhbHVlKHRvdXBwZXIodiksIGRhdGFfUUFRQ1tpLCBqXSkiLCIgICAgICAgIHJlcGxhY2VEYXRhKHByb3h5X2R0X1FBUUMsIGRhdGFfUUFRQywgcmVzZXRQYWdpbmcgPSBGQUxTRSwgcm93bmFtZXMgPSBGQUxTRSkiLCIgICAgICB9IiwiICAgICAgIiwiICAgICAgI25lZWQgdG8gdXBkYXRlIGFjdHVhbCB0YWJsZSAobWlnaHQgYmUgZG9uZSB3aXRoIGFib3ZlIHN0YXRlbWVudCkiLCIgICAgICAiLCIgICAgfSkiLCIgICIsIiAgfSIsIikiXX0= -->
+<pre class="r"><code>library(shiny)
+library(DT)
+library(XLConnect)
+
+source(&quot;external/dataQAQC.R&quot;, local=TRUE)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('dt_QAQC')
+  ),
+  
+  server = function(input, output, session) {
+    
+    
+    # read_data_QAQC &lt;- function(strFile, strSheet, intStartRow) {
+    #             XLConnect::readWorksheetFromFile(strFile
+    #                                              , sheet=strSheet
+    #                                              , startRow=intStartRow
+    #                                              , header=TRUE) #, drop=c(1,2))
+    # }
+    #   #data_QAQC &lt;- XLConnect::readWorksheetFromFile(&quot;external/DDT_QAQC_Default.xlsx&quot;, sheet=&quot;Methods Table&quot;, startRow=6, header=TRUE)
+    #   #
+    # data_QAQC &lt;- read_data_QAQC(strFile=&quot;external/DDT_QAQC_Default.xlsx&quot;, strSheet = &quot;Methods Table&quot;, intStartRow=6)
+    # 
+    
+    #data_QAQC &lt;- XLConnect::readWorksheetFromFile(&quot;external/DDT_QAQC_Default.xlsx&quot;
+   #                                          , sheet=&quot;Methods Table&quot;, startRow=6, header=TRUE)
+        
+    
+    ApplyQAQC.column &lt;- 8
+    data_QAQC_caption &lt;- &quot;Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red 
+    [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE.&quot;
+    
+    output$dt_QAQC = DT::renderDataTable(DT::datatable(data_QAQC
+                                                       , caption=data_QAQC_caption
+                                                       , rownames=FALSE
+                                                       , selection='none'
+                                                      # , server=TRUE
+                                                      ) %&gt;% formatStyle(columns=ApplyQAQC.column
+                                                                        ,target=&quot;cell&quot;
+                                                                        ,background=styleEqual(c(1,0)
+                                                                                    ,c('lightgreen','red'))
+                                                                        ,fontWeight='bold')
+                                          )
+    #outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+    proxy_dt_QAQC &lt;- DT::dataTableProxy('dt_QAQC')
+    
+    observeEvent(input$dt_QAQC_cell_edit, {
+      info = input$dt_QAQC_cell_edit
+      str(info)
+      i = info$row
+      j = info$col + 1
+      v = info$value
+      # Change Value &quot;v&quot; only IF column = 8 AND logical (T/F)
+      if(j==8 &amp; (toupper(v)==&quot;FALSE&quot; | toupper(v)==&quot;TRUE&quot;)) {
+        data_QAQC[i, j] &lt;&lt;- DT:::coerceValue(toupper(v), data_QAQC[i, j])
+        replaceData(proxy_dt_QAQC, data_QAQC, resetPaging = FALSE, rownames = FALSE)
+      }
+      
+      #need to update actual table (might be done with above statement)
+      
+    })
+  
+  }
+)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="working-version-with-knowledge-base" class="section level1">
+<h1>working version with Knowledge Base</h1>
+<p>20170809 email</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSAjIG9ubHkgbmVlZCB0byBpbnN0YWxsIG9uY2UiLCIiLCJsaWJyYXJ5KHNoaW55KSIsImxpYnJhcnkoRFQpIiwibGlicmFyeShYTENvbm5lY3QpIiwiIiwic2hpbnlBcHAoIiwiICB1aSA9IGZsdWlkUGFnZSgiLCIgICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgneDEnKSIsIiAgKSwiLCIgIHNlcnZlciA9IGZ1bmN0aW9uKGlucHV0LCBvdXRwdXQsIHNlc3Npb24pIHsiLCIgICAgIiwiICAgICMgbG9hZCBteSBGaWxlIiwiICAgIGRhdGFfUUFRQyA8LSBYTENvbm5lY3Q6OnJlYWRXb3Jrc2hlZXRGcm9tRmlsZShcImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeFwiIiwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc2hlZXQ9XCJNZXRob2RzIFRhYmxlXCIsIHN0YXJ0Um93PTYsIGhlYWRlcj1UUlVFKSIsIiAgICAiLCIgICAgI3ggPSBkYXRhX1FBUUMiLCIgICAgbXlDYXB0aW9uIDwtIFwiRG91YmxlLWNsaWNrIHRvIGVkaXQgYSBjZWxsLiAgJ1RSVUUnIGFuZCAnRkFMU0UnIGFyZSB0aGUgb25seSB2YWx1ZXMgYWxsb3dlZC4gIEFuZCBvbmx5IGZvciBjb2x1bW4gJ2FwcGx5Jy5cIiIsIiIsIiAgICBvdXRwdXQkeDEgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKGRhdGFfUUFRQywgc2VydmVyPVRSVUUsIHNlbGVjdGlvbiA9ICdub25lJywgcm93bmFtZXMgPSBGQUxTRSIsIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgY2FwdGlvbiA9IG15Q2FwdGlvbikiLCIgICAgIiwiICAgICNmb3JtYXRTdHlsZSh0YWJsZT1cIngxXCIsY29sdW1ucz1cImFwcGx5XCIsIGJhY2tncm91bmRDb2xvcj0nYmx1ZScsIGZvbnRXZWlnaHQgPSAnYm9sZCcpICIsIiAgICAiLCIgICAgcHJveHlfZHRfUUFRQyA9IGRhdGFUYWJsZVByb3h5KCd4MScpIiwiICAgICIsIiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkeDFfY2VsbF9lZGl0LCB7IiwiICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdCIsIiAgICAgIHN0cihpbmZvKSIsIiAgICAgIGkgPSBpbmZvJHJvdyIsIiAgICAgIGogPSBpbmZvJGNvbCArIDEiLCIgICAgICB2ID0gaW5mbyR2YWx1ZSIsIiAgICAgICMgQ2hhbmdlIFZhbHVlIFwidlwiIG9ubHkgSUYgY29sdW1uID0gOCBBTkQgbG9naWNhbCAoVC9GKSIsIiAgICAgIGlmKGo9PTggJiAodG91cHBlcih2KT09XCJGQUxTRVwiIHwgdG91cHBlcih2KT09XCJUUlVFXCIpKSB7IiwiICAgICAgICBkYXRhX1FBUUNbaSwgal0gPDwtIERUOjo6Y29lcmNlVmFsdWUodG91cHBlcih2KSwgZGF0YV9RQVFDW2ksIGpdKSIsIiAgICAgICAgcmVwbGFjZURhdGEocHJveHlfZHRfUUFRQywgZGF0YV9RQVFDLCByZXNldFBhZ2luZyA9IEZBTFNFLCByb3duYW1lcyA9IEZBTFNFKSIsIiAgICAgIH0iLCIgICAgICAiLCIgICAgfSkiLCIgIH0iLCIpIl19 -->
+<pre class="r"><code>#devtools::install_github('rstudio/DT@feature/editor') # only need to install once
+
+library(shiny)
+library(DT)
+library(XLConnect)
+
+shinyApp(
+  ui = fluidPage(
+    DT::dataTableOutput('x1')
   ),
   server = function(input, output, session) {
     
@@ -246,14 +491,12 @@ shinyApp(
     #x = data_QAQC
     myCaption &lt;- &quot;Double-click to edit a cell.  'TRUE' and 'FALSE' are the only values allowed.  And only for column 'apply'.&quot;
 
-    output$x1x = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE
-                                    , caption = myCaption
-                                    )
+    output$x1 = DT::renderDataTable(data_QAQC, server=TRUE, selection = 'none', rownames = FALSE
+                                    , caption = myCaption)
     
     #formatStyle(table=&quot;x1&quot;,columns=&quot;apply&quot;, backgroundColor='blue', fontWeight = 'bold') 
-    #, searchHighlight=TRUE
     
-    proxy_dt_QAQC = dataTableProxy('x1x')
+    proxy_dt_QAQC = dataTableProxy('x1')
     
     observeEvent(input$x1_cell_edit, {
       info = input$x1_cell_edit
@@ -276,7 +519,7 @@ shinyApp(
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkVkaXRhYmxlIFRhYmxlIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KRGF0YSBEaXNjb3ZlcnkgVG9vbCAoZGR0KSB2MS4xLjEuOTAwMiAod29ya2luZykuDQoNCkF0dGVtcHQgdG8gY3JlYXRlIGFuIGVkaXRhYmxlIHRhYmxlIG9mIHRoZSBRQVFDIERlY2lzaW9uIGZpbGUgKGtub3dsZWRnZSBiYXNlKS4NCg0KKiBDb3B5IHRoZSBhY2NvbXBhbnlpbmcgZmlsZSAoRERUX1FBUUNfRGVmYXVsdC54bHN4KSB0byB5b3VyIHdvcmtpbmcgZGlyZWN0b3J5Lg0KDQoqIFdpbGwgbmVlZCB0byB1c2UgImRldnRvb2xzIiB0byBnZXQgZnJvbSBHaXRIdWIgYSBzcGVjaWFsIHZlcnNpb24gb2YgIkRUIiAoc2VlIGNvZGUgYmVsb3cpLg0KDQoNCiMgRXhhbXBsZQ0KDQpodHRwczovL2dpdGh1Yi5jb20vcnN0dWRpby9EVC9pc3N1ZXMvMjgNCg0KDQpodHRwczovL3lpaHVpLnNoaW55YXBwcy5pby9EVC1wcm94eS8NCg0KYGBge3IsIGV2YWw9RkFMU0V9DQojZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCdyc3R1ZGlvL0RUQGZlYXR1cmUvZWRpdG9yJykNCiMgYWJvdmUgdmVyc2lvbiBvZiBEVCByZXF1aXJlZCBmb3IgdGFibGUgZWRpdGluZw0KDQpsaWJyYXJ5KHNoaW55KQ0KbGlicmFyeShEVCkNCg0Kc2hpbnlBcHAoDQogIHVpID0gZmx1aWRQYWdlKA0KICAgIERUOjpkYXRhVGFibGVPdXRwdXQoJ3gxJykNCiAgKSwNCiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgew0KICAgIA0KICAgIHggPSBpcmlzDQogICAgeCREYXRlID0gU3lzLnRpbWUoKSArIHNlcV9sZW4obnJvdyh4KSkNCiAgICANCiAgICBvdXRwdXQkeDEgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKHgsIHNlbGVjdGlvbiA9ICdub25lJywgcm93bmFtZXMgPSBGQUxTRSkNCiAgICANCiAgICBwcm94eSA9IGRhdGFUYWJsZVByb3h5KCd4MScpDQogICAgDQogICAgb2JzZXJ2ZUV2ZW50KGlucHV0JHgxX2NlbGxfZWRpdCwgew0KICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdA0KICAgICAgc3RyKGluZm8pDQogICAgICBpID0gaW5mbyRyb3cNCiAgICAgIGogPSBpbmZvJGNvbCArIDENCiAgICAgIHYgPSBpbmZvJHZhbHVlDQogICAgICB4W2ksIGpdIDw8LSBEVDo6OmNvZXJjZVZhbHVlKHYsIHhbaSwgal0pDQogICAgICByZXBsYWNlRGF0YShwcm94eSwgeCwgcmVzZXRQYWdpbmcgPSBGQUxTRSwgcm93bmFtZXMgPSBGQUxTRSkNCiAgICB9KQ0KICB9DQopDQpgYGANCg0KIyBXb3JraW5nIEV4YW1wbGUgd2l0aCBLbm93bGVkZ2UgQmFzZQ0KDQpPbmx5IGFsbG93cyBUcnVlIG9yIEZhbHNlIGluICJhcHBseSIgY29sdW1uLg0KDQpgYGB7ciwgZXZhbD1GQUxTRX0NCiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoJ3JzdHVkaW8vRFRAZmVhdHVyZS9lZGl0b3InKSAjIG9ubHkgbmVlZCB0byBpbnN0YWxsIG9uY2UNCiMgYWJvdmUgdmVyc2lvbiBvZiBEVCByZXF1aXJlZCBmb3IgdGFibGUgZWRpdGluZw0KDQpsaWJyYXJ5KHNoaW55KQ0KbGlicmFyeShEVCkNCmxpYnJhcnkoWExDb25uZWN0KQ0KDQoNCnNoaW55QXBwKA0KICB1aSA9IGZsdWlkUGFnZSgNCiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCd4MXgnKQ0KICApLA0KICBzZXJ2ZXIgPSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0LCBzZXNzaW9uKSB7DQogICAgDQogICAgIyBsb2FkIG15IEZpbGUNCiAgICBkYXRhX1FBUUMgPC0gWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeCINCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PSJNZXRob2RzIFRhYmxlIiwgc3RhcnRSb3c9NiwgaGVhZGVyPVRSVUUpDQogICAgDQogICAgI3ggPSBkYXRhX1FBUUMNCiAgICBteUNhcHRpb24gPC0gIkRvdWJsZS1jbGljayB0byBlZGl0IGEgY2VsbC4gICdUUlVFJyBhbmQgJ0ZBTFNFJyBhcmUgdGhlIG9ubHkgdmFsdWVzIGFsbG93ZWQuICBBbmQgb25seSBmb3IgY29sdW1uICdhcHBseScuIg0KDQogICAgb3V0cHV0JHgxeCA9IERUOjpyZW5kZXJEYXRhVGFibGUoZGF0YV9RQVFDLCBzZXJ2ZXI9VFJVRSwgc2VsZWN0aW9uID0gJ25vbmUnLCByb3duYW1lcyA9IEZBTFNFDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGNhcHRpb24gPSBteUNhcHRpb24NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkNCiAgICANCiAgICAjZm9ybWF0U3R5bGUodGFibGU9IngxIixjb2x1bW5zPSJhcHBseSIsIGJhY2tncm91bmRDb2xvcj0nYmx1ZScsIGZvbnRXZWlnaHQgPSAnYm9sZCcpIA0KICAgICMsIHNlYXJjaEhpZ2hsaWdodD1UUlVFDQogICAgDQogICAgcHJveHlfZHRfUUFRQyA9IGRhdGFUYWJsZVByb3h5KCd4MXgnKQ0KICAgIA0KICAgIG9ic2VydmVFdmVudChpbnB1dCR4MV9jZWxsX2VkaXQsIHsNCiAgICAgIGluZm8gPSBpbnB1dCR4MV9jZWxsX2VkaXQNCiAgICAgIHN0cihpbmZvKQ0KICAgICAgaSA9IGluZm8kcm93DQogICAgICBqID0gaW5mbyRjb2wgKyAxDQogICAgICB2ID0gaW5mbyR2YWx1ZQ0KICAgICAgIyBDaGFuZ2UgVmFsdWUgInYiIG9ubHkgSUYgY29sdW1uID0gOCBBTkQgbG9naWNhbCAoVC9GKQ0KICAgICAgaWYoaj09OCAmICh0b3VwcGVyKHYpPT0iRkFMU0UiIHwgdG91cHBlcih2KT09IlRSVUUiKSkgew0KICAgICAgICBkYXRhX1FBUUNbaSwgal0gPDwtIERUOjo6Y29lcmNlVmFsdWUodG91cHBlcih2KSwgZGF0YV9RQVFDW2ksIGpdKQ0KICAgICAgICByZXBsYWNlRGF0YShwcm94eV9kdF9RQVFDLCBkYXRhX1FBUUMsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpDQogICAgICB9DQogICAgICANCiAgICB9KQ0KICB9DQopDQpgYGANCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkVkaXRhYmxlIFRhYmxlIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KRGF0YSBEaXNjb3ZlcnkgVG9vbCAoZGR0KSB2MS4xLjEuOTAwMiAod29ya2luZykuDQoNCkF0dGVtcHQgdG8gY3JlYXRlIGFuIGVkaXRhYmxlIHRhYmxlIG9mIHRoZSBRQVFDIERlY2lzaW9uIGZpbGUgKGtub3dsZWRnZSBiYXNlKS4NCg0KKiBDb3B5IHRoZSBhY2NvbXBhbnlpbmcgZmlsZSAoRERUX1FBUUNfRGVmYXVsdC54bHN4KSB0byB5b3VyIHdvcmtpbmcgZGlyZWN0b3J5Lg0KDQoqIFdpbGwgbmVlZCB0byB1c2UgImRldnRvb2xzIiB0byBnZXQgZnJvbSBHaXRIdWIgYSBzcGVjaWFsIHZlcnNpb24gb2YgIkRUIiAoc2VlIGNvZGUgYmVsb3cpLg0KDQpgYGB7ciwgZXZhbD1GQUxTRX0NCmRldnRvb2xzOjppbnN0YWxsX2dpdGh1YigncnN0dWRpby9EVEBmZWF0dXJlL2VkaXRvcicpDQpgYGANCg0KIyBFeGFtcGxlDQoNCmh0dHBzOi8vZ2l0aHViLmNvbS9yc3R1ZGlvL0RUL2lzc3Vlcy8yOA0KDQoNCmh0dHBzOi8veWlodWkuc2hpbnlhcHBzLmlvL0RULXByb3h5Lw0KDQoNCiMjIyBmb3JtYXR0aW5nDQpodHRwczovL3JzdHVkaW8uZ2l0aHViLmlvL0RULzAxMC1zdHlsZS5odG1sDQoNCiMgb3JpZ2luYWwNCmBgYHtyLCBldmFsPUZBTFNFfQ0KbGlicmFyeShzaGlueSkNCmxpYnJhcnkoRFQpDQoNCnNoaW55QXBwKA0KICB1aSA9IGZsdWlkUGFnZSgNCiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCd4MScpDQogICksDQogIHNlcnZlciA9IGZ1bmN0aW9uKGlucHV0LCBvdXRwdXQsIHNlc3Npb24pIHsNCiAgICB4ID0gaXJpcw0KICAgIHgkRGF0ZSA9IFN5cy50aW1lKCkgKyBzZXFfbGVuKG5yb3coeCkpDQogICAgb3V0cHV0JHgxID0gRFQ6OnJlbmRlckRhdGFUYWJsZSh4LCBzZWxlY3Rpb24gPSAnbm9uZScpDQoNCiAgICBwcm94eSA9IGRhdGFUYWJsZVByb3h5KCd4MScpDQoNCiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkeDFfY2VsbF9lZGl0LCB7DQogICAgICBpbmZvID0gaW5wdXQkeDFfY2VsbF9lZGl0DQogICAgICBzdHIoaW5mbykNCiAgICAgIGkgPSBpbmZvJHJvdw0KICAgICAgaiA9IGluZm8kY29sDQogICAgICB2ID0gaW5mbyR2YWx1ZQ0KICAgICAgeFtpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh2LCB4W2ksIGpdKQ0KICAgICAgcmVwbGFjZURhdGEocHJveHksIHgsIHJlc2V0UGFnaW5nID0gRkFMU0UpDQogICAgfSkNCiAgfQ0KKQ0KYGBgDQoNCg0KIyBzbGlnaHRseSBtb2RpZmllZA0KYGBge3IsIGV2YWw9RkFMU0V9DQojZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCdyc3R1ZGlvL0RUQGZlYXR1cmUvZWRpdG9yJykNCiMgYWJvdmUgdmVyc2lvbiBvZiBEVCByZXF1aXJlZCBmb3IgdGFibGUgZWRpdGluZw0KDQpsaWJyYXJ5KHNoaW55KQ0KbGlicmFyeShEVCkNCg0Kc2hpbnlBcHAoDQogIHVpID0gZmx1aWRQYWdlKA0KICAgIERUOjpkYXRhVGFibGVPdXRwdXQoJ3gxJykNCiAgKSwNCiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgew0KICAgIA0KICAgIHggPSBpcmlzDQogICAgeCREYXRlID0gU3lzLnRpbWUoKSArIHNlcV9sZW4obnJvdyh4KSkNCiAgICANCiAgICBvdXRwdXQkeDEgPSBEVDo6cmVuZGVyRGF0YVRhYmxlKHgsIHJvd25hbWVzID0gRkFMU0UsIHNlbGVjdGlvbj0nbm9uZScpDQogICAgDQogICAgcHJveHkgPSBkYXRhVGFibGVQcm94eSgneDEnKQ0KICAgIA0KICAgIG9ic2VydmVFdmVudChpbnB1dCR4MV9jZWxsX2VkaXQsIHsNCiAgICAgIGluZm8gPSBpbnB1dCR4MV9jZWxsX2VkaXQNCiAgICAgIHN0cihpbmZvKQ0KICAgICAgaSA9IGluZm8kcm93DQogICAgICBqID0gaW5mbyRjb2wgKyAxDQogICAgICB2ID0gaW5mbyR2YWx1ZQ0KICAgICAgeFtpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh2LCB4W2ksIGpdKQ0KICAgICAgcmVwbGFjZURhdGEocHJveHksIHgsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpDQogICAgfSkNCiAgfQ0KKQ0KYGBgDQoNCiMgV29ya2luZyBFeGFtcGxlIHdpdGggS25vd2xlZGdlIEJhc2UNCg0KT25seSBhbGxvd3MgVHJ1ZSBvciBGYWxzZSBpbiAiYXBwbHkiIGNvbHVtbi4NCg0KYGBge3IsIGV2YWw9RkFMU0V9DQojZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCdyc3R1ZGlvL0RUQGZlYXR1cmUvZWRpdG9yJykgIyBvbmx5IG5lZWQgdG8gaW5zdGFsbCBvbmNlDQojIGFib3ZlIHZlcnNpb24gb2YgRFQgcmVxdWlyZWQgZm9yIHRhYmxlIGVkaXRpbmcNCg0KbGlicmFyeShzaGlueSkNCmxpYnJhcnkoRFQpDQpsaWJyYXJ5KFhMQ29ubmVjdCkNCg0KDQpzaGlueUFwcCgNCiAgdWkgPSBmbHVpZFBhZ2UoDQogICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgneDEnKQ0KICApLA0KICANCiAgc2VydmVyID0gZnVuY3Rpb24oaW5wdXQsIG91dHB1dCwgc2Vzc2lvbikgew0KICAgIA0KICAgICMgUUFRQyBBcHBseSBDb2x1bW4gU2V0dGluZ3MNCiAgICBjb2wuQXBwbHlRQVFDIDwtIDgNCiAgICBjb2xvci5BcHBseVFBUUMgPC0gJ3llbGxvdycNCiAgICAjIHRhYmxlIGNhcHRpb24NCiAgICBteUNhcHRpb24gPC0gIkRvdWJsZS1jbGljayB0byBlZGl0IGEgY2VsbCBpbiBjb2x1bW4gQXBwbHkuUUFRQyAoaGlnaGxpZ2h0ZWQgaW4gZ3JlZW4gW1RSVUVdIG9yIHJlZCBbRkFMU0VdKS4gIEVkaXRzIGFyZSBvbmx5IGFsbG93ZWQgaW4gdGhpcyBjb2x1bW4gYW5kIG9ubHkgZm9yIHRoZSB2YWx1ZXMgVFJVRSBhbmQgRkFMU0UuIg0KICAgICMNCiAgICANCiAgICAjIGxvYWQgbXkgRmlsZQ0KICAgICMgZGF0YV9RQVFDIDwtICBEVDo6ZGF0YXRhYmxlKFhMQ29ubmVjdDo6cmVhZFdvcmtzaGVldEZyb21GaWxlKCJleHRlcm5hbC9ERFRfUUFRQ19EZWZhdWx0Lnhsc3giDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PSJNZXRob2RzIFRhYmxlIg0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzdGFydFJvdz02DQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGhlYWRlcj1UUlVFDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjLCBkcm9wPWMoMTMsMTQpDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBjYXB0aW9uPW15Q2FwdGlvbg0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgcm93bmFtZXM9RkFMU0UNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNlbGVjdGlvbj0nbm9uZScNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjLCBzZXJ2ZXI9VFJVRQ0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgKSAlPiUgZm9ybWF0U3R5bGUoY29sdW1ucz1jb2wuQXBwbHlRQVFDDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAgICAgICAgICAgICAgICAgICAsYmFja2dyb3VuZD1jb2xvci5BcHBseVFBUUMNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAgICxmb250V2VpZ2h0PSdib2xkJykNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIENvdWxkIHBvdGVudGlhbGx5IGNvbG9yIGNlbGxzIGJhc2VkIG9uIGNvbnRlbnQ7DQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBodHRwczovL3JzdHVkaW8uZ2l0aHViLmlvL0RULzAxMC1zdHlsZS5odG1sDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBjYW4ndCBnZXQgd29ya2luZyB3aXRoIGNvbHVtbiA4IGFuZCBUUlVFL0ZBTFNFDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSAlPiUgZm9ybWF0U3R5bGUoY29sdW1ucz04DQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgdGFyZ2V0PSJjZWxsIg0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGJhY2tncm91bmQ9c3R5bGVFcXVhbChjKDEsMCkNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLGMoJ2xpZ2h0Z3JlZW4nLCdyZWQnKSkNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBmb250V2VpZ2h0PSdib2xkJw0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAjd29ya3Mgb24gY29sdW1uIDEwICh1bml0cykNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICkgJT4lIGZvcm1hdFN0eWxlKGNvbHVtbnM9MTANCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAsIHRhcmdldD0iY2VsbCINCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAsIGJhY2tncm91bmQ9c3R5bGVFcXVhbChjKCLCtWcvTCIsIm1nL20yIikNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsYygnbGlnaHRncmVlbicsJ3JlZCcpKQ0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgICAgICAgICAgICAgICAgICkNCg0KICAgICBkYXRhX1FBUUMgPC0gIFhMQ29ubmVjdDo6cmVhZFdvcmtzaGVldEZyb21GaWxlKCJleHRlcm5hbC9ERFRfUUFRQ19EZWZhdWx0Lnhsc3giDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzaGVldD0iTWV0aG9kcyBUYWJsZSINCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHN0YXJ0Um93PTYNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGhlYWRlcj1UUlVFDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKQ0KICAgIA0KICAgICN4ID0gZGF0YV9RQVFDDQogICAgDQogICAgIyBoYXZlIHRvIGRvIGZvcm1hdGluZyBvbiBkYXRhdGFibGUgYmVmb3JlIHJlbmRlci4gIFJlbmRlciBoYXMgcmVkdWNlZCBvcHRpb25zLg0KICAgIA0KICAgICMgb3V0cHV0JHgxID0gRFQ6OnJlbmRlckRhdGFUYWJsZShkYXRhX1FBUUMNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc2VydmVyPVRSVUUNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgc2VsZWN0aW9uID0gbGlzdCh0YXJnZXQ9ImNvbHVtbiIsc2VsZWN0ZWQ9NykNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIywgcm93bmFtZXMgPSBGQUxTRQ0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjLCBjYXB0aW9uID0gbXlDYXB0aW9uDQogICAgIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgLCBvcHRpb25zID0gbGlzdCgNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAsIGZvcm1hdFN0eWxlKGNvbHVtbnM9OA0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICMsIHRhcmdldD0iY29sdW1uIg0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICAgICAgICAgICAgICwgYmFja2dyb3VuZD0ieWVsbG93IikNCiAgICAjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAjKQ0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIA0KICAgIA0KICAgIG91dHB1dCR4MSA9IERUOjpyZW5kZXJEYXRhVGFibGUoRFQ6OmRhdGF0YWJsZShkYXRhX1FBUUMNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBjYXB0aW9uPW15Q2FwdGlvbg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHJvd25hbWVzPUZBTFNFDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgc2VsZWN0aW9uPSdub25lJw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApICU+JSBmb3JtYXRTdHlsZShjb2x1bW5zPTgNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCB0YXJnZXQ9ImNlbGwiDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgYmFja2dyb3VuZD1zdHlsZUVxdWFsKGMoMSwwKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsYygnbGlnaHRncmVlbicsJ3JlZCcpKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGZvbnRXZWlnaHQ9J2JvbGQnDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQogICAgICANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkNCiAgICANCg0KICAgIyAlPiUgZm9ybWF0U3R5bGUoOCxiYWNrZ3JvdW5kPSd5ZWxsb3cnKQ0KICAgIA0KICAgICNmb3JtYXRTdHlsZSh0YWJsZT0ieDEiLGNvbHVtbnM9ImFwcGx5IiwgYmFja2dyb3VuZENvbG9yPSdibHVlJywgZm9udFdlaWdodCA9ICdib2xkJykgDQogICAgIywgc2VhcmNoSGlnaGxpZ2h0PVRSVUUNCiAgICANCiAgICBwcm94eV9kdF9RQVFDID0gZGF0YVRhYmxlUHJveHkoJ3gxJykgDQogICAgDQogICAgb2JzZXJ2ZUV2ZW50KGlucHV0JHgxX2NlbGxfZWRpdCwgew0KICAgICAgaW5mbyA9IGlucHV0JHgxX2NlbGxfZWRpdA0KICAgICAgc3RyKGluZm8pDQogICAgICBpID0gaW5mbyRyb3cNCiAgICAgIGogPSBpbmZvJGNvbCArIDENCiAgICAgIHYgPSBpbmZvJHZhbHVlDQogICAgICAjIENoYW5nZSBWYWx1ZSAidiIgb25seSBJRiBjb2x1bW4gPSA4IEFORCBsb2dpY2FsIChUL0YpDQogICAgICBpZihqPT1jb2wuQXBwbHlRQVFDICYgKHRvdXBwZXIodik9PSJGQUxTRSIgfCB0b3VwcGVyKHYpPT0iVFJVRSIpKSB7DQogICAgICAjaWYoaj09Y29sLkFwcGx5UUFRQykgew0KICAgICAgICBkYXRhX1FBUUNbaSwgal0gPDwtIERUOjo6Y29lcmNlVmFsdWUodG91cHBlcih2KSwgZGF0YV9RQVFDW2ksIGpdKQ0KICAgICAgICByZXBsYWNlRGF0YShwcm94eV9kdF9RQVFDLCBkYXRhX1FBUUMsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpIA0KICAgICAgICAjIGxvc2UgZm9ybWF0dGluZyBvZiByZXBsYWNlZCB0YWJsZQ0KICAgICAgfQ0KICAgICAgDQogICAgfSkNCiAgfQ0KKQ0KYGBgDQoNCiMgVHJ5IDIgdG8gbWltaWMgZGR0DQoyMDE3MDgyNA0KYGBge3IsIGV2YWw9RkFMU0V9DQoNCmxpYnJhcnkoc2hpbnkpDQpsaWJyYXJ5KERUKQ0KbGlicmFyeShYTENvbm5lY3QpDQoNCnNvdXJjZSgiZXh0ZXJuYWwvZGF0YVFBUUMuUiIsIGxvY2FsPVRSVUUpDQoNCnNoaW55QXBwKA0KICB1aSA9IGZsdWlkUGFnZSgNCiAgICBEVDo6ZGF0YVRhYmxlT3V0cHV0KCdkdF9RQVFDJykNCiAgKSwNCiAgDQogIHNlcnZlciA9IGZ1bmN0aW9uKGlucHV0LCBvdXRwdXQsIHNlc3Npb24pIHsNCiAgICANCiAgICANCiAgICAjIHJlYWRfZGF0YV9RQVFDIDwtIGZ1bmN0aW9uKHN0ckZpbGUsIHN0clNoZWV0LCBpbnRTdGFydFJvdykgew0KICAgICMgICAgICAgICAgICAgWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoc3RyRmlsZQ0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzaGVldD1zdHJTaGVldA0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzdGFydFJvdz1pbnRTdGFydFJvdw0KICAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBoZWFkZXI9VFJVRSkgIywgZHJvcD1jKDEsMikpDQogICAgIyB9DQogICAgIyAgICNkYXRhX1FBUUMgPC0gWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeCIsIHNoZWV0PSJNZXRob2RzIFRhYmxlIiwgc3RhcnRSb3c9NiwgaGVhZGVyPVRSVUUpDQogICAgIyAgICMNCiAgICAjIGRhdGFfUUFRQyA8LSByZWFkX2RhdGFfUUFRQyhzdHJGaWxlPSJleHRlcm5hbC9ERFRfUUFRQ19EZWZhdWx0Lnhsc3giLCBzdHJTaGVldCA9ICJNZXRob2RzIFRhYmxlIiwgaW50U3RhcnRSb3c9NikNCiAgICAjIA0KICAgIA0KICAgICNkYXRhX1FBUUMgPC0gWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeCINCiAgICMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PSJNZXRob2RzIFRhYmxlIiwgc3RhcnRSb3c9NiwgaGVhZGVyPVRSVUUpDQogICAgICAgIA0KICAgIA0KICAgIEFwcGx5UUFRQy5jb2x1bW4gPC0gOA0KICAgIGRhdGFfUUFRQ19jYXB0aW9uIDwtICJEb3VibGUtY2xpY2sgdG8gZWRpdCBhIGNlbGwgaW4gY29sdW1uIEFwcGx5LlFBUUMgKGhpZ2hsaWdodGVkIGluIGdyZWVuIFtUUlVFXSBvciByZWQgDQogICAgW0ZBTFNFXSkuICBFZGl0cyBhcmUgb25seSBhbGxvd2VkIGluIHRoaXMgY29sdW1uIGFuZCBvbmx5IGZvciB0aGUgdmFsdWVzIFRSVUUgYW5kIEZBTFNFLiINCiAgICANCiAgICBvdXRwdXQkZHRfUUFRQyA9IERUOjpyZW5kZXJEYXRhVGFibGUoRFQ6OmRhdGF0YWJsZShkYXRhX1FBUUMNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIGNhcHRpb249ZGF0YV9RQVFDX2NhcHRpb24NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHJvd25hbWVzPUZBTFNFDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLCBzZWxlY3Rpb249J25vbmUnDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjICwgc2VydmVyPVRSVUUNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgJT4lIGZvcm1hdFN0eWxlKGNvbHVtbnM9QXBwbHlRQVFDLmNvbHVtbg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLHRhcmdldD0iY2VsbCINCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICxiYWNrZ3JvdW5kPXN0eWxlRXF1YWwoYygxLDApDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsYygnbGlnaHRncmVlbicsJ3JlZCcpKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLGZvbnRXZWlnaHQ9J2JvbGQnKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKQ0KICAgICNvdXRwdXRPcHRpb25zKG91dHB1dCwgJ2R0X1FBUUMnLCBzdXNwZW5kV2hlbkhpZGRlbj1UUlVFKQ0KICAgIA0KICAgIHByb3h5X2R0X1FBUUMgPC0gRFQ6OmRhdGFUYWJsZVByb3h5KCdkdF9RQVFDJykNCiAgICANCiAgICBvYnNlcnZlRXZlbnQoaW5wdXQkZHRfUUFRQ19jZWxsX2VkaXQsIHsNCiAgICAgIGluZm8gPSBpbnB1dCRkdF9RQVFDX2NlbGxfZWRpdA0KICAgICAgc3RyKGluZm8pDQogICAgICBpID0gaW5mbyRyb3cNCiAgICAgIGogPSBpbmZvJGNvbCArIDENCiAgICAgIHYgPSBpbmZvJHZhbHVlDQogICAgICAjIENoYW5nZSBWYWx1ZSAidiIgb25seSBJRiBjb2x1bW4gPSA4IEFORCBsb2dpY2FsIChUL0YpDQogICAgICBpZihqPT04ICYgKHRvdXBwZXIodik9PSJGQUxTRSIgfCB0b3VwcGVyKHYpPT0iVFJVRSIpKSB7DQogICAgICAgIGRhdGFfUUFRQ1tpLCBqXSA8PC0gRFQ6Ojpjb2VyY2VWYWx1ZSh0b3VwcGVyKHYpLCBkYXRhX1FBUUNbaSwgal0pDQogICAgICAgIHJlcGxhY2VEYXRhKHByb3h5X2R0X1FBUUMsIGRhdGFfUUFRQywgcmVzZXRQYWdpbmcgPSBGQUxTRSwgcm93bmFtZXMgPSBGQUxTRSkNCiAgICAgIH0NCiAgICAgIA0KICAgICAgI25lZWQgdG8gdXBkYXRlIGFjdHVhbCB0YWJsZSAobWlnaHQgYmUgZG9uZSB3aXRoIGFib3ZlIHN0YXRlbWVudCkNCiAgICAgIA0KICAgIH0pDQogIA0KICB9DQopDQoNCg0KYGBgDQoNCg0KIyB3b3JraW5nIHZlcnNpb24gd2l0aCBLbm93bGVkZ2UgQmFzZQ0KMjAxNzA4MDkgZW1haWwNCmBgYHtyLCBldmFsPUZBTFNFfQ0KI2RldnRvb2xzOjppbnN0YWxsX2dpdGh1YigncnN0dWRpby9EVEBmZWF0dXJlL2VkaXRvcicpICMgb25seSBuZWVkIHRvIGluc3RhbGwgb25jZQ0KDQpsaWJyYXJ5KHNoaW55KQ0KbGlicmFyeShEVCkNCmxpYnJhcnkoWExDb25uZWN0KQ0KDQpzaGlueUFwcCgNCiAgdWkgPSBmbHVpZFBhZ2UoDQogICAgRFQ6OmRhdGFUYWJsZU91dHB1dCgneDEnKQ0KICApLA0KICBzZXJ2ZXIgPSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0LCBzZXNzaW9uKSB7DQogICAgDQogICAgIyBsb2FkIG15IEZpbGUNCiAgICBkYXRhX1FBUUMgPC0gWExDb25uZWN0OjpyZWFkV29ya3NoZWV0RnJvbUZpbGUoImV4dGVybmFsL0REVF9RQVFDX0RlZmF1bHQueGxzeCINCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAsIHNoZWV0PSJNZXRob2RzIFRhYmxlIiwgc3RhcnRSb3c9NiwgaGVhZGVyPVRSVUUpDQogICAgDQogICAgI3ggPSBkYXRhX1FBUUMNCiAgICBteUNhcHRpb24gPC0gIkRvdWJsZS1jbGljayB0byBlZGl0IGEgY2VsbC4gICdUUlVFJyBhbmQgJ0ZBTFNFJyBhcmUgdGhlIG9ubHkgdmFsdWVzIGFsbG93ZWQuICBBbmQgb25seSBmb3IgY29sdW1uICdhcHBseScuIg0KDQogICAgb3V0cHV0JHgxID0gRFQ6OnJlbmRlckRhdGFUYWJsZShkYXRhX1FBUUMsIHNlcnZlcj1UUlVFLCBzZWxlY3Rpb24gPSAnbm9uZScsIHJvd25hbWVzID0gRkFMU0UNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICwgY2FwdGlvbiA9IG15Q2FwdGlvbikNCiAgICANCiAgICAjZm9ybWF0U3R5bGUodGFibGU9IngxIixjb2x1bW5zPSJhcHBseSIsIGJhY2tncm91bmRDb2xvcj0nYmx1ZScsIGZvbnRXZWlnaHQgPSAnYm9sZCcpIA0KICAgIA0KICAgIHByb3h5X2R0X1FBUUMgPSBkYXRhVGFibGVQcm94eSgneDEnKQ0KICAgIA0KICAgIG9ic2VydmVFdmVudChpbnB1dCR4MV9jZWxsX2VkaXQsIHsNCiAgICAgIGluZm8gPSBpbnB1dCR4MV9jZWxsX2VkaXQNCiAgICAgIHN0cihpbmZvKQ0KICAgICAgaSA9IGluZm8kcm93DQogICAgICBqID0gaW5mbyRjb2wgKyAxDQogICAgICB2ID0gaW5mbyR2YWx1ZQ0KICAgICAgIyBDaGFuZ2UgVmFsdWUgInYiIG9ubHkgSUYgY29sdW1uID0gOCBBTkQgbG9naWNhbCAoVC9GKQ0KICAgICAgaWYoaj09OCAmICh0b3VwcGVyKHYpPT0iRkFMU0UiIHwgdG91cHBlcih2KT09IlRSVUUiKSkgew0KICAgICAgICBkYXRhX1FBUUNbaSwgal0gPDwtIERUOjo6Y29lcmNlVmFsdWUodG91cHBlcih2KSwgZGF0YV9RQVFDW2ksIGpdKQ0KICAgICAgICByZXBsYWNlRGF0YShwcm94eV9kdF9RQVFDLCBkYXRhX1FBUUMsIHJlc2V0UGFnaW5nID0gRkFMU0UsIHJvd25hbWVzID0gRkFMU0UpDQogICAgICB9DQogICAgICANCiAgICB9KQ0KICB9DQopDQpgYGANCg0KDQo=</div>
 
 
 
