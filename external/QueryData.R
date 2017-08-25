@@ -166,33 +166,9 @@ function(){
                                                                                        "A site id is a designator used to describe the unique name, number, or code assigned to identify the monitoring location. Site IDs are case-sensitive and should be entered in the following format: AGENCY-STATION NUMBER. More than one site ID may be entered, separated by semicolons. If you are entering an NWIS site, use USGS as the AGENCY.",
                                                                                        "top", trigger = "hover", options = list(container = "body"))))
              ))))),
-      fluidRow(
-        column(5),
-        column(2,
-               bsButton("CHECK", "Retrieve Data", style = "primary"),
-               bsModal("moMod", "WQP Query Processing", trigger = "CHECK",
-                       br(),
-                       fluidRow(
-                         h3(textOutput("REC_txt"), 
-                            style  = "text-align:center"),
-                         conditionalPanel("output.Rec_count == 'yes' ",
-                                          uiOutput('modal1'),
-                                           uiOutput('modal2')
-                                          ),
-                        
-                         bsPopover("modal2", "Please only click once", "Importing data takes time. Please wait for the import complete message to display. Clicking the button more than once will cause the data to download multiple times and will therefore take much longer.",
-                                   "top", trigger = "hover", options = list(container = "body")),
-                         conditionalPanel(
-                           condition = "output.data_check == 'yes' & output.Display2 == 'yes' ",
-                           fluidRow(h2("Data Import Complete", style  = "text-align:center; color:green")),
-                           fluidRow(h3("Click close and proceed to the Check Data Tab. ", style  = "text-align:center; color:#204060")
-                           ))))
-      )
-      
-      )
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       ## Tt Mod, Save/Load/Clear Buttons ####
-      , br()
+      br()
       ,fluidRow(column(5), 
                 column(2,bsButton("ClearQuery", label="Clear Query Selections", style="primary")
                         ,bsPopover("SaveQuery", "Save Query", trigger = "hover", placement="right", options = list(container = "body")
@@ -211,7 +187,7 @@ function(){
       #           )
       ,br()
       ,fluidRow(column(5),column(2,downloadButton("SaveQuery2","Save Query File")
-      )
+                    )
       
       # ,column(1,
       #        bsButton("SaveQuery", label="Save Query", style="primary")
@@ -220,19 +196,44 @@ function(){
       
       ,bsPopover("SaveQuery2", "Save Query File", "Click to save the query selections for use later.",
                  "top", trigger = "hover", options = list(container = "body")
-      )
-      )
+                )
+              )
       #,fluidRow(br())
       #,fluidRow(br())
       ,fluidRow(column(5),column(7,fileInput("LoadQueryFile","Load Query File",accept=".rds")
-      )
-      )
+                                )
+                )
       #,fluidRow(br())
       ,fluidRow(column(5), column(1,bsButton("UpdateQuery", label="Update Query From File", style="primary")
                        ,bsPopover("UpdateQuery", "Update Query", trigger = "hover", placement="right", options = list(container = "body")
                                   ,"This button updates the query selections from a user selected query file. Must upload file first before clicking this button."))
-      )
+                )
+      , br(),
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      fluidRow(
+        column(5),
+        column(2,
+               bsButton("CHECK", "Retrieve Data", style = "primary"),
+               bsModal("moMod", "WQP Query Processing", trigger = "CHECK",
+                       br(),
+                       fluidRow(
+                         h3(textOutput("REC_txt"), 
+                            style  = "text-align:center"),
+                         conditionalPanel("output.Rec_count == 'yes' ",
+                                          uiOutput('modal1'),
+                                          uiOutput('modal2')
+                         ),
+                         
+                         bsPopover("modal2", "Please only click once", "Importing data takes time. Please wait for the import complete message to display. Clicking the button more than once will cause the data to download multiple times and will therefore take much longer.",
+                                   "top", trigger = "hover", options = list(container = "body")),
+                         conditionalPanel(
+                           condition = "output.data_check == 'yes' & output.Display2 == 'yes' ",
+                           fluidRow(h2("Data Import Complete", style  = "text-align:center; color:green")),
+                           fluidRow(h3("Click close and proceed to the Check Data Tab. ", style  = "text-align:center; color:#204060")
+                           ))))
+        )
+        
+      )
       ),fluidRow(br()), 
             
              fluidRow(wellPanel(fluidRow(h4("WQP Web Service Query URL", style  = "text-align:center")),

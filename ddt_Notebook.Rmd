@@ -709,6 +709,18 @@ x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myField
 
 ```
 
+```{r, eval=FALSE}
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern=" *.tsv")
+myFiles
+myData   <- read.delim(file.path(myDir,myFiles[1]),skip=10)
+# read only some lines
+myData.Meta <- read.delim(file.path(myDir,myFiles[1]),nrows=9, header=FALSE
+                          , col.names=c("Meta.Field","Meta.Value"))
+myData.URL <- as.character(myData.Meta[3,2])
+
+```
+
 
 
 

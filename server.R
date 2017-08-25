@@ -454,57 +454,55 @@ url_display<-eventReactive(input$CHECK, {
     data0 <- reactiveValues(data=NULL)  #create
     
     
-    ## Tt Mod, CheckData, Save/Load Buttons ####
+    ## Tt Mod, CheckData, Load Button ####
     # Save Data
-    output$SaveData <- downloadHandler(
-      filename = function() {
-        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
-        #strFile <- paste0("DDT_IMAGE_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
-      }
-      , content = function(file) {
-        #saveRDS(all_data(),file)
-        saveRDS(data(),file)
-        # testing, save environment
-        #save.image(file)
-      }
-    )
-    # Update Data based on User File
-   #data <- observeEvent(input$UpdateData, {
-    #observeEvent(input$UpdateData, {
-    data_load <- eventReactive(input$UpdateData, {  
-      # Get Query File specs
-      q <- input$LoadDataFile
-      # Error check
-      if(is.null(q)) return(NULL)
-      # define list
-      data_load <- readRDS(q$datapath)
-      #
-      #data <- data.table(data_load)
-      #all_data <- data
-      # data, data_dt, all_data()   ?????
-      # data_dt <- data_load
-      # print(str(data_dt))
-      # print(dim(data_load))
-      # print(dim(data))
-      # print(dim(data_dt))
-      #  flush.console
-      # 
-      # val$data <- data_load
-      
-      # don't work
-      # data()$siteInfo <- data_load$siteInfo
-      # data()$variableInfo <- data_load$variableInfo
-      # data()$url <- data_load$url
-      # data()$queryTime <- data_load$queryTime
-      
-        
-      
-
-      showNotification(ui=paste0("Data file loaded; ",q$datapath)
-                       , duration=20, closeButton=TRUE, id="UpdateDataNote")
-      
-      return(data_load)
-    })
+    # output$SaveData <- downloadHandler(
+    #   filename = function() {
+    #     strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+    #     #strFile <- paste0("DDT_IMAGE_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
+    #   }
+    #   , content = function(file) {
+    #     #saveRDS(all_data(),file)
+    #     saveRDS(data(),file)
+    #     # testing, save environment
+    #     #save.image(file)
+    #   }
+    # )
+    
+   #  # Update Data based on User File
+   # #data <- observeEvent(input$UpdateData, {
+   #  observeEvent(input$UpdateData, {
+   #  #data_load <- eventReactive(input$UpdateData, {  
+   #    # Get Query File specs
+   #    q <- input$LoadDataFile
+   #    # Error check
+   #    if(is.null(q)) return(NULL)
+   #    # define list
+   #    data_load <- readRDS(q$datapath)
+   #    #
+   #    #data <- data.table(data_load)
+   #    #all_data <- data
+   #    # data, data_dt, all_data()   ?????
+   #    # data_dt <- data_load
+   #    # print(str(data_dt))
+   #    # print(dim(data_load))
+   #    # print(dim(data))
+   #    # print(dim(data_dt))
+   #    #  flush.console
+   #    # 
+   #    # val$data <- data_load
+   #    
+   #    # don't work
+   #    # data()$siteInfo <- data_load$siteInfo
+   #    # data()$variableInfo <- data_load$variableInfo
+   #    # data()$url <- data_load$url
+   #    # data()$queryTime <- data_load$queryTime
+   #    
+   #    showNotification(ui=paste0("Data file loaded; ",q$datapath)
+   #                     , duration=20, closeButton=TRUE, id="UpdateDataNote")
+   #    
+   #    #return(data_load)
+   #  })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # End one section and start another.
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -758,7 +756,26 @@ url_display<-eventReactive(input$CHECK, {
       return(data2)
     })
     all_data<-reactive({
-      data.frame(data_dt())
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Tt Mod, all_data ####
+      # use default data unless a data file has been loaded.
+      if(is.null(input$LoadDataFile)) {
+        # default data
+        data.frame(data_dt())
+      } else {
+        # Get Import File specs
+        q <- input$LoadDataFile
+        # Error check
+        if(is.null(q)) return(NULL)
+        # Import Data
+        data_load <- read.delim(q$datapath, skip=10)
+        #data_load <- readRDS(q$datapath)
+        data.frame(data_load)
+        # need to parse URL at this point
+        
+        
+      }
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     })
     
   output$All_Data = DT::renderDataTable(

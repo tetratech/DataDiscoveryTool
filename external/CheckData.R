@@ -13,26 +13,6 @@ function(){
            #                                               "Set Non-Detections equal to the 1/2 times the Limit of Detection"=4)))))),
            tabsetPanel(type = "tabs",
                        tabPanel("Home",
-                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                ## Tt Mod, Load/Save Buttons ####
-                                wellPanel(fluidRow(h4("Tt Mod, load data (load button is here as a placeholder)", style = "text-align: center"))
-                                          , fluidRow(column(5),column(2, downloadButton("SaveData","Save Data")))
-                                          , fluidRow(br())
-                                          , fluidRow("As an alternative to retrieving data the buttons below can be used to load a previously saved dataset.")
-                                          , fluidRow(br())
-                                          , fluidRow(
-                                            column(7,
-                                                   fileInput("LoadDataFile","Load Data File",accept=".rds")
-                                            )
-                                          )
-                                          # fluidRow(br())
-                                          ,fluidRow(column(1,
-                                                           bsButton("UpdateData", label="Update Data From File **NOT ACTIVE**", style="primary")
-                                                           ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
-                                                                      ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
-                                          )
-                                ),
-                                #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 wellPanel(fluidRow(column(1),
                                                    column(10,
                                                           h3("Data Summary", style = "text-align:center"),
@@ -67,6 +47,29 @@ function(){
                                                                              This is the data set passed to the map and table on the 'View Data' page.")),
                                           fluidRow(h4("Summary: "), h5("This table shows summary statistics of all unique combinations of station, media, characteristic, unit, and sample
                                                                        fraction.")))),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       ## Tt Mod, Load Data Button ####
+                       tabPanel("Load Data",
+                                wellPanel(fluidRow(h4("Load previously saved data", style = "text-align: center"))
+                                          #, fluidRow(column(5),column(2, downloadButton("SaveData","Save Data")))
+                                          , fluidRow(br())
+                                          , fluidRow("As an alternative to retrieving data the button below can be used to load a previously saved dataset.")
+                                          , fluidRow("After loading a dataset if you want to download a new dataset you must exit and re-enter the application. .")
+                                          , fluidRow(br())
+                                          , fluidRow(
+                                                    column(7,
+                                                   fileInput("LoadDataFile","Load Data File",accept=".tsv")  #future could add .rds for smaller files
+                                                          )
+                                                  )
+                                          # fluidRow(br())
+                                          # ,fluidRow(column(1,
+                                          #                  bsButton("UpdateData", label="Update Data From File **NOT ACTIVE**", style="primary")
+                                          #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
+                                          #                             ,"This button updates the data from a user selected data file. Must upload file first before clicking this button."))
+                                          # )
+                                          )
+                                ),
+                       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("All Data",
                                 fluidRow(
                                   h3("All Imported Data Records", style = "text-align: center")),
