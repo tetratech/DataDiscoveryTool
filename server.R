@@ -430,51 +430,82 @@ output$modal2 <- renderUI({
 url_display<-eventReactive(input$CHECK, {
   url()
 })
-    data<-eventReactive(input$IMPORT, {
-      # Trying a reactive example from http://shiny.rstudio.com/gallery/progress-bar-example.html
-      progress<-shiny::Progress$new()
-      progress$set(message = "Downloading Data, please be patitient, this may take some time.", value = 0)
-      on.exit(progress$close())
-      updateProgress<-function(value = NULL, detail = NULL){
-        if(is.null(value)){
-          value<-progress$getValue()
-          value<-value + (progress$getMax() - value)/5
-        }
-        progress$set(value = value, detail = detail)
-      }
-      url<-buildurl(bBox = c(input$West, input$South, input$East, input$North), lat = input$LAT, long = input$LONG, within = input$distance,
-                    statecode = state_FIPS(), countycode = county_FIPS(), siteType = type(), organization = org(), 
-                    siteid = site(), huc = huc8s(), sampleMedia = sample_media(), characteristicType = char_group(), characteristicName = char(),
-                    startDateLo = as.Date(input$date_Lo, format = '%m-%d-%Y'), startDateHi = as.Date(input$date_Hi, format = '%m-%d-%Y'))
-     #The next line of code is new, and calls the new module for getting the data 
-      return(getWQPData_app(url))
-    })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Tt Mod, data, reactive ####
-    data0 <- reactiveValues(data=NULL)  #create
+    ## Tt Mod, CheckData, data ####
+    # Add 2nd trigger for Event
+    # Allow for loading of data from saved file (if/else)
+    data<-eventReactive({
+      input$IMPORT
+      input$LoadAppData
+      },  {
+      # Trying a reactive example from http://shiny.rstudio.com/gallery/progress-bar-example.html
+      #
+      # Get Import File specs
+      q <- input$LoadAppData
+      #
+      if(is.null(q)) {# default
+        progress<-shiny::Progress$new()
+        progress$set(message = "Downloading Data, please be patitient, this may take some time.", value = 0)
+        on.exit(progress$close())
+        updateProgress<-function(value = NULL, detail = NULL){
+          if(is.null(value)){
+            value<-progress$getValue()
+            value<-value + (progress$getMax() - value)/5
+          }
+          progress$set(value = value, detail = detail)
+        }
+        url<-buildurl(bBox = c(input$West, input$South, input$East, input$North), lat = input$LAT, long = input$LONG, within = input$distance,
+                      statecode = state_FIPS(), countycode = county_FIPS(), siteType = type(), organization = org(), 
+                      siteid = site(), huc = huc8s(), sampleMedia = sample_media(), characteristicType = char_group(), characteristicName = char(),
+                      startDateLo = as.Date(input$date_Lo, format = '%m-%d-%Y'), startDateHi = as.Date(input$date_Hi, format = '%m-%d-%Y'))
+       #The next line of code is new, and calls the new module for getting the data 
+        return(getWQPData_app(url))
+      } else { # Use imported file
+        # Import Data
+        data_load <- readRDS(q$datapath)
+        return(data_load)
+      }
+     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ## Tt Mod, data erik, reactive ####
+    #data0 <- reactiveValues(data=NULL)
+    # LoadAppData_Status <- observeEvent(input$LoadAppData, {
+    #   # if upload a data file then trigger data()
+    #   q <- input$LoadAppData
+    #   if(!is.null(q)) {
+    #     input$IMPORT = as.numeric(format(Sys.time(),"%Y%m%d%H%M%S"))
+    #   }
+    # })
     
     
-    ## Tt Mod, CheckData, Load Button ####
-    # Save Data
-    # output$SaveData <- downloadHandler(
-    #   filename = function() {
-    #     strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
-    #     #strFile <- paste0("DDT_IMAGE_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
-    #   }
-    #   , content = function(file) {
-    #     #saveRDS(all_data(),file)
-    #     saveRDS(data(),file)
-    #     # testing, save environment
-    #     #save.image(file)
-    #   }
-    # )
+    # Tt Mod, CheckData, Load Button ####
+    #Save App Data
+    output$SaveAppData <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+      }
+      , content = function(file) {
+        #saveRDS(all_data(),file)
+        saveRDS(data(),file)
+        # testing, save environment
+        #save.image(file)
+        #save(data(), file)
+        # attr(x,y)
+        # x = data()
+        # y = c("siteInfo", "variableInfo", "url","queryTime")
+      }
+
+    )
+    
     
    #  # Update Data based on User File
    # #data <- observeEvent(input$UpdateData, {
    #  observeEvent(input$UpdateData, {
    #  #data_load <- eventReactive(input$UpdateData, {  
    #    # Get Query File specs
-   #    q <- input$LoadDataFile
+   #    q <- input$LoadAppData
    #    # Error check
    #    if(is.null(q)) return(NULL)
    #    # define list
@@ -622,41 +653,41 @@ url_display<-eventReactive(input$CHECK, {
     # outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
     
     
-    # QAQC Combos
-    QAQC_combos_data<-reactive({
-      #
-      # 0. get "all data"
-      #data.frame(data_dt()) # reactive to get all_data()
-      myData <- all_data()
-      # define desired fields
-      myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
-                    , "USGSPCode", "Unit", "Result")
-      # subset to desired fields
-      myData4QAQC <- myData[,myFields]
-      # summarize with dplyr
-      myData.QAQC.Summary <- myData4QAQC %>%
-        group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
-          summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
-     # match with QAQC Decisions
-     # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
-      
-      
-      # return data.frame
-      return(data.frame(myData.QAQC.Summary))
-      #
-    })
-    #
-    # QAQC Combos table
-    dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
-    output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
-                                                                 , caption=dt_QAQC_combos_data_caption
-                                                                 , rownames=FALSE
-                                                                 , selection='none'
-                                                                 # , server=TRUE
-                                                                )
-                                                     ) 
-    
-    
+    # # QAQC Combos
+    # QAQC_combos_data<-reactive({
+    #   #
+    #   # 0. get "all data"
+    #   #data.frame(data_dt()) # reactive to get all_data()
+    #   myData <- all_data()
+    #   # define desired fields
+    #   myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
+    #                 , "USGSPCode", "Unit", "Result")
+    #   # subset to desired fields
+    #   myData4QAQC <- myData[,myFields]
+    #   # summarize with dplyr
+    #   myData.QAQC.Summary <- myData4QAQC %>%
+    #     group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
+    #       summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
+    #  # match with QAQC Decisions
+    #  # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
+    #   
+    #   
+    #   # return data.frame
+    #   return(data.frame(myData.QAQC.Summary))
+    #   #
+    # })
+    # #
+    # # QAQC Combos table
+    # dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
+    # output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
+    #                                                              , caption=dt_QAQC_combos_data_caption
+    #                                                              , rownames=FALSE
+    #                                                              , selection='none'
+    #                                                              # , server=TRUE
+    #                                                             )
+    #                                                  ) 
+    # 
+    # 
     
     # 
     
@@ -710,72 +741,92 @@ url_display<-eventReactive(input$CHECK, {
   # Adding a reactive to filter the data and provide the final dataset to be displayed in the data table and map
   # Using the data.table package for fast manipulations but re-converting to a data frame since the DT package requires this
     data_dt <- reactive({
-      data2 <- data.table(data())
-      datatt <- attr(data(), "siteInfo")
-      datatt<-unique(datatt[, c("MonitoringLocationIdentifier","MonitoringLocationName","LatitudeMeasure", "LongitudeMeasure")])
-      data2<-merge(data2, datatt, 
-                   by = "MonitoringLocationIdentifier", all.x = T)
-      data2[is.na(ResultMeasure.MeasureUnitCode), ResultMeasure.MeasureUnitCode := DetectionQuantitationLimitMeasure.MeasureUnitCode]
-      setnames(data2, c("MonitoringLocationIdentifier", "MonitoringLocationName","OrganizationIdentifier", "CharacteristicName", "ResultMeasureValue", 
-                        "ResultMeasure.MeasureUnitCode", "ResultAnalyticalMethod.MethodName", "ResultAnalyticalMethod.MethodIdentifier"), 
-               c("Station", "Name","Organization", "Characteristic","Result", "Unit", "Method", "Method_ID"))
-      data2[, Result := as.numeric(as.character(Result))]
-      data2[, Station := as.factor(Station)]
-      data2[, Name := as.factor(Name)]
-      data2[, Organization := as.factor(Organization)]
-      data2[, Characteristic := as.factor(Characteristic)]
-      data2[, Unit := as.factor(Unit)]
-      data2[, Method := as.factor(Method)]
-      data2[, Method_ID := as.factor(as.character(Method_ID))]
-      # put non detect method logic here
-      if(input$ND_method==2){
-        data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = 0, 
-                                                                                                               Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
-      } else if(input$ND_method == 3){
-        data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = DetectionQuantitationLimitMeasure.MeasureValue, 
-                                                                                                               Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
-      } else if(input$ND_method ==4){
-        data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = 0.5*(DetectionQuantitationLimitMeasure.MeasureValue), 
-                                                                                                               Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
-      }
-      
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Tt Mod, data, extra fields ####
-      #Add extra fields so have original names (may remove later)
-      # data2[,"LatitudeMeasure"]           <- data2[,"Latitude"]
-      # data2[,"LongitudeMeasure"]           <- data2[,"Longitude"]
-      data2[,"MonitoringLocationIdentifier"] <- data2[,"Station"]
-      data2[,"OrganizationIdentifier"]       <- data2[,"Organization"]
-      data2[,"CharacteristicName"]           <- data2[,"Characteristic"]
-      data2[,"ResultMeasureValue"]           <- data2[,"Result"]
-      data2[,"ResultMeasure.MeasureUnitCode"]           <- data2[,"Unit"]
-      data2[,"ResultAnalyticalMethod.MethodIdentifier"] <- data2[,"Method_ID"]
-      data2[,"ResultAnalyticalMethod.MethodName"]       <- data2[,"Method"]
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      
-      return(data2)
-    })
-    all_data<-reactive({
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Tt Mod, all_data ####
       # use default data unless a data file has been loaded.
-      if(is.null(input$LoadDataFile)) {
+      # if(is.null(input$LoadAppData)) {
         # default data
-        data.frame(data_dt())
-      } else {
-        # Get Import File specs
-        q <- input$LoadDataFile
-        # Error check
-        if(is.null(q)) return(NULL)
-        # Import Data
-        data_load <- read.delim(q$datapath, skip=10)
-        #data_load <- readRDS(q$datapath)
-        data.frame(data_load)
-        # need to parse URL at this point
+        data2 <- data.table(data())
+        datatt <- attr(data(), "siteInfo")
+        datatt<-unique(datatt[, c("MonitoringLocationIdentifier","MonitoringLocationName","LatitudeMeasure", "LongitudeMeasure")])
+        data2<-merge(data2, datatt, 
+                     by = "MonitoringLocationIdentifier", all.x = T)
+        data2[is.na(ResultMeasure.MeasureUnitCode), ResultMeasure.MeasureUnitCode := DetectionQuantitationLimitMeasure.MeasureUnitCode]
+        setnames(data2, c("MonitoringLocationIdentifier", "MonitoringLocationName","OrganizationIdentifier", "CharacteristicName", "ResultMeasureValue", 
+                          "ResultMeasure.MeasureUnitCode", "ResultAnalyticalMethod.MethodName", "ResultAnalyticalMethod.MethodIdentifier"), 
+                 c("Station", "Name","Organization", "Characteristic","Result", "Unit", "Method", "Method_ID"))
+        data2[, Result := as.numeric(as.character(Result))]
+        data2[, Station := as.factor(Station)]
+        data2[, Name := as.factor(Name)]
+        data2[, Organization := as.factor(Organization)]
+        data2[, Characteristic := as.factor(Characteristic)]
+        data2[, Unit := as.factor(Unit)]
+        data2[, Method := as.factor(Method)]
+        data2[, Method_ID := as.factor(as.character(Method_ID))]
+        # put non detect method logic here
+        if(input$ND_method==2){
+          data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = 0, 
+                                                                                                                 Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
+        } else if(input$ND_method == 3){
+          data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = DetectionQuantitationLimitMeasure.MeasureValue, 
+                                                                                                                 Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
+        } else if(input$ND_method ==4){
+          data2[ResultDetectionConditionText %in% c('Not Detected', 'Present Below Quantification Limit'), ':=' (Result = 0.5*(DetectionQuantitationLimitMeasure.MeasureValue), 
+                                                                                                                 Unit = DetectionQuantitationLimitMeasure.MeasureUnitCode)]
+        }
         
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Tt Mod, data, extra fields ####
+        #Add extra fields so have original names (may remove later)
+        # data2[,"LatitudeMeasure"]           <- data2[,"Latitude"]
+        # data2[,"LongitudeMeasure"]           <- data2[,"Longitude"]
+        data2[,"MonitoringLocationIdentifier"] <- data2[,"Station"]
+        data2[,"OrganizationIdentifier"]       <- data2[,"Organization"]
+        data2[,"CharacteristicName"]           <- data2[,"Characteristic"]
+        data2[,"ResultMeasureValue"]           <- data2[,"Result"]
+        data2[,"ResultMeasure.MeasureUnitCode"]           <- data2[,"Unit"]
+        data2[,"ResultAnalyticalMethod.MethodIdentifier"] <- data2[,"Method_ID"]
+        data2[,"ResultAnalyticalMethod.MethodName"]       <- data2[,"Method"]
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
-      }
+        return(data2)
+        
+      # } else {
+      #   # Get Import File specs
+      #   q <- input$LoadAppData
+      #   # Error check
+      #   if(is.null(q)) return(NULL)
+      #   # Import Data
+      #   data_load <- read.delim(q$datapath, skip=10)
+      #   #data_load <- readRDS(q$datapath)
+      #   data.frame(data_load)
+      #   # need to parse URL at this point
+      #   return(data_load)
+      #   
+      # }
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    })
+    all_data<-reactive({
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # # Tt Mod, all_data ####
+      # # use default data unless a data file has been loaded.
+      # if(is.null(input$LoadAppData)) {
+      #   # default data
+         data.frame(data_dt())
+      # } else {
+      #   # Get Import File specs
+      #   q <- input$LoadAppData
+      #   # Error check
+      #   if(is.null(q)) return(NULL)
+      #   # Import Data
+      #   data_load <- read.delim(q$datapath, skip=10)
+      #   #data_load <- readRDS(q$datapath)
+      #   data.frame(data_load)
+      #   # need to parse URL at this point
+
+      #}
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
     })
     
   output$All_Data = DT::renderDataTable(

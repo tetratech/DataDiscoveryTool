@@ -48,17 +48,18 @@ function(){
                                           fluidRow(h4("Summary: "), h5("This table shows summary statistics of all unique combinations of station, media, characteristic, unit, and sample
                                                                        fraction.")))),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       ## Tt Mod, Load Data Button ####
-                       tabPanel("Load Data",
-                                wellPanel(fluidRow(h4("Load previously saved data", style = "text-align: center"))
-                                          #, fluidRow(column(5),column(2, downloadButton("SaveData","Save Data")))
+                       ## Tt Mod, Save/Load Data Button ####
+                       tabPanel("Save/Load App Data",
+                                wellPanel(fluidRow(h4("Save or Load Data Discovery Tool Data", style = "text-align: center"))
+                                          #, fluidRow(br())
+                                          , fluidRow("As an alternative to retrieving data each time the app is used the buttons below can be used to save data for a future session or load previously saved data to the current session.")
+                                          , fluidRow("After loading a dataset if you want to download a new dataset you must exit and re-enter the application.")
                                           , fluidRow(br())
-                                          , fluidRow("As an alternative to retrieving data the button below can be used to load a previously saved dataset.")
-                                          , fluidRow("After loading a dataset if you want to download a new dataset you must exit and re-enter the application. .")
+                                          , fluidRow(column(2, downloadButton("SaveAppData","Save Data")))
                                           , fluidRow(br())
                                           , fluidRow(
                                                     column(7,
-                                                   fileInput("LoadDataFile","Load Data File",accept=".tsv")  #future could add .rds for smaller files
+                                                   fileInput("LoadAppData","Load Data File",accept=".rds")  #future could add .rds for smaller files
                                                           )
                                                   )
                                           # fluidRow(br())

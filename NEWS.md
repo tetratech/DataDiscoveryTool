@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-25 14:46:28
+    #> Last Update: 2017-08-28 14:14:23
 
 Version history.
 
@@ -20,11 +20,18 @@ Planned Updates
 -   Error in original with removing then readding things. Leave "as is".
 
 -   Check Data
--   Need ability to "upload" data file. Needs to flow to other tabs.
 -   QAQC. Need ability to "upload" a new decision file.
 -   QAQC. Need ability to update decisions on screen.
 -   QAQC. Summary stats by decision.
 -   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
+
+v1.1.1.9008
+===========
+
+2017-08-28
+
+-   Working versions of buttons for Save and Load data on Check Data tab.
+-   Added Save/Load Data tab on Check Data tab.
 
 v1.1.1.9007
 ===========
