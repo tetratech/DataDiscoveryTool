@@ -431,12 +431,11 @@ url_display<-eventReactive(input$CHECK, {
   url()
 })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Tt Mod, CheckData, data ####
+    ## Tt Mod, CheckData, data() ####
     # Add 2nd trigger for Event
     # Allow for loading of data from saved file (if/else)
     data<-eventReactive({
-      input$IMPORT
-      input$LoadAppData
+      c(input$IMPORT, input$LoadAppData)
       },  {
       # Trying a reactive example from http://shiny.rstudio.com/gallery/progress-bar-example.html
       #
@@ -465,21 +464,10 @@ url_display<-eventReactive(input$CHECK, {
         data_load <- readRDS(q$datapath)
         return(data_load)
       }
-     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     })
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Tt Mod, data erik, reactive ####
-    #data0 <- reactiveValues(data=NULL)
-    # LoadAppData_Status <- observeEvent(input$LoadAppData, {
-    #   # if upload a data file then trigger data()
-    #   q <- input$LoadAppData
-    #   if(!is.null(q)) {
-    #     input$IMPORT = as.numeric(format(Sys.time(),"%Y%m%d%H%M%S"))
-    #   }
-    # })
-    
-    
     # Tt Mod, CheckData, Load Button ####
     #Save App Data
     output$SaveAppData <- downloadHandler(
@@ -499,41 +487,6 @@ url_display<-eventReactive(input$CHECK, {
 
     )
     
-    
-   #  # Update Data based on User File
-   # #data <- observeEvent(input$UpdateData, {
-   #  observeEvent(input$UpdateData, {
-   #  #data_load <- eventReactive(input$UpdateData, {  
-   #    # Get Query File specs
-   #    q <- input$LoadAppData
-   #    # Error check
-   #    if(is.null(q)) return(NULL)
-   #    # define list
-   #    data_load <- readRDS(q$datapath)
-   #    #
-   #    #data <- data.table(data_load)
-   #    #all_data <- data
-   #    # data, data_dt, all_data()   ?????
-   #    # data_dt <- data_load
-   #    # print(str(data_dt))
-   #    # print(dim(data_load))
-   #    # print(dim(data))
-   #    # print(dim(data_dt))
-   #    #  flush.console
-   #    # 
-   #    # val$data <- data_load
-   #    
-   #    # don't work
-   #    # data()$siteInfo <- data_load$siteInfo
-   #    # data()$variableInfo <- data_load$variableInfo
-   #    # data()$url <- data_load$url
-   #    # data()$queryTime <- data_load$queryTime
-   #    
-   #    showNotification(ui=paste0("Data file loaded; ",q$datapath)
-   #                     , duration=20, closeButton=TRUE, id="UpdateDataNote")
-   #    
-   #    #return(data_load)
-   #  })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # End one section and start another.
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -625,7 +578,7 @@ url_display<-eventReactive(input$CHECK, {
                                                                                                ,c('lightgreen','red'))
                                                                         ,fontWeight='bold')
                                           )
-    #outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
     
     proxy_dt_QAQC <- DT::dataTableProxy('dt_QAQC')
     #DT::selectColumns(proxy_dt_QAQC, 7)
@@ -647,51 +600,46 @@ url_display<-eventReactive(input$CHECK, {
       
     })
     
-    #
-    # QAQC Table (default data loaded in global.R)
-    # output$dt_QAQC = DT::renderDataTable(data_QAQC, server=TRUE)
-    # outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+     #QAQC Table (default data loaded in global.R)
+     output$dt_QAQC = DT::renderDataTable(data_QAQC, server=TRUE)
+     outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+
+
+     # QAQC Combos
+     QAQC_combos_data<-reactive({
+       #
+       # 0. get "all data"
+       #data.frame(data_dt()) # reactive to get all_data()
+       myData <- all_data()
+       # define desired fields
+       myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
+                     , "USGSPCode", "Unit", "Result")
+       # subset to desired fields
+       myData4QAQC <- myData[,myFields]
+       # summarize with dplyr
+       myData.QAQC.Summary <- myData4QAQC %>%
+         group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
+           summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
+      # match with QAQC Decisions
+      # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
     
     
-    # # QAQC Combos
-    # QAQC_combos_data<-reactive({
-    #   #
-    #   # 0. get "all data"
-    #   #data.frame(data_dt()) # reactive to get all_data()
-    #   myData <- all_data()
-    #   # define desired fields
-    #   myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
-    #                 , "USGSPCode", "Unit", "Result")
-    #   # subset to desired fields
-    #   myData4QAQC <- myData[,myFields]
-    #   # summarize with dplyr
-    #   myData.QAQC.Summary <- myData4QAQC %>%
-    #     group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
-    #       summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
-    #  # match with QAQC Decisions
-    #  # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
-    #   
-    #   
-    #   # return data.frame
-    #   return(data.frame(myData.QAQC.Summary))
-    #   #
-    # })
-    # #
-    # # QAQC Combos table
-    # dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
-    # output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
-    #                                                              , caption=dt_QAQC_combos_data_caption
-    #                                                              , rownames=FALSE
-    #                                                              , selection='none'
-    #                                                              # , server=TRUE
-    #                                                             )
-    #                                                  ) 
-    # 
-    # 
-    
-    # 
-    
-    
+       # return data.frame
+       return(data.frame(myData.QAQC.Summary))
+       #
+     })
+     #
+     # QAQC Combos table
+     dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
+     output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
+                                                                  , caption=dt_QAQC_combos_data_caption
+                                                                  , rownames=FALSE
+                                                                  , selection='none'
+                                                                  # , server=TRUE
+                                                                 )
+                                                      )
+
     
     observeEvent(input$QAQC_CombosAdd, {
       # update QAQC decision table

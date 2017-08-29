@@ -53,6 +53,7 @@ function(){
                                 wellPanel(fluidRow(h4("Save or Load Data Discovery Tool Data", style = "text-align: center"))
                                           #, fluidRow(br())
                                           , fluidRow("As an alternative to retrieving data each time the app is used the buttons below can be used to save data for a future session or load previously saved data to the current session.")
+                                          , fluidRow(br())
                                           , fluidRow("After loading a dataset if you want to download a new dataset you must exit and re-enter the application.")
                                           , fluidRow(br())
                                           , fluidRow(column(2, downloadButton("SaveAppData","Save Data")))
@@ -177,6 +178,16 @@ function(){
                                                         ,"This button updates the QA/QC decisions with any missing cominations from all data."))
                                           )
                                 , fluidRow(column(12,DT::dataTableOutput('dt_QAQC_combos_data')))
+                                ),
+                       tabPanel("QAQC DataSet",
+                                fluidRow((h3("Quality Assurance / Quality Control Data Set", style="text-align: center")))
+                                #, fluidRow("button for generating summary by decision.  2nd button for output.")
+                                #, fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
+                                , fluidRow("Shown in table below are all of the QAQC Decisions as applied (in the QAQC Advanced tab) to the data.")
+                                , fluidRow("Use the button below to download the QAQC data set.")
+                                , fluidRow(column(3, downloadButton("SaveQAQCDataSet","Save QAQC Data Set"))
+                                                  , bsPopover("SaveQAQCDataSet", "Save QAQCed Data Set).", trigger = "hover", placement="right", options = list(container = "body")
+                                                              ,"This buttons saves the data as a TSV file with the QAQC decisions applied (in the QAQC Advanced tab)."))
                                 ),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        tabPanel("Filtered Data",
