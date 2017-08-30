@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-29 15:40:33
+    #> Last Update: 2017-08-30 13:34:46
 
 Version history.
 
@@ -12,7 +12,7 @@ Planned Updates
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
 -   Query Data
--   Boxes not always updating. Sometimes have to his "update" a 2nd time.
+-   Boxes not always updating. Sometimes have to his "update" a 2nd time. County. Check County statement line 224.
 -   Entering a County without a state.
 
 -   View Data
@@ -21,9 +21,19 @@ Planned Updates
 
 -   Check Data
 -   QAQC. Need ability to "upload" a new decision file.
--   QAQC. Need ability to update decisions on screen.
--   QAQC. Summary stats by decision.
+-   QAQC. Need ability to update decisions on screen. (done). Need to save!
+-   QAQC. Summary stats by decision. (Or per Jon's)
 -   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
+-   QAQC. Apply decisions to data and save that data set. Keep / Exclude datasets? QAQC Advanced, need "all" combos and a column for present in decision file.
+
+v1.1.1.9010
+===========
+
+2017-08-30
+
+-   Fixed error when filtering loaded data. Needed to set val$display2="yes" the same as when importing data. 2017-08-30.
+
+-   Added temporary "click twice" text to update query and update filter buttons. 2017-08-30.
 
 v1.1.1.9009
 ===========

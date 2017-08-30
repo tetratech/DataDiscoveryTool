@@ -197,141 +197,105 @@ shinyServer(
       lst_query_load <- readRDS(q$datapath)
       # # Update Query Info onscreen (to user selections)
       #
-      # clear selections
-      #clearQuerySelection() #[Not working as intended so have code below]
-      # reset all fields
-      updateSelectizeInput(session, "state"
-                           , choices=as.character(states$desc)
-                           , selected=character(0))
-      updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
-      updateTextInput(session, "huc_ID", value=character(0))
-      updateNumericInput(session,"LAT", value=0)
-      updateNumericInput(session,"LONG", value=0)
-      updateNumericInput(session,"distance", value=0)
-      updateNumericInput(session,"North", value=0)
-      updateNumericInput(session,"South", value=0)
-      updateNumericInput(session,"East", value=0)
-      updateNumericInput(session,"West", value=0)
-      updateDateInput(session, "date_Lo", value=NA)
-      updateDateInput(session, "date_Hi", value=NA)
-      updateSelectizeInput(session, "media", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "group", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "org_id", choices=NULL, selected=character(0))
-      updateTextInput(session, "site_id", value=character(0))
-      #
-      ## Location
-      updateSelectizeInput(session, "state"
-                           , choices=as.character(states$desc)
-                           , selected=lst_query_load$state)
-      
-      updateTextInput(session, "huc_ID", value=lst_query_load$huc_ID)
-      updateNumericInput(session,"LAT", value=lst_query_load$LAT, min = 0, max = 100)
-      updateNumericInput(session,"LONG", value=lst_query_load$LONG, min = 0, max = 100)
-      updateNumericInput(session,"distance", value=lst_query_load$distance, min = 0, max = 100)
-      updateNumericInput(session,"North", value=lst_query_load$North, min = -100, max = 100)
-      updateNumericInput(session,"South", value=lst_query_load$South, min = -100, max = 100)
-      updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
-      updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
-      ## Sampling Parameters
-      # Below variables don't work if a blank date.
-      updateDateInput(session, "date_Lo", value="1776-07-04")
-      updateDateInput(session, "date_Hi", value="1776-07-04")
-      
-      if(is.null(lst_query_load$state)) {
-        countiesdt <- data.table(counties)
-        updateSelectizeInput(session, "county"
-                            , choices=as.character(countiesdt$desc)
-                            , selected=lst_query_load$county #character(0)
-                            , options = list(items=character(0))
-                            )
-      } else {
-        countiesdt <- data.table(counties)
-        updateSelectizeInput(session, "county"
-                             , choices=as.character(countiesdt$desc) #countydt[state %in% input$state ,as.character(unique(desc))]
-                             , selected=lst_query_load$county
-                             , options = list(items=lst_query_load$county)
-        )
-      }
 
-      updateSelectizeInput(session, "media"
-                           , choices=lst_query_load$media
-                           , selected=lst_query_load$media
-                           , options = list(items=lst_query_load$media)
-                           )
-      updateSelectizeInput(session, "group"
-                           , choices=lst_query_load$group
-                           , selected=lst_query_load$group
-                           , options = list(items=lst_query_load$group)
-                           )
-      updateSelectizeInput(session, "chars"
-                           , choices=lst_query_load$chars
-                           , selected=lst_query_load$chars
-                           , options = list(items=lst_query_load$chars)
-                           )
-      ## Site Parameters
-      updateSelectizeInput(session, "site_type"
-                           , choices=lst_query_load$site_type
-                           , selected=lst_query_load$site_type
-                           , options = list(items=lst_query_load$site_type)
-                           )
-      updateSelectizeInput(session, "org_id"
-                           , choices=lst_query_load$org
-                           , selected=lst_query_load$org
-                           , options = list(items=lst_query_load$org#, 
-                                            # valueField = 'value',
-                                            # labelField = 'desc',
-                                            # searchField = 'desc',
-                                            # options = list(),
-                                            # create = FALSE,
-                                            # load = I("function(query, callback) {
-                                            #           if (!query.length) return callback();
-                                            #           $.ajax({
-                                            #           url: 'https://www.waterqualitydata.us/Codes/organization?mimeType=json',
-                                            #           type: 'GET',
-                                            #           error: function() {
-                                            #           callback();
-                                            #           },
-                                            #           success: function(res) {
-                                            #           callback(res.codes);
-                                            #           }
-                                            #           });)}")
-                                            )
-                            )
-      updateTextInput(session, "site_id", value=lst_query_load$site_id)
-      # Update the Dates last
-      ## Remove temp value
-      updateDateInput(session, "date_Lo", value=NA)
-      updateDateInput(session, "date_Hi", value=NA)
-      ## Update with user provided value
-      updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
-      updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
+      # In some cases (for Counties) required the "update" button to be clicked more than once.
+      # So iterate the process
+      for (i in 1:3) {##FOR.i.START
+        # clear selections
+        clearQuerySelection(session)
+        ## Location
+        updateSelectizeInput(session, "state"
+                             , choices=as.character(states$desc)
+                             , selected=lst_query_load$state)
+        
+        updateTextInput(session, "huc_ID", value=lst_query_load$huc_ID)
+        updateNumericInput(session,"LAT", value=lst_query_load$LAT, min = 0, max = 100)
+        updateNumericInput(session,"LONG", value=lst_query_load$LONG, min = 0, max = 100)
+        updateNumericInput(session,"distance", value=lst_query_load$distance, min = 0, max = 100)
+        updateNumericInput(session,"North", value=lst_query_load$North, min = -100, max = 100)
+        updateNumericInput(session,"South", value=lst_query_load$South, min = -100, max = 100)
+        updateNumericInput(session,"East", value=lst_query_load$East, min = -100, max = 100)
+        updateNumericInput(session,"West", value=lst_query_load$West, min = -100, max = 100)
+        ## Sampling Parameters
+        # Below variables don't work if a blank date.
+        updateDateInput(session, "date_Lo", value="1776-07-04")
+        updateDateInput(session, "date_Hi", value="1776-07-04")
+        
+        if(is.null(lst_query_load$state)) {
+          countiesdt <- data.table(counties)
+          updateSelectizeInput(session, "county"
+                               , choices=as.character(countiesdt$desc)
+                               , selected=lst_query_load$county #character(0)
+                               , options = list(items=character(0))
+          )
+        } else {
+          countiesdt <- data.table(counties)
+          updateSelectizeInput(session, "county"
+                               , choices=as.character(countiesdt$desc) #countydt[state %in% input$state ,as.character(unique(desc))]
+                               , selected=lst_query_load$county
+                               , options = list(items=lst_query_load$county)
+          )
+        }
+        
+        updateSelectizeInput(session, "media"
+                             , choices=lst_query_load$media
+                             , selected=lst_query_load$media
+                             , options = list(items=lst_query_load$media)
+        )
+        updateSelectizeInput(session, "group"
+                             , choices=lst_query_load$group
+                             , selected=lst_query_load$group
+                             , options = list(items=lst_query_load$group)
+        )
+        updateSelectizeInput(session, "chars"
+                             , choices=lst_query_load$chars
+                             , selected=lst_query_load$chars
+                             , options = list(items=lst_query_load$chars)
+        )
+        ## Site Parameters
+        updateSelectizeInput(session, "site_type"
+                             , choices=lst_query_load$site_type
+                             , selected=lst_query_load$site_type
+                             , options = list(items=lst_query_load$site_type)
+        )
+        updateSelectizeInput(session, "org_id"
+                             , choices=lst_query_load$org
+                             , selected=lst_query_load$org
+                             , options = list(items=lst_query_load$org#, 
+                                              # valueField = 'value',
+                                              # labelField = 'desc',
+                                              # searchField = 'desc',
+                                              # options = list(),
+                                              # create = FALSE,
+                                              # load = I("function(query, callback) {
+                                              #           if (!query.length) return callback();
+                                              #           $.ajax({
+                                              #           url: 'https://www.waterqualitydata.us/Codes/organization?mimeType=json',
+                                              #           type: 'GET',
+                                              #           error: function() {
+                                              #           callback();
+                                              #           },
+                                              #           success: function(res) {
+                                              #           callback(res.codes);
+                                              #           }
+                                              #           });)}")
+                             )
+        )
+        updateTextInput(session, "site_id", value=lst_query_load$site_id)
+        # Update the Dates last
+        ## Remove temp value
+        updateDateInput(session, "date_Lo", value=NA)
+        updateDateInput(session, "date_Hi", value=NA)
+        ## Update with user provided value
+        updateDateInput(session, "date_Lo", value=lst_query_load$date_Lo) #YYYY-MM-DD
+        updateDateInput(session, "date_Hi", value=lst_query_load$date_Hi)
+        
+      }##FOR.i.END
     })
     
     observeEvent(input$ClearQuery, {
       # Clear User Selections for Query
-      #clearQuerySelection() #[Function not working as intended so have code below]
-      # reset all fields
-      updateSelectizeInput(session, "state", choices=as.character(states$desc), selected=character(0))
-      updateSelectizeInput(session, "county", choices=NULL, selected=character(0))
-      updateTextInput(session, "huc_ID", value=character(0))
-      updateNumericInput(session,"LAT", value=0)
-      updateNumericInput(session,"LONG", value=0)
-      updateNumericInput(session,"distance", value=0)
-      updateNumericInput(session,"North", value=0)
-      updateNumericInput(session,"South", value=0)
-      updateNumericInput(session,"East", value=0)
-      updateNumericInput(session,"West", value=0)
-      updateDateInput(session, "date_Lo", value=NA)
-      updateDateInput(session, "date_Hi", value=NA)
-      updateSelectizeInput(session, "media", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "group", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "chars", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "site_type", choices=NULL, selected=character(0))
-      updateSelectizeInput(session, "org_id", choices=NULL, selected=character(0))
-      updateTextInput(session, "site_id", value=character(0))
-      #
+      clearQuerySelection(session)
     })
     
         #
@@ -462,6 +426,7 @@ url_display<-eventReactive(input$CHECK, {
       } else { # Use imported file
         # Import Data
         data_load <- readRDS(q$datapath)
+        val$display2 <- "yes" # needed for leaflet map on View Data tab
         return(data_load)
       }
     })
@@ -1136,7 +1101,7 @@ output$home_date<-renderUI({
      data <- data[MeasureQualifierCode %in% input$fqual]
    }
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Tt Mod, ViewData, Filters, Apply ####
+    ## Tt Mod, ViewData, Filters ####
     if(!is.null(input$facttype)) {
       data <- data[ActivityTypeCode %in% input$facttype]
     }
@@ -1147,8 +1112,6 @@ output$home_date<-renderUI({
       data <- data[ResultStatusIdentifier %in% input$fstatusid]
     }
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-    
-    
    if(!is.null(input$minvalue)) {
        data <- data[Result >= input$minvalue & Result <= input$maxvalue]
    }
@@ -1423,12 +1386,11 @@ observeEvent(input$UpdateFilters, {
   lst_filters_load <- readRDS(q$datapath)
   # Radio Button Choices
   myChoicesRadio <- c("Select All"=1, "Deselect All"=2)
-  #
   # Update Filter Info onscreen
-  if(is.null(lst_filters_load$org)==FALSE) {##IF.org.START
+  if(!is.null(lst_filters_load$org)) {##IF.org.START
     updateCollapse(session, id="view_sp", open="Filter by Organization")
-    #data <- data.table(filtered_data())
-    org_Choices <- lst_filters_load$org #unique(data[, as.character(OrganizationFormalName)])
+    data <- data.table(filtered_data())
+    org_Choices <- unique(data[, as.character(OrganizationFormalName)]) #lst_filters_load$org #unique(data[, as.character(OrganizationFormalName)])
     updateRadioButtons(session, "org_sel", choices=myChoicesRadio, selected=2)
     updateSelectizeInput(session, "org"
                          , choices=org_Choices
@@ -1437,19 +1399,18 @@ observeEvent(input$UpdateFilters, {
     updateButton(session, "submit_filters", value = 1)
   } else {
     updateCollapse(session, id="view_sp", open="Filter by Organization")
-    #data <- data.table(filtered_data())
-    org_Choices <- lst_filters_load$org #unique(data[, as.character(OrganizationFormalName)])
+    data <- data.table(filtered_data())
+    org_Choices <- unique(data[, as.character(OrganizationFormalName)]) #lst_filters_load$org #unique(data[, as.character(OrganizationFormalName)])
     updateRadioButtons(session, "org_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"org"
-                      , choices=org_Choices
-                      , selected=NULL)
+                         , choices=org_Choices
+                         , selected=NULL)
     updateButton(session, "submit_filters", value = 0)
     updateButton(session, "submit_filters", value = 1)
     #updateCollapse(session, id="view_sp", close="Filter by Organization")
   }##IF.org.END
-  #
   
-  if(is.null(lst_filters_load$stt)==FALSE) {##IF.stt.START
+  if(!is.null(lst_filters_load$stt)) {##IF.stt.START
     updateCollapse(session, id="view_sp", open="Filter by Station")
     # data <- data.table(filtered_data())
     # if(is.null(input$org)){
@@ -1475,13 +1436,13 @@ observeEvent(input$UpdateFilters, {
     stt_Choices <- lst_filters_load$stt #unique(data[, as.character(Name)])
     updateRadioButtons(session, "stat_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"stt"
-                      , choices=stt_Choices
-                      , selected=NULL)
+                         , choices=stt_Choices
+                         , selected=NULL)
     updateButton(session, "submit_filters", value = 0)
     updateButton(session, "submit_filters", value = 1)
   }##IF.stt.END
-
-  if(is.null(lst_filters_load$media)==FALSE) {##IF.media.START
+  
+  if(!is.null(lst_filters_load$media)) {##IF.media.START
     updateCollapse(session, id="view_sp", open="Filter by Sample Media")
     data <- data.table(filtered_data())
     media_Choices <- unique(data[, as.character(ActivityMediaName)])
@@ -1495,11 +1456,11 @@ observeEvent(input$UpdateFilters, {
     media_Choices <- unique(data[, as.character(ActivityMediaName)])
     updateRadioButtons(session, "media_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"fmedia"
-                      , choices=media_Choices
-                      , selected=NULL)
+                         , choices=media_Choices
+                         , selected=NULL)
   }##IF.media.END
   #
-  if(is.null(lst_filters_load$frac)==FALSE) {##IF.frac.START
+  if(!is.null(lst_filters_load$frac)) {##IF.frac.START
     updateCollapse(session, id="view_sp", open="Filter by Sample Fraction")
     data <- data.table(filtered_data())
     frac_Choices <- unique(data[, as.character(ResultSampleFractionText)])
@@ -1513,11 +1474,11 @@ observeEvent(input$UpdateFilters, {
     frac_Choices <- unique(data[, as.character(ResultSampleFractionText)])
     updateRadioButtons(session, "frac_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"ffrac"
-                      , choices=frac_Choices
-                      , selected=NULL)
+                         , choices=frac_Choices
+                         , selected=NULL)
   }##IF.frac.END
   #
-  if(is.null(lst_filters_load$param)==FALSE) {##IF.param.START
+  if(!is.null(lst_filters_load$param)) {##IF.param.START
     updateCollapse(session, id="view_sp", open="Filter by Parameter")
     data <- data.table(filtered_data())
     if(is.null(input$stt)) {
@@ -1541,11 +1502,11 @@ observeEvent(input$UpdateFilters, {
     param_Choices <- unique(data[, as.character(Characteristic)])
     updateRadioButtons(session, "param_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"param"
-                      , choices=param_Choices
-                      , selected=NULL)
+                         , choices=param_Choices
+                         , selected=NULL)
   }##IF.param.END
   #
-  if(is.null(lst_filters_load$unit)==FALSE) {##IF.unit.START
+  if(!is.null(lst_filters_load$unit)) {##IF.unit.START
     updateCollapse(session, id="view_sp", open="Filter by Units")
     data <- data.table(filtered_data())
     unit_Choices <- unique(data[Characteristic %in% input$param, as.character(Unit)])
@@ -1559,11 +1520,11 @@ observeEvent(input$UpdateFilters, {
     unit_Choices <- unique(data[Characteristic %in% input$param, as.character(Unit)])
     updateRadioButtons(session, "unit_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"sidepanelunit"
-                      , choices=unit_Choices
-                      , selected=NULL)
+                         , choices=unit_Choices
+                         , selected=NULL)
   }##IF.unit.END
   #
-  if(is.null(lst_filters_load$method)==FALSE) {##IF.method.START
+  if(!is.null(lst_filters_load$method)) {##IF.method.START
     updateCollapse(session, id="view_sp", open="Filter by Methods")
     data <- data.table(filtered_data())
     method_Choices <- unique(data[Characteristic %in% input$param, as.character(Method)])
@@ -1577,11 +1538,11 @@ observeEvent(input$UpdateFilters, {
     method_Choices <- unique(data[Characteristic %in% input$param, as.character(Method)])
     updateRadioButtons(session, "method_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"sidepanelmethod"
-                      , choices=method_Choices
-                      , selected=NULL)
+                         , choices=method_Choices
+                         , selected=NULL)
   }##IF.method.END
   #
-  if(is.null(lst_filters_load$qual)==FALSE) {##IF.qual.START
+  if(!is.null(lst_filters_load$qual)) {##IF.qual.START
     updateCollapse(session, id="view_sp", open="Filter by Result Qualifier")
     data <- data.table(filtered_data())
     qual_Choices <- unique(data[, as.character(MeasureQualifierCode)])
@@ -1595,11 +1556,11 @@ observeEvent(input$UpdateFilters, {
     qual_Choices <- unique(data[, as.character(MeasureQualifierCode)])
     updateRadioButtons(session, "qual_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"fqual"
-                      , choices=qual_Choices
-                      , selected=NULL)
+                         , choices=qual_Choices
+                         , selected=NULL)
   }##IF.qual.END
   #
-  if(is.null(lst_filters_load$acttype)==FALSE) {##IF.acttype.START
+  if(!is.null(lst_filters_load$acttype)) {##IF.acttype.START
     updateCollapse(session, id="view_sp", open="Filter by Activity Type Code")
     data <- data.table(filtered_data())
     acttype_Choices <- unique(data[, as.character(ActivityTypeCode)])
@@ -1613,11 +1574,11 @@ observeEvent(input$UpdateFilters, {
     acttype_Choices <- unique(data[, as.character(ActivityTypeCode)])
     updateRadioButtons(session, "acttype_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"facttype"
-                      , choices=acttype_Choices
-                      , selected=NULL)
+                         , choices=acttype_Choices
+                         , selected=NULL)
   }##IF.acttype.END
   #
-  if(is.null(lst_filters_load$equip)==FALSE) {##IF.equip.START
+  if(!is.null(lst_filters_load$equip)) {##IF.equip.START
     updateCollapse(session, id="view_sp", open="Filter by Equipment Name")
     data <- data.table(filtered_data())
     equip_Choices <- unique(data[, as.character(SampleCollectionEquipmentName)])
@@ -1631,11 +1592,11 @@ observeEvent(input$UpdateFilters, {
     equip_Choices <- unique(data[, as.character(SampleCollectionEquipmentName)])
     updateRadioButtons(session, "equip_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"fequip"
-                      , choices=equip_Choices
-                      , selected=NULL)
+                         , choices=equip_Choices
+                         , selected=NULL)
   }##IF.equip.END
   #
-  if(is.null(lst_filters_load$statusid)==FALSE) {##IF.statusid.START
+  if(!is.null(lst_filters_load$statusid)) {##IF.statusid.START
     updateCollapse(session, id="view_sp", open="Filter by Result Status ID")
     data <- data.table(filtered_data())
     statusid_Choices <- unique(data[, as.character(ResultStatusIdentifier)])
@@ -1649,26 +1610,26 @@ observeEvent(input$UpdateFilters, {
     statusid_Choices <- unique(data[, as.character(ResultStatusIdentifier)])
     updateRadioButtons(session, "statusid_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"fstatusid"
-                      , choices=statusid_Choices
-                      , selected=NULL)
+                         , choices=statusid_Choices
+                         , selected=NULL)
   }##IF.statusid.END
-
+  
   # Value and Date fields always populated
   updateNumericInput(session, "minvalue", value=lst_filters_load$minvalue)
   updateNumericInput(session, "maxvalue", value=lst_filters_load$maxvalue)
   updateDateRangeInput(session, "spdate"
-                        , start=lst_filters_load$spdate_1
-                        , end=lst_filters_load$spdate_2)  
-    
+                       , start=lst_filters_load$spdate_1
+                       , end=lst_filters_load$spdate_2)
+  
   #if(is.null(lst_filters_load$minvalue)) {
   #  updateNumericInput(session, "minvalue", value=lst_filters_load$minvalue)
- # }
+  # }
   #
- # if(is.null(lst_filters_load$maxvalue)) {
+  # if(is.null(lst_filters_load$maxvalue)) {
   #  updateNumericInput(session, "maxvalue", value=lst_filters_load$maxvalue)
   #}
   #
- # if(is.null(lst_filters_load$spdate_1) | is.null(lst_filters_load$spdate_2)) {
+  # if(is.null(lst_filters_load$spdate_1) | is.null(lst_filters_load$spdate_2)) {
   #  updateDateRangeInput(session, "spdate"
   #                       , start=lst_filters_load$spdate_1
   #                       , end=lst_filters_load$spdate_2)
@@ -1677,15 +1638,18 @@ observeEvent(input$UpdateFilters, {
   #                        , start = min(filtered_data()$ActivityStartDate, na.rm = TRUE)
   #                        , end = max(filtered_data()$ActivityStartDate, na.rm = TRUE))
   # }
-    #
+  #
   # Apply (submit) Filters (by changing value of button to cause Observe to trigger)
-  updateButton(session, "submit_filters", value = 0)
-  # updateButton(session, "submit_filters", value = 1)
-  # updateButton(session, "submit_filters", value = 2)
-  # updateButton(session, "submit_filters", value = 3)
-  # updateButton(session, "submit_filters", value = 4)
-  # updateButton(session, "submit_filters", value = 5)
-})
+  # for (j in 0:1) {
+  #   updateButton(session, "submit_filters", value = j)
+  #   #updateButton(session, "submit_filters", value = 1)
+  #   # updateButton(session, "submit_filters", value = 2)
+  #   # updateButton(session, "submit_filters", value = 3)
+  #   # updateButton(session, "submit_filters", value = 4)
+  #   # updateButton(session, "submit_filters", value = 5)
+  # }
+
+})##observeEvent(input$UpdateFilters - END
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

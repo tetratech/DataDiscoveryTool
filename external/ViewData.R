@@ -27,10 +27,11 @@ function() {
                                   )
                                   #,br()
                                   ,fluidRow(column(1),
-                                            column(1,
+                                            column(4,
                                                    bsButton("UpdateFilters", label="Update Filters From File", style="primary")
                                                    ,bsPopover("UpdateFilters", "Update Filters", trigger = "hover", placement="right", options = list(container = "body")
                                                               ,"This button updates the filter selections from a user selected filters file. Must upload file first before clicking this button."))
+                                            ,column(5,"<== Must click twice.")
                                   ),
                                   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                   br(),

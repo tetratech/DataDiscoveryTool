@@ -1,5 +1,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Tt Mod, data QA QC function ####
+# Tt Mod, data QAQC functions ####
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # library(XLConnect) [added to server.R]
 read_data_QAQC <- function(strFile, strSheet, intStartRow) {
                 XLConnect::readWorksheetFromFile(strFile
@@ -90,6 +92,29 @@ ApplyQAQCDecisions <- function(...){ #df.Data, df.QAQC) {
   return(myData)
   #
 }
-
-#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Clear Query Selections
+clearQuerySelection <- function(mySession) {
+  # reset all fields
+  updateSelectizeInput(mySession, "state", choices=as.character(states$desc), selected=character(0))
+  updateSelectizeInput(mySession, "county", choices=NULL, selected=character(0))
+  updateTextInput(mySession, "huc_ID", value=character(0))
+  updateNumericInput(mySession,"LAT", value=0)
+  updateNumericInput(mySession,"LONG", value=0)
+  updateNumericInput(mySession,"distance", value=0)
+  updateNumericInput(mySession,"North", value=0)
+  updateNumericInput(mySession,"South", value=0)
+  updateNumericInput(mySession,"East", value=0)
+  updateNumericInput(mySession,"West", value=0)
+  updateDateInput(mySession, "date_Lo", value=NA)
+  updateDateInput(mySession, "date_Hi", value=NA)
+  updateSelectizeInput(mySession, "media", choices=NULL, selected=character(0))
+  updateSelectizeInput(mySession, "group", choices=NULL, selected=character(0))
+  updateSelectizeInput(mySession, "chars", choices=NULL, selected=character(0))
+  updateSelectizeInput(mySession, "site_type", choices=NULL, selected=character(0))
+  updateSelectizeInput(mySession, "org_id", choices=NULL, selected=character(0))
+  updateTextInput(mySession, "site_id", value=character(0))
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

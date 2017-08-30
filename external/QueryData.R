@@ -204,9 +204,11 @@ function(){
                                 )
                 )
       #,fluidRow(br())
-      ,fluidRow(column(5), column(1,bsButton("UpdateQuery", label="Update Query From File", style="primary")
+      ,fluidRow(column(4), column(1,bsButton("UpdateQuery", label="Update Query From File", style="primary")
                        ,bsPopover("UpdateQuery", "Update Query", trigger = "hover", placement="right", options = list(container = "body")
                                   ,"This button updates the query selections from a user selected query file. Must upload file first before clicking this button."))
+                ,column(1)
+                , column(4, "<== Must click twice.")
                 )
       , br(),
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

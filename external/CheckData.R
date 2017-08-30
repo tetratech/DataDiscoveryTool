@@ -179,11 +179,11 @@ function(){
                                           )
                                 , fluidRow(column(12,DT::dataTableOutput('dt_QAQC_combos_data')))
                                 ),
-                       tabPanel("QAQC DataSet",
+                       tabPanel("QAQC Data Set",
                                 fluidRow((h3("Quality Assurance / Quality Control Data Set", style="text-align: center")))
                                 #, fluidRow("button for generating summary by decision.  2nd button for output.")
                                 #, fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
-                                , fluidRow("Shown in table below are all of the QAQC Decisions as applied (in the QAQC Advanced tab) to the data.")
+                                , fluidRow("Shown in table below are all of the QAQC Decisions as applied (in the QAQC Decisions tab) to the data.")
                                 , fluidRow("Use the button below to download the QAQC data set.")
                                 , fluidRow(column(3, downloadButton("SaveQAQCDataSet","Save QAQC Data Set"))
                                                   , bsPopover("SaveQAQCDataSet", "Save QAQCed Data Set).", trigger = "hover", placement="right", options = list(container = "body")
