@@ -13,6 +13,8 @@ library(XLConnect)
 source("external/dataQAQC.R", local=TRUE)
 # Special version of DT needed to enable editable tables
 #devtools::install_github('rstudio/DT@feature/editor')
+# Increase file size limit for uploads (need for large datasets)
+options(shiny.maxRequestSize=30*1024^2)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)

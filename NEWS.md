@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-30 13:34:46
+    #> Last Update: 2017-08-30 15:00:08
 
 Version history.
 
@@ -25,6 +25,13 @@ Planned Updates
 -   QAQC. Summary stats by decision. (Or per Jon's)
 -   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
 -   QAQC. Apply decisions to data and save that data set. Keep / Exclude datasets? QAQC Advanced, need "all" combos and a column for present in decision file.
+
+v1.1.1.9011
+===========
+
+2017-08-30
+
+-   Fixed limit on file size upload limit. Default is 5 MB. Increased to 30 MB. Issue\#13. 20170830.
 
 v1.1.1.9010
 ===========
