@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-08-30 15:00:08
+    #> Last Update: 2017-09-13 21:14:01
 
 Version history.
 
@@ -11,20 +11,25 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
--   Query Data
--   Boxes not always updating. Sometimes have to his "update" a 2nd time. County. Check County statement line 224.
--   Entering a County without a state.
-
 -   View Data
 -   Filters not always updating. Sometimes have to hit "update" a 2nd time.
--   Error in original with removing then readding things. Leave "as is".
+-   Summary Plots and Tables. Have in Notebook need to implement in DDT.
 
 -   Check Data
--   QAQC. Need ability to "upload" a new decision file.
--   QAQC. Need ability to update decisions on screen. (done). Need to save!
--   QAQC. Summary stats by decision. (Or per Jon's)
+-   QAQC. Need ability to "upload" a new decision file. Have button. works now.20170913
+-   QAQC. Need ability to update decisions on screen. (done). getting row names. working now.20170913.
+-   QAQC. Summary stats by decision. (done)
 -   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
 -   QAQC. Apply decisions to data and save that data set. Keep / Exclude datasets? QAQC Advanced, need "all" combos and a column for present in decision file.
+
+v1.1.1.9012
+===========
+
+2017-09-01
+
+-   Query screen no longer needing 2nd push of button to update variables loaded from a file. 20170901.
+
+-   Converted data\_QAQC to a reativeValues RV\_QAQC$df\_data and the QAQC Decisions table works (savings, updates, combinations). 20170913..
 
 v1.1.1.9011
 ===========

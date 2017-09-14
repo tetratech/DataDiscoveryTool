@@ -208,7 +208,7 @@ function(){
                        ,bsPopover("UpdateQuery", "Update Query", trigger = "hover", placement="right", options = list(container = "body")
                                   ,"This button updates the query selections from a user selected query file. Must upload file first before clicking this button."))
                 ,column(1)
-                , column(4, "<== Must click twice.")
+                #, column(4, "<== Must click twice.")
                 )
       , br(),
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -469,7 +469,7 @@ url_display<-eventReactive(input$CHECK, {
     # Apply QAQC Decisions
     observeEvent(input$ApplyQAQC, {
       # 
-      data_QAQC
+     # data_QAQC
       # Create Merge Key
       
       
@@ -485,70 +485,72 @@ url_display<-eventReactive(input$CHECK, {
     #                                          columnDefs = list(list(visible =  F, targets = list(5,6,7,8)))
     #   ), server = TRUE)
     
-    
-    
-    # Save QAQC
-    output$SaveQAQC <- downloadHandler(
-      filename = function() {
-         strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".xlsx")}
-      , content = function(file) {
-        #
-        # Copy BLANK XLSX
-        file.copy(from="external/DDT_QAQC_BLANK.xlsx"
-                  , to=file)
-        # Then copy in data
-        mySheet <- "Methods Table"
-        wb <- XLConnect::loadWorkbook(file)
-        XLConnect::writeWorksheet(wb, data=data_QAQC, sheet=mySheet, startRow=7, header=FALSE)
-        XLConnect::saveWorkbook(wb)
-        #
-        }
-    )
+  #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+
+  # Create reactive data for QAQC File
+  # Trigger on IMPORT, LoadAppData, and UpdateQAQC
+  # no data will show until have done one of these three
+  # data_QAQC <- eventReactive({
+  #   c(input$IMPORT, input$LoadAppData, input$UpdateQAQC)
+  #   },  {
+  #   #data_QAQC <- reactive({
+  #   # Get Import File specs
+  #   q <- input$LoadQAQCFile
+  #   #
+  #   if(is.null(q)) {
+  #     # default; Loads default file for IMPORT and LoadAppData
+  #     df_load <- read_data_QAQC(strFile="external/DDT_QAQC_Default.xlsx"
+  #                               , strSheet = "Methods Table"
+  #                               , intStartRow=6)
+  #     return(df_load)
+  #   } else { # User defined file instead of default
+  #     # Import Data
+  #     df_load <- read_data_QAQC(strFile=q$datapath
+  #                               ,strSheet="Methods Table"
+  #                               ,intStartRow=6)
+  #     #
+  #     #DT::replaceData(proxy_dt_QAQC, df_load, resetPaging=FALSE, rownames=FALSE)
+  #     return(df_load)
+  #   }
+  # })
+
+    RV_QAQC <- reactiveValues(df_data=NULL)
+    RV_QAQC$df_data <-  XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+  
     
     # Save QAQC (User)
     ## Need to have user modify first ##
     #
-    #Load QAQC
-    observeEvent(input$UpdateQAQC, {
-      # Get QAQC Load file
-      strFile_LoadQAQC <- input$LoadQAQCFile
-      #strFile_LoadQAQC <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
-      # Error Check
-      if(is.null(strFile_LoadQAQC)) return(NULL)
-      # load file
-      #data_QAQC <- XLConnect::readWorksheetFromFile(strFile_LoadQAQC$datapath, sheet="Methods Table", startRow=6, header=TRUE)
-      data_QAQC <- read_data_QAQC(strFile=strFile_LoadQAQC$datapath
-                                  ,strSheet="Methods Table"
-                                  ,intStartRow=6)
-      
-            # # # test
-            # myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
-            # strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
-            # saveRDS(data_QAQC, file.path(myDir,strFile))
-      #
-    })
     
-    #data_QAQC <- XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+    
+    
     
     ApplyQAQC.column <- 8
-    data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (highlighted in green [TRUE] or red 
-    [FALSE]).  Edits are only allowed in this column and only for the values TRUE and FALSE."
+    data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (TRUE or FALSE).
+                          Edits are only allowed in this column and only for the values TRUE and FALSE (not case sensitive)."
     
-    output$dt_QAQC = DT::renderDataTable(DT::datatable(data_QAQC
+    output$dt_QAQC <- DT::renderDataTable(DT::datatable(RV_QAQC$df_data
                                                        , caption=data_QAQC_caption
-                                                       , rownames=FALSE
+                                                       , rownames = FALSE
                                                        , selection='none'
-                                                      # , server=TRUE
-                                                      ) %>% formatStyle(columns=ApplyQAQC.column
-                                                                        ,target="cell"
-                                                                        ,background=styleEqual(c(0,1)
-                                                                                               ,c('lightgreen','red'))
-                                                                        ,fontWeight='bold')
-                                          )
-    outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+                                                       )
+                      )
+                                                       #, server=TRUE)
+                                                       # )
+
+                                          #            #  ) %>% formatStyle(columns=ApplyQAQC.column
+                                          #            #                    ,target="cell"
+                                          #            #                    ,background=styleEqual(c(0,1)
+                                          #            #                                           ,c('lightgreen','red'))
+                                          #            #                    ,fontWeight='bold')
+                                          # , rownames = FALSE
+                                          # , server=TRUE
+                                          # )
+
+        #outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
     
-    proxy_dt_QAQC <- DT::dataTableProxy('dt_QAQC')
-    #DT::selectColumns(proxy_dt_QAQC, 7)
+    proxy_dt_QAQC <- dataTableProxy('dt_QAQC')
+    #DT::selectColumns(proxy_dt_QAQC, ApplyQAQC.column)
     
     observeEvent(input$dt_QAQC_cell_edit, {
       info=input$dt_QAQC_cell_edit
@@ -557,9 +559,10 @@ url_display<-eventReactive(input$CHECK, {
       j = info$col + 1
       v = info$value
       # Change Value "v" only IF column = 8 AND logical (T/F)
-      if(j==8 & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
-        data_QAQC[i,j] <<- DT:::coerceValue(toupper(v), data_QAQC[i,j])
-        DT::replaceData(proxy_dt_QAQC, data_QAQC, resetPaging=FALSE, rownames=FALSE)
+      # coerceValue requires 3 ":"
+      if(j==ApplyQAQC.column & (toupper(v)=="FALSE" | toupper(v)=="TRUE")) {
+        RV_QAQC$df_data[i,j] <<- DT:::coerceValue(toupper(v), RV_QAQC$df_data[i,j])
+        DT::replaceData(proxy_dt_QAQC, RV_QAQC$df_data, resetPaging=FALSE, rownames=FALSE)
       }
       # may need column for matching "data".
       
@@ -567,10 +570,47 @@ url_display<-eventReactive(input$CHECK, {
       
     })
     
+    #Load QAQC
+    observeEvent(input$UpdateQAQC, {
+      # Get QAQC Load file
+      strFile_LoadQAQC <- input$LoadQAQCFile
+      #strFile_LoadQAQC <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+      # Error Check
+      if(is.null(strFile_LoadQAQC)) return(NULL)
+      # load file
+      #data_QAQC_Update <- XLConnect::readWorksheetFromFile(strFile_LoadQAQC$datapath, sheet="Methods Table", startRow=6, header=TRUE, rownames=FALSE)
+      # trigger with event reactive
+      RV_QAQC$df_data <- read_data_QAQC(strFile=strFile_LoadQAQC$datapath
+                                  ,strSheet="Methods Table"
+                                  ,intStartRow=6)
+      # reactive data auto uploads data
+      DT::replaceData(proxy_dt_QAQC, RV_QAQC$df_data, resetPaging=TRUE, rownames=FALSE)
+      # # # test
+      # myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+      # strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+      # saveRDS(data_QAQC, file.path(myDir,strFile))
+      #
+    })
     
-     #QAQC Table (default data loaded in global.R)
-     output$dt_QAQC = DT::renderDataTable(data_QAQC, server=TRUE)
-     outputOptions(output, 'dt_QAQC', suspendWhenHidden=TRUE)
+    
+    # Save QAQC
+    output$SaveQAQC <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_QAQC_",format(Sys.time(),"%Y%m%d_%H%M%S"),".xlsx")}
+      , content = function(file) {
+        #
+        # Copy BLANK XLSX
+        file.copy(from="external/DDT_QAQC_BLANK.xlsx"
+                  , to=file)
+        # Then copy in data
+        mySheet <- "Methods Table"
+        wb <- XLConnect::loadWorkbook(file)
+        XLConnect::writeWorksheet(wb, data=RV_QAQC$df_data, sheet=mySheet, startRow=7, header=FALSE)
+        XLConnect::saveWorkbook(wb)
+        #
+      }
+    )
+  
 
 
      # QAQC Combos
@@ -589,11 +629,17 @@ url_display<-eventReactive(input$CHECK, {
          group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
            summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
       # match with QAQC Decisions
-      # x <- merge(myData.QAQC.Summary, data_QAQC[c(myFields, "Apply.QAQC")], by=myFields, all.x=TRUE)
-    
-    
-       # return data.frame
-       return(data.frame(myData.QAQC.Summary))
+       myFields.data_QAQC <- c("Activity.Media", "Characteristic", "Sample.Fraction"
+                               , "PCODE", "Units")
+       data_QAQC_temp <- RV_QAQC$df_data
+       data_QAQC_temp$MatchQAQC <- TRUE  # add extra field, will be NA for all non-matches
+       myData.QAQC.Summary.merge <- merge(myData.QAQC.Summary, data_QAQC_temp[,c(myFields.data_QAQC,"MatchQAQC")]
+                                        , by.x=myFields[1:5], by.y=myFields.data_QAQC
+                                        , all.x=TRUE)
+       # fill in NA values on "match" field
+       myData.QAQC.Summary.merge$MatchQAQC[is.na(myData.QAQC.Summary.merge$MatchQAQC)] <- FALSE
+              # return data.frame
+       return(data.frame(myData.QAQC.Summary.merge))
        #
      })
      #
@@ -1388,7 +1434,9 @@ observeEvent(input$UpdateFilters, {
   lst_filters_load <- readRDS(q$datapath)
   # Radio Button Choices
   myChoicesRadio <- c("Select All"=1, "Deselect All"=2)
+  #
   # Update Filter Info onscreen
+  #
   if(!is.null(lst_filters_load$org)) {##IF.org.START
     updateCollapse(session, id="view_sp", open="Filter by Organization")
     data <- data.table(filtered_data())
@@ -1397,8 +1445,8 @@ observeEvent(input$UpdateFilters, {
     updateSelectizeInput(session, "org"
                          , choices=org_Choices
                          , selected=lst_filters_load$org)
-    updateButton(session, "submit_filters", value = 0)
-    updateButton(session, "submit_filters", value = 1)
+    #updateButton(session, "submit_filters", value = 0)
+    #updateButton(session, "submit_filters", value = 1)
   } else {
     updateCollapse(session, id="view_sp", open="Filter by Organization")
     data <- data.table(filtered_data())
@@ -1407,43 +1455,44 @@ observeEvent(input$UpdateFilters, {
     updateSelectizeInput(session,"org"
                          , choices=org_Choices
                          , selected=NULL)
-    updateButton(session, "submit_filters", value = 0)
-    updateButton(session, "submit_filters", value = 1)
+    #updateButton(session, "submit_filters", value = 0)
+    #updateButton(session, "submit_filters", value = 1)
     #updateCollapse(session, id="view_sp", close="Filter by Organization")
   }##IF.org.END
-  
+  #
   if(!is.null(lst_filters_load$stt)) {##IF.stt.START
-    updateCollapse(session, id="view_sp", open="Filter by Station")
-    # data <- data.table(filtered_data())
+    updateCollapse(session, id="view_sp", close="Filter by Station")
+    data <- data.table(filtered_data())
     # if(is.null(input$org)){
     #   data <- data
     #   } else {
     #     data <- data[OrganizationFormalName %in% input$org]
     #   }
-    stt_Choices <- lst_filters_load$stt #unique(data[, as.character(Name)])
+    stt_Choices <- unique(data[, as.character(Name)]) #lst_filters_load$stt #unique(data[, as.character(Name)])
     updateRadioButtons(session, "stat_sel", choices=myChoicesRadio, selected=2)
     updateSelectizeInput(session, "stt"
                          , choices=stt_Choices
                          , selected=lst_filters_load$stt)
-    updateButton(session, "submit_filters", value = 0)
-    updateButton(session, "submit_filters", value = 1)
+    #updateButton(session, "submit_filters", value = 0)
+    #updateButton(session, "submit_filters", value = 1)
+   # updateCollapse(session, id="view_sp", open="Filter by Station")
   } else {
     updateCollapse(session, id="view_sp", open="Filter by Station")
-    # data <- data.table(filtered_data())
-    # if(is.null(input$org)){
-    #   data <- data
-    #   } else {
-    #     data <- data[OrganizationFormalName %in% input$org]
-    #   }
+    data <- data.table(filtered_data())
+    if(is.null(input$org)){
+      data <- data
+      } else {
+        data <- data[OrganizationFormalName %in% input$org]
+      }
     stt_Choices <- lst_filters_load$stt #unique(data[, as.character(Name)])
     updateRadioButtons(session, "stat_sel", choices=myChoicesRadio, selected=1)
     updateSelectizeInput(session,"stt"
                          , choices=stt_Choices
                          , selected=NULL)
-    updateButton(session, "submit_filters", value = 0)
-    updateButton(session, "submit_filters", value = 1)
+    #updateButton(session, "submit_filters", value = 0)
+    #updateButton(session, "submit_filters", value = 1)
   }##IF.stt.END
-  
+  #
   if(!is.null(lst_filters_load$media)) {##IF.media.START
     updateCollapse(session, id="view_sp", open="Filter by Sample Media")
     data <- data.table(filtered_data())
@@ -1941,4 +1990,27 @@ output$timeseries <- renderChart2({
 
   return(ln)
   })
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tt Mod, ViewData, Data Summary Plots/Tables ####
+# output$plot.CDF.Year.Site <- renderChart2({
+#   # data to use
+#   data_plot <- filtered_data()
+#   # add extras to data for ploting
+#   data_plot$begYear <- year(data_plot$begDate)
+#   data_plot$endYear <- year(data_plot$endDate)
+#   # plotting
+#   #par(mfrow = c(2, 2))
+#   with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab="", main="A) Begin Year by Site",
+#                         panel.first=grid(lty=3)))
+#   # with(sites, plot.ecdf(endYear, ylab="CDF(x)", xlab="", main="B) End Year by Site",
+#   #                       panel.first=grid(lty=3)))
+#   # 
+#   # with(sites, plot.ecdf((endYear-begYear+1), ylab="CDF(x)", xlab="", main="C) Num Years by Site",
+#   #                       panel.first=grid(lty=3)))
+#   # 
+#   # with(sites, plot(begYear, endYear, ylab="End Year", xlab="Begin Year", main="D) End vs. Beg. Year by Site",
+#   #                  panel.first=grid(lty=3)))
+# })
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 })

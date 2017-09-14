@@ -721,6 +721,121 @@ myData.URL <- as.character(myData.Meta[3,2])
 
 ```
 
+# Summary Plots and Tables
+Test out summary plots and tables of filtered data.
+```{r, eval=FALSE}
+# library
+require(dplyr)
+# import data.  This will take the place of "filtered_data()"
+myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_20170830_141447_R8_Tribes_19*")
+myFiles
+myFile <- myFiles[6] #"DDT_Data_20170830_141447_R8_Tribes_19.rds"
+myData <- readRDS(file.path(myDir,myFile)) #~10 seconds for biggest file
+# Add Year
+myData$Year <- as.numeric(format(myData$ActivityStartDate, "%Y"))
+# summarize by site
+
+
+# summarize #library(dplyr)
+
+summarize_Site <- myData %>%
+                    group_by(MonitoringLocationIdentifier) %>%
+                      summarise(nResults=n(),begYear=min(Year,na.rm=TRUE)
+                                ,endYear=max(Year,na.rm=TRUE))
+#View(summarize_Site)
+# SiteID and ActID (double summarize with pipes)
+summarize_Site_nAct <- myData %>%
+                          group_by(MonitoringLocationIdentifier, ActivityIdentifier) %>%
+                            summarise(n=n()) %>% 
+                              group_by(MonitoringLocationIdentifier) %>%
+                                summarise(nActivities=n())
+#View(summarize_Site_nAct)
+# SiteID n(Samples)
+summarize_Site_nSamps <- myData %>%
+                            group_by(MonitoringLocationIdentifier
+                                    , ActivityStartDate
+                                    , ActivityStartTime.Time
+                                    , ActivityDepthHeightMeasure.MeasureValue) %>% 
+                              summarize(n=n()) %>%
+                                group_by(MonitoringLocationIdentifier) %>%
+                                  summarize(nSamples=n())
+#View(summarize_Site_nSamps)
+# SiteID n(Parameters)
+summarize_Site_nParam <- myData %>%
+                          group_by(MonitoringLocationIdentifier, CharacteristicName) %>%
+                            summarize(n=n()) %>%
+                              group_by(MonitoringLocationIdentifier) %>%
+                                summarize(nParameters=n())
+#View(summarize_Site_nParam)
+# Create single table
+Site_Summary <- merge(summarize_Site, summarize_Site_nAct, by="MonitoringLocationIdentifier")
+Site_Summary <- merge(Site_Summary, summarize_Site_nSamps, by="MonitoringLocationIdentifier")
+Site_Summary <- merge(Site_Summary, summarize_Site_nParam, by="MonitoringLocationIdentifier")
+View(Site_Summary)
+
+
+
+
+# Plots
+data_plot <- Site_Summary
+  ## Plot by Site
+  #par(mfrow = c(2, 2))
+  with(data_plot, plot.ecdf(nResults, ylab="CDF(x)", xlab=""
+                            , main="A) Results by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nActivities, ylab="CDF(x)", xlab=""
+                            , main="B) Activities by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nSamples, ylab="CDF(x)", xlab=""
+                            , main="C) Samples by Site*"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nParameters, ylab="CDF(x)", xlab=""
+                            , main="D) Parameters by Site"
+                            , panel.first=grid(lty=3)))
+  ## Plot by Years
+  #par(mfrow = c(2, 2))
+  with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab=""
+                            , main="E) Begin Year by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(endYear, ylab="CDF(x)", xlab=""
+                            , main="F) End Year by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf((endYear-begYear+1), ylab="CDF(x)", xlab=""
+                            , main="G) Num Years by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot(begYear, endYear, ylab="End Year", xlab="Begin Year"
+                       , main="H) End vs. Beg. Year by Site"
+                       , panel.first=grid(lty=3)))
+# Tables
+  #~~~~~~~~~~~~~~
+  #UT tribal data is of poor quality.  Numbers won't match between tables.
+  # Some stations in more than one county.  AND more than one Type.
+  #~~~~~~~~~~~~~~
+  table_Sites_County <- myData %>%
+                          group_by(StateName
+                                  , CountyName
+                                  , MonitoringLocationIdentifier) %>% 
+                              summarize(nResults=n()) %>%
+                                group_by(StateName, CountyName) %>%
+                                  summarize(nSites=n())
+  table_Site_County_MonLocType <- myData %>%
+                              group_by(StateName
+                                      , CountyName
+                                      , MonitoringLocationTypeName
+                                      , MonitoringLocationIdentifier) %>% 
+                                  summarize(nResults=n()) %>%
+                                    group_by(StateName
+                                            , CountyName
+                                            , MonitoringLocationTypeName) %>%
+                                      summarize(nSites=n())
+  # need wide format
+  
+# x2<-data.frame(with(myData, table(StateName, CountyName, MonitoringLocationTypeName)))
+#   x2 <- reshape (x2, v.names=c("Freq"), idvar=c("StateName","CountyName"),
+#                  timevar=c("MonitoringLocationTypeName"), drop=c(""), direction = "wide")
+
+```
 
 
 

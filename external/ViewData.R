@@ -31,7 +31,7 @@ function() {
                                                    bsButton("UpdateFilters", label="Update Filters From File", style="primary")
                                                    ,bsPopover("UpdateFilters", "Update Filters", trigger = "hover", placement="right", options = list(container = "body")
                                                               ,"This button updates the filter selections from a user selected filters file. Must upload file first before clicking this button."))
-                                            ,column(5,"<== Must click twice.")
+                                            #,column(5,"<== Must click twice.")
                                   ),
                                   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                   br(),
@@ -100,6 +100,16 @@ function() {
                                       # ),
                                       br(),
                                       leafletOutput("map")
+                                      ),
+                             tabPanel("Data Summary",
+                                      fluidRow("Data summary plots and tables based on filtered data.")
+                                      ,fluidRow("Click the button below to save as HTML file.")
+                                      ,fluidRow(column(1, downloadButton("SaveViewDataSummary","Save Data Summary")))
+                                      , br()
+                                      , "plots"
+                                      
+                                      , br()
+                                      , "tables"
                                       ),
                              tabPanel("Table",
                                       br(),

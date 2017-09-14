@@ -1,0 +1,24 @@
+---
+title: "Data QAQC Summary Report"
+output: html_document
+---
+
+```{r report_date, results='asis', echo=FALSE, warning=FALSE}
+  myReportDate <- format(Sys.Date(),"%Y%m%d %H%M%S")
+  cat(paste("**Report Date:** ",myReportDate,"\n\n",sep=""))
+```
+
+URL = ?
+
+Filter = ?
+
+# PLOTS
+
+# TABLES
+
+#QC TESTS, BY PARAMETER
+* **Gross Range Test (Gross):** Test if data point exceeds sensor or user defined min/max.  The values are user defined based on parameter being measured and measuring instrument.
+* **Spike Test (Spike):** Test if data point exceeds a user defined threshold relative to the previous data point.  The user defined values are based on the parameter being measured.
+* **Rate of Change Test (RoC):** Test if a data point exceeds a number of standard deviations from the previous data points over a user defined time period.  Default is a 25 hour time period and 3 standard deviations.
+* **Flat Line Test (Flat):** Test if a data point is within a user defined threshold from previous data points over a user defined range.  Default is 3 previous points for suspect and 5 points for failure.  The threshold is user defined and based on the measured parameter and sensitivity of the measuring instrument.
+
