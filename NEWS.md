@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-13 21:14:01
+    #> Last Update: 2017-09-14 10:40:22
 
 Version history.
 
@@ -12,15 +12,20 @@ Planned Updates
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
 -   View Data
--   Filters not always updating. Sometimes have to hit "update" a 2nd time.
 -   Summary Plots and Tables. Have in Notebook need to implement in DDT.
 
 -   Check Data
--   QAQC. Need ability to "upload" a new decision file. Have button. works now.20170913
--   QAQC. Need ability to update decisions on screen. (done). getting row names. working now.20170913.
 -   QAQC. Summary stats by decision. (done)
--   QAQC. Add all existing parameter combinations to decision file. Save to file and reload.
 -   QAQC. Apply decisions to data and save that data set. Keep / Exclude datasets? QAQC Advanced, need "all" combos and a column for present in decision file.
+
+v1.1.1.9013
+===========
+
+2017-09-14
+
+-   Query Data tab moved "UpdateQuery" button so was lined up with other buttons. 20170914.
+
+-   QAQC Decisions. Add new combos from loaded data. 20170914.
 
 v1.1.1.9012
 ===========

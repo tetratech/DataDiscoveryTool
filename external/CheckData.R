@@ -127,11 +127,13 @@ function(){
                                 fluidRow((h3("Quality Assurance / Quality Control Combinations", style="text-align: center")))
                                 #, fluidRow("button for generating summary by decision.  2nd button for output.")
                                 #, fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
-                                , fluidRow("Shown in table below are all combinations in the data.  Includes 'match' field for QAQC Decisions table.")
+                                , fluidRow("Shown in the table below are all combinations of Media, Characteristic, Sample Fraction, and Unit in the current data set (along with number of records and min and max Result values).  
+                                           Field 'MatchQAQC' shows how each combination matches QAQC Decisions table (TRUE = already in table, FALSE = new).  
+                                           Use the button below to add all of the new combinations to the QAQC Decisions table.")
                                 , fluidRow(column(4, bsButton("QAQC_CombosAdd","Update QAQC Decision combinations", style="primary")
                                                   , bsPopover("QAQC_CombosAdd", "Update QA/QC Combinations", trigger = "hover", placement="right", options = list(container = "body")
-                                                              ,"This button updates the QA/QC decisions table with any missing cominations from all data.
-                                                        That is, all those with 'MatchQAQC'=FALSE in the table below."))
+                                                              ,"This button updates the QA/QC decisions table with any new cominations from all data.
+                                                        That is, all records with 'MatchQAQC'=FALSE in the table below."))
                                 )
                                 , fluidRow(column(12,DT::dataTableOutput('dt_QAQC_combos_data')))
                        ),

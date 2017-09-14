@@ -655,10 +655,30 @@ url_display<-eventReactive(input$CHECK, {
 
     
     observeEvent(input$QAQC_CombosAdd, {
-      # update QAQC decision table
-      # mark all entries in this table as match
-      # Save and reload
-      
+      # QAQC Decisions Table = RV_QAQC$df_data
+      # QAQC Combos Table = dt_QAQC_combos_data but data is QAQC_combos_data()
+      #names(RV_QAQC$df_data)
+      #names(df.add)
+      # 1.0 
+      #Filter combos to new (MatchQAQC==FALSE)
+      # 1.1. Rename QAQC_combos_data() to df.add so can munge
+      df.add <- QAQC_combos_data()
+      # 1.2. Filter for new records and only matching columns
+      df.add <- df.add[df.add[,"MatchQAQC"]==FALSE,c(1:5)]
+      # 1.3. Add extra columns (so can rbind)
+      df.add[,6:14] <- NA
+      names(df.add) <- names(RV_QAQC$df_data)
+      # 1.4. ApplyQAQC column to FALSE
+      df.add[,"Apply.QAQC"] <- FALSE
+      # 2. Merge data frames
+      df.merge <- rbind(RV_QAQC$df_data, df.add)
+      # 3. 
+      # 3.1. update QAQC decision table
+      RV_QAQC$df_data <- df.merge
+      # 3.2. reload QAQC Decisions table on screen
+      DT::replaceData(proxy_dt_QAQC, RV_QAQC$df_data, resetPaging=TRUE, rownames=FALSE)
+      # do not need to mark all entries in this table QAQC_combos_data().  Autoupdates since is a reactive table.
+      #
     })
     
     
