@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-15 15:29:06
+    #> Last Update: 2017-09-15 15:46:02
 
 Version history.
 
@@ -14,6 +14,13 @@ Planned Updates
 -   Fixes from:
 -   Testing.
 -   Demo on 20170918.
+
+v1.1.2.0000
+===========
+
+2017-09-15
+
+-   Call current version done and set a release in GitHub. To be used for demo on 20170918.
 
 v1.1.1.9014
 ===========

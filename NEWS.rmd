@@ -30,6 +30,11 @@ https://github.com/tetratech/DataDiscoveryTool/issues
 + Testing.
 + Demo on 20170918.
 
+#v1.1.2.0000
+2017-09-15
+
+* Call current version done and set a release in GitHub.  To be used for demo on 20170918.
+
 #v1.1.1.9014
 2017-09-15
 
