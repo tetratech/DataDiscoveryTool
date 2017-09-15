@@ -397,18 +397,22 @@ url_display<-eventReactive(input$CHECK, {
   url()
 })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    QAQC_Apply_datapath <- NULL
+
     ## Tt Mod, CheckData, data() ####
     # Add 2nd trigger for Event
-    # Allow for loading of data from saved file (if/else)
+    # Allows for loading of data from saved file (if/else)
     data<-eventReactive({
-      c(input$IMPORT, input$LoadAppData)
+        c(input$IMPORT, input$LoadAppData)
       },  {
       # Trying a reactive example from http://shiny.rstudio.com/gallery/progress-bar-example.html
       #
       # Get Import File specs
       q <- input$LoadAppData
-      #
-      if(is.null(q)) {# default
+      # regular (Load from web or upload file)
+      if(is.null(q)) {##IF.START
+        # default
         progress<-shiny::Progress$new()
         progress$set(message = "Downloading Data, please be patitient, this may take some time.", value = 0)
         on.exit(progress$close())
@@ -425,12 +429,13 @@ url_display<-eventReactive(input$CHECK, {
                       startDateLo = as.Date(input$date_Lo, format = '%m-%d-%Y'), startDateHi = as.Date(input$date_Hi, format = '%m-%d-%Y'))
        #The next line of code is new, and calls the new module for getting the data 
         return(getWQPData_app(url))
-      } else { # Use imported file
+      } else { # Use imported file  if(!is.null(q))
         # Import Data
         data_load <- readRDS(q$datapath)
         val$display2 <- "yes" # needed for leaflet map on View Data tab
         return(data_load)
-      }
+      }##IF.END
+      #
     })
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -451,7 +456,6 @@ url_display<-eventReactive(input$CHECK, {
         # x = data()
         # y = c("siteInfo", "variableInfo", "url","queryTime")
       }
-
     )
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -466,15 +470,117 @@ url_display<-eventReactive(input$CHECK, {
     #   #
     # })
     
-    # Apply QAQC Decisions
-    observeEvent(input$ApplyQAQC, {
-      # 
-     # data_QAQC
-      # Create Merge Key
-      
-      
-      
-    })
+    # # Apply QAQC Decisions
+    # observeEvent(input$ApplyQAQC, {
+    #   # Run code in dataQAQC.R to update ALL DATA with QAQC Decisions
+    #   #df.all.applyQAQC <-  ApplyQAQCDecisions()
+    #   #
+    #   #~~~~~~~~~~~~~~~~~~
+    #   #
+    #   df.data <- all_data()
+    #   df.QAQC <- RV_QAQC$df_data #data_QAQC
+    #   #
+    #   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #   # *** TESTING ***
+    #   # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+    #   # df.QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE) #, drop=c(1,2))
+    #   # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_Data_20170804_081355_multipleParam.rds")
+    #   # df.data <- readRDS(strFile)
+    #   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #   
+    #   # 1. Prep Sample Data
+    #   {
+    #     # create merge key
+    #     df.data$mergeKey <- with(df.data, paste(ActivityMediaName, CharacteristicName, 
+    #                                             ResultSampleFractionText, USGSPCode,
+    #                                             ResultMeasure.MeasureUnitCode,sep="|")) 
+    #     # rename some variables to *.orig
+    #     data.table::setnames(df.data, old = c("Characteristic", "Unit", "ResultSampleFractionText"),
+    #                          new = c("Characteristic.orig", "Unit.orig", "ResultSampleFractionText.orig"))
+    #   }
+    #   #
+    #   # 2. Prep QAQC Data
+    #   {
+    #     # create merge key
+    #     df.QAQC$mergeKey <- with(df.QAQC, paste(Activity.Media, Characteristic, 
+    #                                             Sample.Fraction, PCODE,
+    #                                             Units,sep="|")) 
+    #     # identify list of variables to merge into with sample data
+    #     df.QAQCvars <- c("Apply.QAQC", "Characteristic", "Units", "Units.Conv.Mult",
+    #                      "Sample.Fraction.QAQC", "QC.Min", "QC.Max", "mergeKey") 
+    #   }
+    #   #
+    #   # 3. Merge Data
+    #   # apply range check, unit conversion, and fill in.
+    #   {
+    #     # do merge where df.QAQC$apply == TRUE and only merge in variables listed in df.QAQCvars
+    #     df.data <- merge (df.data, df.QAQC[df.QAQC$apply, df.QAQCvars], by="mergeKey", all.x=TRUE)
+    #     # drop merge key
+    #     df.data <- df.data[,!(names(df.data) %in% c("mergeKey"))]
+    #     # identify cases where data are outside qc range (do this before unit conversion because
+    #     # the ranges in the df.QAQC are based on the original units)
+    #     df.data$qcRange <- FALSE
+    #     df.data[!is.na(df.data$Result) & !is.na(df.data$QC.Min) & df.data$Result < df.data$QC.Min, "qcRange"]<-TRUE
+    #     df.data[!is.na(df.data$Result) & !is.na(df.data$QC.Max) & df.data$Result > df.data$QC.Max, "qcRange"]<-TRUE
+    #     # apply unit conversions (because unitsConvMult can be character to accomodate for Deg F->Deg C
+    #     # i create a numeric conversion field but suppress warnings to not alarm user
+    #     df.data$Units.Conv.Mult <- suppressWarnings(as.numeric(df.data$Units.Conv.Mult))
+    #     df.data$Result      <- ifelse(!is.na(df.data$Result     ) & !is.na(df.data$Units.Conv.Mult), 
+    #                                   df.data$Result      * df.data$Units.Conv.Mult, df.data$Result     )
+    #     df.data$ResultLower <- ifelse(!is.na(df.data$ResultLower) & !is.na(df.data$Units.Conv.Mult), 
+    #                                   df.data$ResultLower * df.data$Units.Conv.Mult, df.data$ResultLower)
+    #     df.data$ResultUpper <- ifelse(!is.na(df.data$ResultUpper) & !is.na(df.data$Units.Conv.Mult), 
+    #                                   df.data$ResultUpper * df.data$Units.Conv.Mult, df.data$ResultUpper)
+    #     # apply special case unit conversion (Deg F to Deg C)
+    #     df.data$Result      <- ifelse(!is.na(df.data$Result     ) & !is.na(df.data$Units.Conv.Mult) & df.data$Units.Conv.Mult == "F_to_C" , 
+    #                                   (df.data$Result      - 32) * (5/9) , df.data$Result     )
+    #     df.data$ResultLower <- ifelse(!is.na(df.data$ResultLower) & !is.na(df.data$Units.Conv.Mult) & df.data$Units.Conv.Mult == "F_to_C" , 
+    #                                   (df.data$ResultLower - 32) * (5/9) , df.data$ResultLower     )
+    #     df.data$ResultUpper <- ifelse(!is.na(df.data$ResultUpper) & !is.na(df.data$Units.Conv.Mult) & df.data$Units.Conv.Mult == "F_to_C" , 
+    #                                   (df.data$ResultUpper - 32) * (5/9) , df.data$ResultUpper     )
+    #     # handle those cases where df.QAQC was not merged in (i.e., either df.QAQC$apply==FALSE or 
+    #     # there was no record to process
+    #     df.data[is.na(df.data$Apply.QAQC), "apply" ] <- FALSE
+    #     df.data$Characteristic <- ifelse(df.data$Apply.QAQC, df.data$Characteristic, df.data$Characteristic.orig) 
+    #     df.data$Unit           <- ifelse(df.data$Apply.QAQC, df.data$Unit          , df.data$Unit.orig          ) 
+    #     df.data$SampleFraction <- ifelse(df.data$Apply.QAQC, df.data$SampleFraction, df.data$ResultSampleFractionText.orig)
+    #     # drop non essential variables (Tt-JBH: dont implement till after testing)
+    #     #Tt-JBH df.data <- df.data[,!(names(df.data) %in% c("Characteristic.orig", "Unit.orig", "ResultSampleFractionText.orig" ))]
+    #     #Tt-JBH df.data <- df.data[,!(names(df.data) %in% c("unitsConvMult", "qcMin", "qcMax", "unitsConvMult.num" ))] 
+    #   }
+    #   #
+    #   # 4. Return df
+    #   # return(df.data)
+    #   #
+    #   # 4. Save modified data (so can load later)
+    #   strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+    #   saveRDS(df.data, file.path(getwd(),strFile))
+    #   # 
+    #   QAQC_Apply_datapath <- file.path(getwd(),strFile)
+    #   # 4. Return df
+    #   #return(df.data)
+    #   #~~~~~~~~~~~~~~~~~~
+    #   
+    #   cat(QAQC_Apply_datapath)
+    #   flush.console()
+    #   
+    #   # # Update "load data button"
+    #   # q <- input$LoadAppData
+    #   # q$name <- strFile
+    #   # q$datapath <- file.path(getwd(),strFile) 
+    #   # input$LoadAppData <- q
+    #   # 
+    #   # # update value of button to trigger reactiveEvent
+    #   # z <- input$LoadAppData
+    #   # z$value <- ifelse(is.na(z$value), 0, z$value + 1)
+    #   #
+    # }) #observeEvent(input$ApplyQAQC#END
+    # #~~~~~~~~~~~~~~~~~~
+    
+    # observeEvent(input$ApplyQAQC2, {
+    #   # dummy button so can monitor for eventReactive data()
+    # })
+    
     
     #QAQC Decisions Table - example from all_data()
     # output$dt_QAQC = DT::renderDataTable(
@@ -519,12 +625,7 @@ url_display<-eventReactive(input$CHECK, {
   
     
     # Save QAQC (User)
-    ## Need to have user modify first ##
-    #
-    
-    
-    
-    
+
     ApplyQAQC.column <- 8
     data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (TRUE or FALSE).
                           Edits are only allowed in this column and only for the values TRUE and FALSE (not case sensitive)."
@@ -592,7 +693,6 @@ url_display<-eventReactive(input$CHECK, {
       #
     })
     
-    
     # Save QAQC
     output$SaveQAQC <- downloadHandler(
       filename = function() {
@@ -611,8 +711,6 @@ url_display<-eventReactive(input$CHECK, {
       }
     )
   
-
-
      # QAQC Combos
      QAQC_combos_data<-reactive({
        #
@@ -644,7 +742,7 @@ url_display<-eventReactive(input$CHECK, {
      })
      #
      # QAQC Combos table
-     dt_QAQC_combos_data_caption <- "Summary table of combinations in 'all data'."
+     dt_QAQC_combos_data_caption <- "Summary table of all combinations in 'all data'."
      output$dt_QAQC_combos_data = DT::renderDataTable(DT::datatable(QAQC_combos_data()
                                                                   , caption=dt_QAQC_combos_data_caption
                                                                   , rownames=FALSE
@@ -653,7 +751,6 @@ url_display<-eventReactive(input$CHECK, {
                                                                  )
                                                       )
 
-    
     observeEvent(input$QAQC_CombosAdd, {
       # QAQC Decisions Table = RV_QAQC$df_data
       # QAQC Combos Table = dt_QAQC_combos_data but data is QAQC_combos_data()
@@ -682,10 +779,367 @@ url_display<-eventReactive(input$CHECK, {
     })
     
     
-    
-    
-    
-    
+    # Tt Mod, Save QAQC as Applied to Various data sets ####
+    # Save QAQC as Applied to data()
+    output$SaveQAQCApply_data <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".tsv")}
+      , content = function(file) {
+
+        # Run code in dataQAQC.R to update ALL DATA with QAQC Decisions
+        #df.all.applyQAQC <-  ApplyQAQCDecisions()
+        #
+        #~~~~~~~~~~~~~~~~~~
+        #
+        df.data <- data() #not all_data() or data()
+        df.QAQC <- RV_QAQC$df_data #data_QAQC
+        #
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # *** TESTING ***
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+        # df.QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE) #, drop=c(1,2))
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_Data_20170804_081355_multipleParam.rds")
+        # df.data <- readRDS(strFile)
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        # 1. Prep Sample Data
+        #{
+        # create merge key
+        d # create merge key
+        df.data$mergeKey <- with(df.data, paste(ActivityMediaName, CharacteristicName,
+                                                ResultSampleFractionText, USGSPCode,
+                                                ResultMeasure.MeasureUnitCode,sep="|"))
+        # # rename some variables to *.orig
+        # data.table::setnames(df.merge, old = c("CharacteristicName", "Units", "ResultSampleFractionText"),
+        #                      new = c("CharacteristicName.orig", "Units.orig", "ResultSampleFractionText.orig"))
+        flds.old <- c("CharacteristicName", "ResultMeasure.MeasureUnitCode", "ResultSampleFractionText")
+        flds.new <- paste0(flds.old,".orig")
+        df.data[,flds.new] <- df.data[,flds.old]
+        #}
+        #
+        # 2. Prep QAQC Data
+        #{
+        # create merge key
+        df.QAQC$mergeKey <- with(df.QAQC, paste(Activity.Media, Characteristic,
+                                                Sample.Fraction, PCODE,
+                                                Units,sep="|"))
+        # identify list of variables to merge into with sample data
+        df.QAQCvars <- c("Apply.QAQC", "Characteristic", "Units", "Units.Conv.Mult",
+                         "Sample.Fraction.QAQC", "QC.Min", "QC.Max", "mergeKey")
+        #}
+        #
+        # 3. Merge Data
+        # apply range check, unit conversion, and fill in.
+        #{
+        # do merge where df.QAQC$ApplyQAQC == TRUE and only merge in variables listed in df.QAQCvars
+        df.merge <- merge (df.data, df.QAQC[df.QAQC[,"Apply.QAQC"], df.QAQCvars], by="mergeKey", all.x=TRUE)
+        #~~~
+        # Test Join instead of Merge
+        # x<-NULL
+        # x <- dplyr::left_join(df.merge, df.QAQC[df.QAQC$apply, df.QAQCvars], by="mergeKey")
+        # dim(x)
+        #~~~~
+        
+        # drop merge key
+        df.merge <- df.merge[,!(names(df.merge) %in% c("mergeKey"))]
+        # identify cases where data are outside qc range (do this before unit conversion because
+        # the ranges in the df.QAQC are based on the original units)
+        df.merge$qcRange <- FALSE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Min) & df.merge$ResultMeasureValue < df.merge$QC.Min, "qcRange"]<-TRUE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Max) & df.merge$ResultMeasureValue > df.merge$QC.Max, "qcRange"]<-TRUE
+        # apply unit conversions (because unitsConvMult can be character to accomodate for Deg F->Deg C
+        # i create a numeric conversion field but suppress warnings to not alarm user
+        df.merge$Units.Conv.Mult <- suppressWarnings(as.numeric(df.merge$Units.Conv.Mult))
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult),
+                                                   df.merge$ResultMeasureValue      * df.merge$Units.Conv.Mult, df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult),
+                                       df.merge$ResultLower * df.merge$Units.Conv.Mult, df.merge$ResultLower)
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult),
+                                       df.merge$ResultUpper * df.merge$Units.Conv.Mult, df.merge$ResultUpper)
+        # apply special case unit conversion (Deg F to Deg C)
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                                   (df.merge$ResultMeasureValue      - 32) * (5/9) , df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                       (df.merge$ResultLower - 32) * (5/9) , df.merge$ResultLower     )
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                       (df.merge$ResultUpper - 32) * (5/9) , df.merge$ResultUpper     )
+        # handle those cases where df.QAQC was not merged in (i.e., either df.QAQC$apply==FALSE or
+        # there was no record to process
+        df.merge[is.na(df.merge$Apply.QAQC), "apply" ] <- FALSE
+        df.merge$CharacteristicName <- ifelse(df.merge$Apply.QAQC, df.merge$CharacteristicName, df.merge$CharacteristicName.orig)
+        df.merge$Units           <- ifelse(df.merge$Apply.QAQC, df.merge$Units          , df.merge$Unit.orig          )
+        df.merge$ResultSampleFractionText <- ifelse(df.merge$Apply.QAQC, df.merge$ResultSampleFractionText, df.merge$ResultSampleFractionText.orig)
+        # drop non essential variables (Tt-JBH: dont implement till after testing)
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("Characteristic.orig", "Unit.orig", "ResultSampleFractionText.orig" ))]
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("unitsConvMult", "qcMin", "qcMax", "unitsConvMult.num" ))]
+        #
+        # # Reorder columns (merge puts the 'by' fields at the beginning)
+        # NameOrder <- c(names(df.data), names(df.merge)[!(names(df.merge) %in% names(df.data))])
+        # NameOrder2 <- names(df.merge)[!NameOrder %in% names(df.merge)]
+        # df.merge <- df.merge[,NameOrder2]
+        #}
+        
+        
+        # 4. Return df
+        # return(df.merge) # before changed format of reactive
+        #
+        # 4. Save modified data (so can load later)
+        QAQC_Apply_datapath <- file.path(getwd(),file)
+        # cat(QAQC_Apply_datapath)
+        # flush.console()
+        #
+        # QC
+        # names(data()) %in% names(df.merge)
+        # names(df.merge) %in% names(data())
+        
+        ##saveRDS(data(),file) # QC check
+        #saveRDS(df.merge,file)
+        write.table(df.merge, file, row.names = FALSE, col.names = FALSE, sep = "\t")
+        #write.csv(df.merge, file)
+        #
+      }
+    )
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Save QAQC as Applied to filtered_data()
+    output$SaveQAQCApply_filtered_data <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".tsv")}
+      , content = function(file) {
+        
+        # Run code in dataQAQC.R to update ALL DATA with QAQC Decisions
+        #df.all.applyQAQC <-  ApplyQAQCDecisions()
+        #
+        #~~~~~~~~~~~~~~~~~~
+        #
+        df.data <- filtered_data() #not all_data() or data()
+        df.QAQC <- RV_QAQC$df_data #data_QAQC
+        #
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # *** TESTING ***
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+        # df.QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE) #, drop=c(1,2))
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_Data_20170804_081355_multipleParam.rds")
+        # df.data <- readRDS(strFile)
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        # 1. Prep Sample Data
+        #{
+        # create merge key
+        df.data$mergeKey <- with(df.data, paste(ActivityMediaName, CharacteristicName,
+                                                ResultSampleFractionText, USGSPCode,
+                                                ResultMeasure.MeasureUnitCode,sep="|"))
+        # # rename some variables to *.orig
+        # data.table::setnames(df.merge, old = c("CharacteristicName", "Units", "ResultSampleFractionText"),
+        #                      new = c("CharacteristicName.orig", "Units.orig", "ResultSampleFractionText.orig"))
+        flds.old <- c("CharacteristicName", "ResultMeasure.MeasureUnitCode", "ResultSampleFractionText")
+        flds.new <- paste0(flds.old,".orig")
+        df.data[,flds.new] <- df.data[,flds.old]
+        #}
+        #
+        # 2. Prep QAQC Data
+        #{
+        # create merge key
+        df.QAQC$mergeKey <- with(df.QAQC, paste(Activity.Media, Characteristic,
+                                                Sample.Fraction, PCODE,
+                                                Units,sep="|"))
+        # identify list of variables to merge into with sample data
+        df.QAQCvars <- c("Apply.QAQC", "Characteristic", "Units", "Units.Conv.Mult",
+                         "Sample.Fraction.QAQC", "QC.Min", "QC.Max", "mergeKey")
+        #}
+        #
+        # 3. Merge Data
+        # apply range check, unit conversion, and fill in.
+        #{
+        # do merge where df.QAQC$ApplyQAQC == TRUE and only merge in variables listed in df.QAQCvars
+        df.merge <- merge (df.data, df.QAQC[df.QAQC[,"Apply.QAQC"], df.QAQCvars], by="mergeKey", all.x=TRUE)
+        #~~~
+        # Test Join instead of Merge
+        # x<-NULL
+        # x <- dplyr::left_join(df.merge, df.QAQC[df.QAQC$apply, df.QAQCvars], by="mergeKey")
+        # dim(x)
+        #~~~~
+        
+        # drop merge key
+        df.merge <- df.merge[,!(names(df.merge) %in% c("mergeKey"))]
+        # identify cases where data are outside qc range (do this before unit conversion because
+        # the ranges in the df.QAQC are based on the original units)
+        df.merge$qcRange <- FALSE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Min) & df.merge$ResultMeasureValue < df.merge$QC.Min, "qcRange"]<-TRUE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Max) & df.merge$ResultMeasureValue > df.merge$QC.Max, "qcRange"]<-TRUE
+        # apply unit conversions (because unitsConvMult can be character to accomodate for Deg F->Deg C
+        # i create a numeric conversion field but suppress warnings to not alarm user
+        df.merge$Units.Conv.Mult <- suppressWarnings(as.numeric(df.merge$Units.Conv.Mult))
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult),
+                                                  df.merge$ResultMeasureValue      * df.merge$Units.Conv.Mult, df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult),
+                                      df.merge$ResultLower * df.merge$Units.Conv.Mult, df.merge$ResultLower)
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult),
+                                      df.merge$ResultUpper * df.merge$Units.Conv.Mult, df.merge$ResultUpper)
+        # apply special case unit conversion (Deg F to Deg C)
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                                  (df.merge$ResultMeasureValue      - 32) * (5/9) , df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                      (df.merge$ResultLower - 32) * (5/9) , df.merge$ResultLower     )
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                      (df.merge$ResultUpper - 32) * (5/9) , df.merge$ResultUpper     )
+        # handle those cases where df.QAQC was not merged in (i.e., either df.QAQC$apply==FALSE or
+        # there was no record to process
+        df.merge[is.na(df.merge$Apply.QAQC), "apply" ] <- FALSE
+        df.merge$CharacteristicName <- ifelse(df.merge$Apply.QAQC, df.merge$CharacteristicName, df.merge$CharacteristicName.orig)
+        df.merge$Units           <- ifelse(df.merge$Apply.QAQC, df.merge$Units          , df.merge$Unit.orig          )
+        df.merge$ResultSampleFractionText <- ifelse(df.merge$Apply.QAQC, df.merge$ResultSampleFractionText, df.merge$ResultSampleFractionText.orig)
+        # drop non essential variables (Tt-JBH: dont implement till after testing)
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("Characteristic.orig", "Unit.orig", "ResultSampleFractionText.orig" ))]
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("unitsConvMult", "qcMin", "qcMax", "unitsConvMult.num" ))]
+        #
+        # # Reorder columns (merge puts the 'by' fields at the beginning)
+        # NameOrder <- c(names(df.data), names(df.merge)[!(names(df.merge) %in% names(df.data))])
+        # NameOrder2 <- names(df.merge)[NameOrder %in% names(df.merge)]
+        # df.merge <- df.merge[,NameOrder2]
+        #}
+        
+        
+        # 4. Return df
+        # return(df.merge) # before changed format of reactive
+        #
+        # 4. Save modified data (so can load later)
+        QAQC_Apply_datapath <- file.path(getwd(),file)
+        # cat(QAQC_Apply_datapath)
+        # flush.console()
+        #
+        # QC
+        # names(data()) %in% names(df.merge)
+        # names(df.merge) %in% names(data())
+        
+        ##saveRDS(data(),file) # QC check
+        #saveRDS(df.merge,file)
+        write.table(df.merge, file, row.names = FALSE, col.names = FALSE, sep = "\t")
+        #write.csv(df.merge, file)
+        #
+      }
+    )
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Save QAQC as Applied to Map Table Data()
+    output$SaveQAQCApply_MapTable_data <- downloadHandler(
+      filename = function() {
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".tsv")}
+      , content = function(file) {
+        
+        # Run code in dataQAQC.R to update ALL DATA with QAQC Decisions
+        #df.all.applyQAQC <-  ApplyQAQCDecisions()
+        #
+        #~~~~~~~~~~~~~~~~~~
+        #
+        df.data <- dat_display() #not all_data() or data()
+        df.QAQC <- RV_QAQC$df_data #data_QAQC
+        #
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # *** TESTING ***
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_QAQC_Default.xlsx")
+        # df.QAQC <- XLConnect::readWorksheetFromFile(strFile, sheet="Methods Table", startRow=6, header=TRUE) #, drop=c(1,2))
+        # strFile <- file.path("C:","Users","Erik.Leppo","Downloads","DDT_Data_20170804_081355_multipleParam.rds")
+        # df.data <- readRDS(strFile)
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        # 1. Prep Sample Data
+        #{
+        # create merge key
+        df.data$mergeKey <- with(df.data, paste(ActivityMediaName, CharacteristicName,
+                                                ResultSampleFractionText, USGSPCode,
+                                                ResultMeasure.MeasureUnitCode,sep="|"))
+        # # rename some variables to *.orig
+        # data.table::setnames(df.merge, old = c("CharacteristicName", "Units", "ResultSampleFractionText"),
+        #                      new = c("CharacteristicName.orig", "Units.orig", "ResultSampleFractionText.orig"))
+        flds.old <- c("CharacteristicName", "ResultMeasure.MeasureUnitCode", "ResultSampleFractionText")
+        flds.new <- paste0(flds.old,".orig")
+        #df.data[,flds.new] <- df.data[,flds.old] #DT so fails
+        for (i in 1:length(flds.old)){##FOR.i.START
+          df.data[,flds.new[i]] <- df.data[,flds.old[i]]
+        }##FOR.i.END
+        #}
+        #
+        # 2. Prep QAQC Data
+        #{
+        # create merge key
+        df.QAQC$mergeKey <- with(df.QAQC, paste(Activity.Media, Characteristic,
+                                                Sample.Fraction, PCODE,
+                                                Units,sep="|"))
+        # identify list of variables to merge into with sample data
+        df.QAQCvars <- c("Apply.QAQC", "Characteristic", "Units", "Units.Conv.Mult",
+                         "Sample.Fraction.QAQC", "QC.Min", "QC.Max", "mergeKey")
+        #}
+        #
+        # 3. Merge Data
+        # apply range check, unit conversion, and fill in.
+        #{
+        # do merge where df.QAQC$ApplyQAQC == TRUE and only merge in variables listed in df.QAQCvars
+        df.merge <- merge (df.data, df.QAQC[df.QAQC[,"Apply.QAQC"], df.QAQCvars], by="mergeKey", all.x=TRUE)
+        #~~~
+        # Test Join instead of Merge
+        # x<-NULL
+        # x <- dplyr::left_join(df.merge, df.QAQC[df.QAQC$apply, df.QAQCvars], by="mergeKey")
+        # dim(x)
+        #~~~~
+        
+        # drop merge key
+        df.merge <- df.merge[,!(names(df.merge) %in% c("mergeKey"))]
+        # identify cases where data are outside qc range (do this before unit conversion because
+        # the ranges in the df.QAQC are based on the original units)
+        df.merge$qcRange <- FALSE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Min) & df.merge$ResultMeasureValue < df.merge$QC.Min, "qcRange"]<-TRUE
+        df.merge[!is.na(df.merge$ResultMeasureValue) & !is.na(df.merge$QC.Max) & df.merge$ResultMeasureValue > df.merge$QC.Max, "qcRange"]<-TRUE
+        # apply unit conversions (because unitsConvMult can be character to accomodate for Deg F->Deg C
+        # i create a numeric conversion field but suppress warnings to not alarm user
+        df.merge$Units.Conv.Mult <- suppressWarnings(as.numeric(df.merge$Units.Conv.Mult))
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult),
+                                                   df.merge$ResultMeasureValue      * df.merge$Units.Conv.Mult, df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult),
+                                       df.merge$ResultLower * df.merge$Units.Conv.Mult, df.merge$ResultLower)
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult),
+                                       df.merge$ResultUpper * df.merge$Units.Conv.Mult, df.merge$ResultUpper)
+        # apply special case unit conversion (Deg F to Deg C)
+        df.merge$ResultMeasureValue      <- ifelse(!is.na(df.merge$ResultMeasureValue     ) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                                   (df.merge$ResultMeasureValue      - 32) * (5/9) , df.merge$ResultMeasureValue     )
+        df.merge$ResultLower <- ifelse(!is.na(df.merge$ResultLower) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                       (df.merge$ResultLower - 32) * (5/9) , df.merge$ResultLower     )
+        df.merge$ResultUpper <- ifelse(!is.na(df.merge$ResultUpper) & !is.na(df.merge$Units.Conv.Mult) & df.merge$Units.Conv.Mult == "F_to_C" ,
+                                       (df.merge$ResultUpper - 32) * (5/9) , df.merge$ResultUpper     )
+        # handle those cases where df.QAQC was not merged in (i.e., either df.QAQC$apply==FALSE or
+        # there was no record to process
+        df.merge[is.na(df.merge$Apply.QAQC), "apply" ] <- FALSE
+        df.merge$CharacteristicName <- ifelse(df.merge$Apply.QAQC, df.merge$CharacteristicName, df.merge$CharacteristicName.orig)
+        df.merge$Units           <- ifelse(df.merge$Apply.QAQC, df.merge$Units          , df.merge$Unit.orig          )
+        df.merge$ResultSampleFractionText <- ifelse(df.merge$Apply.QAQC, df.merge$ResultSampleFractionText, df.merge$ResultSampleFractionText.orig)
+        # drop non essential variables (Tt-JBH: dont implement till after testing)
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("Characteristic.orig", "Unit.orig", "ResultSampleFractionText.orig" ))]
+        #Tt-JBH df.merge <- df.merge[,!(names(df.merge) %in% c("unitsConvMult", "qcMin", "qcMax", "unitsConvMult.num" ))]
+        #
+        # # Reorder columns (merge puts the 'by' fields at the beginning)
+        # NameOrder <- c(names(df.data), names(df.merge)[!(names(df.merge) %in% names(df.data))])
+        # NameOrder2 <- names(df.merge)[NameOrder %in% names(df.merge)]
+        # df.merge <- df.merge[,NameOrder2]
+        #}
+        
+        
+        # 4. Return df
+        # return(df.merge) # before changed format of reactive
+        #
+        # 4. Save modified data (so can load later)
+        QAQC_Apply_datapath <- file.path(getwd(),file)
+        # cat(QAQC_Apply_datapath)
+        # flush.console()
+        #
+        # QC
+        # names(data()) %in% names(df.merge)
+        # names(df.merge) %in% names(data())
+        
+        ##saveRDS(data(),file) # QC check
+        #saveRDS(df.merge,file)
+        write.table(df.merge, file, row.names = FALSE, col.names = FALSE, sep = "\t")
+        #write.csv(df.merge, file)
+        #
+      }
+    )
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     

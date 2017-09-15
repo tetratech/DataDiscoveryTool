@@ -26,12 +26,20 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
-* View Data
-+ Summary Plots and Tables.  Have in Notebook need to implement in DDT.
+* Fixes from:
++ Testing.
++ Demo on 20170918.
 
-* Check Data
-+ QAQC.  Summary stats by decision.  (done)
-+ QAQC.  Apply decisions to data and save that data set.  Keep / Exclude datasets?  QAQC Advanced, need "all" combos and a column for present in decision file.
+#v1.1.1.9014
+2017-09-15
+
+* Ability to apply QAQC decisions to filtered data and save data.  This is an endpoint; not able to load the data back 
+into the DDT without major revisions to reactive and eventreactive data objects.  20170915.
+
+* Remove (comment out) Data Summary on the View Data tab.  Due to time constraints not able to finish completely.  
+Leave in hooks but remove it from the interface.  20170915.
+
+* Tried to add button to View Data - Table to save data with QAQC Decisions.  Different structure (DT) so filtering and application of QAQC Decisions not working.  Left in hooks but commented out. 20170915.
 
 #v1.1.1.9013
 2017-09-14
