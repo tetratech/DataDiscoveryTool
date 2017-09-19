@@ -11,10 +11,10 @@ options(scipen=30)
 ## Tt Mod, Add Library ####
 library(XLConnect)
 source("external/dataQAQC.R", local=TRUE)
-# Special version of DT needed to enable editable tables
-#devtools::install_github('rstudio/DT@feature/editor')
 # Increase file size limit for uploads (need for large datasets)
 options(shiny.maxRequestSize=30*1024^2)
+# Special version of DT needed to enable editable tables
+#devtools::install_github('rstudio/DT@feature/editor')
 #~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Load helper functions
 source("external/buildurl.R", local=TRUE)
@@ -621,12 +621,13 @@ url_display<-eventReactive(input$CHECK, {
   # })
 
     RV_QAQC <- reactiveValues(df_data=NULL)
-    RV_QAQC$df_data <-  XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table", startRow=6, header=TRUE)
+    RV_QAQC$df_data <-  XLConnect::readWorksheetFromFile("external/DDT_QAQC_Default.xlsx", sheet="Methods Table"
+                                                         , startRow=6, header=TRUE, check.names=FALSE)
   
     
     # Save QAQC (User)
 
-    ApplyQAQC.column <- 8
+    ApplyQAQC.column <- 7
     data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (TRUE or FALSE).
                           Edits are only allowed in this column and only for the values TRUE and FALSE (not case sensitive)."
     
@@ -719,20 +720,20 @@ url_display<-eventReactive(input$CHECK, {
        myData <- all_data()
        # define desired fields
        myFields <- c("ActivityMediaName", "CharacteristicName", "ResultSampleFractionText"
-                     , "USGSPCode", "Unit", "Result")
+                     , "Unit", "Result")
        # subset to desired fields
        myData4QAQC <- myData[,myFields]
        # summarize with dplyr
        myData.QAQC.Summary <- myData4QAQC %>%
-         group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, USGSPCode, Unit) %>%
+         group_by(ActivityMediaName, CharacteristicName, ResultSampleFractionText, Unit) %>%
            summarise(n=n(),minObs=min(Result,na.rm=TRUE),maxObs=max(Result,na.rm=TRUE))
       # match with QAQC Decisions
-       myFields.data_QAQC <- c("Activity.Media", "Characteristic", "Sample.Fraction"
-                               , "PCODE", "Units")
+       myFields.data_QAQC <- c("Activity Media", "Characteristic", "Sample Fraction"
+                               , "Units")
        data_QAQC_temp <- RV_QAQC$df_data
        data_QAQC_temp$MatchQAQC <- TRUE  # add extra field, will be NA for all non-matches
        myData.QAQC.Summary.merge <- merge(myData.QAQC.Summary, data_QAQC_temp[,c(myFields.data_QAQC,"MatchQAQC")]
-                                        , by.x=myFields[1:5], by.y=myFields.data_QAQC
+                                        , by.x=myFields[1:4], by.y=myFields.data_QAQC
                                         , all.x=TRUE)
        # fill in NA values on "match" field
        myData.QAQC.Summary.merge$MatchQAQC[is.na(myData.QAQC.Summary.merge$MatchQAQC)] <- FALSE
@@ -761,12 +762,12 @@ url_display<-eventReactive(input$CHECK, {
       # 1.1. Rename QAQC_combos_data() to df.add so can munge
       df.add <- QAQC_combos_data()
       # 1.2. Filter for new records and only matching columns
-      df.add <- df.add[df.add[,"MatchQAQC"]==FALSE,c(1:5)]
+      df.add <- df.add[df.add[,"MatchQAQC"]==FALSE,c(1:4)]
       # 1.3. Add extra columns (so can rbind)
-      df.add[,6:14] <- NA
+      df.add[,5:13] <- NA
       names(df.add) <- names(RV_QAQC$df_data)
       # 1.4. ApplyQAQC column to FALSE
-      df.add[,"Apply.QAQC"] <- FALSE
+      df.add[,"Apply QAQC"] <- FALSE
       # 2. Merge data frames
       df.merge <- rbind(RV_QAQC$df_data, df.add)
       # 3. 
@@ -926,8 +927,8 @@ url_display<-eventReactive(input$CHECK, {
         #{
         # create merge key
         df.data$mergeKey <- with(df.data, paste(ActivityMediaName, CharacteristicName,
-                                                ResultSampleFractionText, USGSPCode,
-                                                ResultMeasure.MeasureUnitCode,sep="|"))
+                                                ResultSampleFractionText, ResultMeasure.MeasureUnitCode
+                                                , sep="|"))
         # # rename some variables to *.orig
         # data.table::setnames(df.merge, old = c("CharacteristicName", "Units", "ResultSampleFractionText"),
         #                      new = c("CharacteristicName.orig", "Units.orig", "ResultSampleFractionText.orig"))
@@ -940,8 +941,8 @@ url_display<-eventReactive(input$CHECK, {
         #{
         # create merge key
         df.QAQC$mergeKey <- with(df.QAQC, paste(Activity.Media, Characteristic,
-                                                Sample.Fraction, PCODE,
-                                                Units,sep="|"))
+                                                Sample.Fraction, Units
+                                                , sep="|"))
         # identify list of variables to merge into with sample data
         df.QAQCvars <- c("Apply.QAQC", "Characteristic", "Units", "Units.Conv.Mult",
                          "Sample.Fraction.QAQC", "QC.Min", "QC.Max", "mergeKey")
@@ -951,7 +952,7 @@ url_display<-eventReactive(input$CHECK, {
         # apply range check, unit conversion, and fill in.
         #{
         # do merge where df.QAQC$ApplyQAQC == TRUE and only merge in variables listed in df.QAQCvars
-        df.merge <- merge (df.data, df.QAQC[df.QAQC[,"Apply.QAQC"], df.QAQCvars], by="mergeKey", all.x=TRUE)
+        df.merge <- merge (df.data, df.QAQC[df.QAQC[,"Apply QAQC"], df.QAQCvars], by="mergeKey", all.x=TRUE)
         #~~~
         # Test Join instead of Merge
         # x<-NULL

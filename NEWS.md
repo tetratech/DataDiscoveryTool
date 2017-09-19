@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-19 11:38:30
+    #> Last Update: 2017-09-19 15:57:07
 
 Version history.
 
@@ -15,12 +15,27 @@ Planned Updates
 -   Testing.
 -   Demo on 20170918.
 
+v1.1.2.9002
+===========
+
+2017-09-19
+
+-   QAQC Table.
+-   Add check.names=FALSE to readworksheetfromfile() so "." not added for " " in the column names from the Excel file. 2017-09-19.
+-   Remove "." from two of the column headers in the QAQC Excel files (BLANK and Default). 20170919.
+-   Remove column 'PCODE' from QAQC Excel files (BLANK and Default). 20170919.
+-   Change column number for proxytable edit for QAQC table (8 to 7) due to removed PCODE column. 20170919.
+-   Update SaveQAQCApply\_filtered\_data in Server.R to remove reference to PCode and 'Apply.QAQC' to 'Apply QC'. 20170919.
+
+-   Update QAQC\_CombosAdd in Server.R to remove PCode and "." in names. 20170919
+
 v1.1.2.9001
 ===========
 
 2017-09-19
 
--   Check Data - Save/Load App Data. Small edit to text for clarity. 20170919.
+-   Check Data - Save/Load App Data.
+-   Small edit to text for clarity. 20170919.
 
 -   Check Data - QAQC. 20170919.
 -   Move the 'add new combinations' button from the QAQC Combinations tab to the QAQC Decisions tab.
