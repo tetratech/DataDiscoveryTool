@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-15 15:46:02
+    #> Last Update: 2017-09-19 11:38:30
 
 Version history.
 
@@ -14,6 +14,19 @@ Planned Updates
 -   Fixes from:
 -   Testing.
 -   Demo on 20170918.
+
+v1.1.2.9001
+===========
+
+2017-09-19
+
+-   Check Data - Save/Load App Data. Small edit to text for clarity. 20170919.
+
+-   Check Data - QAQC. 20170919.
+-   Move the 'add new combinations' button from the QAQC Combinations tab to the QAQC Decisions tab.
+-   Remove the QAQC Combinations tab.
+-   Update for clairty the onscreen text and button popover text.
+-   Add extra spaces to separte buttons.
 
 v1.1.2.0000
 ===========

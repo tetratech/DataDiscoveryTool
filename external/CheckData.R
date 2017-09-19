@@ -52,7 +52,7 @@ function(){
                        tabPanel("Save/Load App Data",
                                 wellPanel(fluidRow(h4("Save or Load Data Discovery Tool Data", style = "text-align: center"))
                                           #, fluidRow(br())
-                                          , fluidRow("As an alternative to retrieving data each time the app is used the buttons below can be used to save data for a future session or load previously saved data to the current session.")
+                                          , fluidRow("As an alternative to retrieving data each time the app is used the buttons below can be used to save data for a future session or load previously saved data for the current session.")
                                           , fluidRow(br())
                                           , fluidRow("After loading a dataset if you want to download a new dataset you must exit and re-enter the application.")
                                           , fluidRow(br())
@@ -122,30 +122,33 @@ function(){
                                 br(),
                                 fluidRow(DT::dataTableOutput("DUPS"))),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       # Tt Mod, QAQC tabs ####
-                       tabPanel("QAQC Combinations",
-                                fluidRow((h3("Quality Assurance / Quality Control Combinations", style="text-align: center")))
-                                #, fluidRow("button for generating summary by decision.  2nd button for output.")
-                                #, fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
-                                , fluidRow("Shown in the table below are all combinations of Media, Characteristic, Sample Fraction, and Unit in the current data set (along with number of records and min and max Result values).  
-                                           Field 'MatchQAQC' shows how each combination matches QAQC Decisions table (TRUE = already in table, FALSE = new).  
-                                           Use the button below to add all of the new combinations to the QAQC Decisions table.")
-                                , fluidRow(column(4, bsButton("QAQC_CombosAdd","Update QAQC Decision combinations", style="primary")
-                                                  , bsPopover("QAQC_CombosAdd", "Update QA/QC Combinations", trigger = "hover", placement="right", options = list(container = "body")
-                                                              ,"This button updates the QA/QC decisions table with any new cominations from all data.
-                                                        That is, all records with 'MatchQAQC'=FALSE in the table below."))
-                                )
-                                , fluidRow(column(12,DT::dataTableOutput('dt_QAQC_combos_data')))
-                       ),
+                       # Tt Mod, QAQC tab ####
+                       # tabPanel("QAQC Combinations",
+                       #          fluidRow((h3("Quality Assurance / Quality Control Combinations", style="text-align: center")))
+                       #          #, fluidRow("button for generating summary by decision.  2nd button for output.")
+                       #          #, fluidRow("button for generating and adding all parameter combinations to decision table.  Could then export on the basic tab.")
+                       #          
+                       #          , fluidRow(column(12,DT::dataTableOutput('dt_QAQC_combos_data')))
+                       # ),
                        tabPanel("QAQC Decisions",
                                 fluidRow((h3("Quality Assurance / Quality Control Decisions", style = "text-align: center")))
                                 , fluidRow(h4("Modify characteristic data for consistent name, units, and sample fraction.", style = "text-align: center"))
+                                , fluidRow("There are XXXX *new* combinations of media, characteristic, sample fraction, and unit in the current data set 
+                                            that are not represented in the QAQC table below.
+                                           Use the 'Add new combinations' button below to add all of the new combinations to the QAQC Decisions table.
+                                           Afterwards, you can use the 'Save QAQC File' button to save the combinations to Excel.")
+                                , br()
+                                , fluidRow(column(4, bsButton("QAQC_CombosAdd","Update QAQC Decision combinations", style="primary")
+                                                  , bsPopover("QAQC_CombosAdd", "Update QA/QC Combinations", trigger = "hover", placement="right", options = list(container = "body")
+                                                              ,"This button updates the QA/QC decisions table with any new combinations from the current data."))
+                                                  )
+                                , br()
                                 , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Decision File", style = "text-align: center")))
                                                     , fluidRow(column(1), column(10, "Save/load Excel file with QAQC information.", style = "text-align: center"))
                                                     #, fluidRow(column(1), column(10, "Changes made here will be reflected in the 'Filtered' data set.", style = "text-align: center"))
-                                                    , fluidRow(column(1), column(10, "In the table below will be a table of records of parameter names, units, and sample fractions. 
-                                                                                The user will have the ability to accept (Apply=TRUE) or refute (Apply=FALSE) each transformation.
-                                                                                The user can edit the file below and save or edit in Excel and reload."
+                                                    , fluidRow(column(1), column(10, "The table below contains the unique combinations of activity media, parameter names, units, and sample fractions. 
+                                                                                Clicking the 'Apply QAQC Decions to Data and Save' allows the user has the ability to accept (Apply QAQC=TRUE) or refute (Apply QAQC=FALSE) each transformation.
+                                                                                The user can edit the 'Apply QAQC' column in the table below and save to Excel or edit in Excel and reload with the 'Browse' button above."
                                                                                  , style = "text-align: center"
                                                     )
                                                     )
@@ -159,7 +162,7 @@ function(){
                                                                , bsPopover("SaveQAQC", "Save QAQC", "Click to save an .XLSX file containing the QAQC decisions.",
                                                                            "top", trigger = "hover", options = list(container = "body"))
                                                                )
-                                                    #, br()
+                                                    , br()
                                                     , fluidRow(column(7, fileInput("LoadQAQCFile","Load QAQC File",accept=".xlsx"))
                                                               )
                                                     , fluidRow(column(1,bsButton("UpdateQAQC", label="Update QAQC Decisions From File", style="primary")
@@ -174,7 +177,7 @@ function(){
                                                     #                  ,bsPopover("UpdateQAQC_Default", "Default QA/QC", trigger = "hover", placement="right", options = list(container = "body")
                                                     #                             ,"This button updates the QA/QC selections from a user selected QA/QC Excel file. Must upload file first before clicking this button."))
                                                     # )
-                                                   , fluidRow(column(1), column(10, "The button below applies the QAQC decisions to the filtered data and saves the file to a tab-separated file (TSV)."))
+                                                   , fluidRow("The button below applies the QAQC decisions to the filtered data and saves the file to a tab-separated file (TSV).")
                                                    , fluidRow(column(3, downloadButton("SaveQAQCApply_filtered_data", "Apply QAQC Decisions to Data and Save")))
                                                                      # ,bsPopover("SaveQAQCApply", "Save QA/QC Applied to Data", trigger = "hover", placement="right", options = list(container = "body")
                                                                      #            ,"This button saves the QA/QC decisions as applied to the current data set. 
