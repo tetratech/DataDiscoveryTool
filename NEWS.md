@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-19 15:57:07
+    #> Last Update: 2017-09-22 12:39:51
 
 Version history.
 
@@ -13,7 +13,20 @@ Planned Updates
 
 -   Fixes from:
 -   Testing.
--   Demo on 20170918.
+
+v1.1.2.9004
+===========
+
+2017-09-22
+
+-   Change Save/Load App Data to RDA from RDS. Needed URL when saving TSV files for meta data at top of file. 20170922.
+
+v1.1.2.9003
+===========
+
+2017-09-19
+
+-   QAQC Decisions. Clean up text and move to after Filtered Data tab. 20170919.
 
 v1.1.2.9002
 ===========

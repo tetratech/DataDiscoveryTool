@@ -60,7 +60,7 @@ function(){
                                           , fluidRow(br())
                                           , fluidRow(
                                                     column(7,
-                                                   fileInput("LoadAppData","Load Data File",accept=".rds")  #future could add .rds for smaller files
+                                                   fileInput("LoadAppData","Load Data File",accept=".rda")  #future could add .rds for smaller files
                                                           )
                                                   )
                                           # fluidRow(br())
@@ -121,6 +121,17 @@ function(){
                                           "top", trigger = "hover", options = list(container = "body")),
                                 br(),
                                 fluidRow(DT::dataTableOutput("DUPS"))),
+                       tabPanel("Filtered Data",
+                                fluidRow(
+                                  h3("Filtered Data Set", style = "text-align: center")),
+                                fluidRow( h4(" The Filtered Dataset includes only results with units and methods. Duplicate records have been removed. 
+                                 This is the data set passed to the map and table on the 'View Data' page.",
+                                             style = "text-align: center")),
+                                fluidRow(column(5), column(2, downloadButton("Save_data6", "Save Data"))),
+                                bsPopover("Save_data6", "Save Data", "Click to download a .tsv file containing the data being viewed.",
+                                          "top", trigger = "hover", options = list(container = "body")),
+                                br(),
+                                fluidRow(DT::dataTableOutput("Filtered"))),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        # Tt Mod, QAQC tab ####
                        # tabPanel("QAQC Combinations",
@@ -133,22 +144,23 @@ function(){
                        tabPanel("QAQC Decisions",
                                 fluidRow((h3("Quality Assurance / Quality Control Decisions", style = "text-align: center")))
                                 , fluidRow(h4("Modify characteristic data for consistent name, units, and sample fraction.", style = "text-align: center"))
-                                , fluidRow("There are XXXX *new* combinations of media, characteristic, sample fraction, and unit in the current data set 
-                                            that are not represented in the QAQC table below.
-                                           Use the 'Add new combinations' button below to add all of the new combinations to the QAQC Decisions table.
-                                           Afterwards, you can use the 'Save QAQC File' button to save the combinations to Excel.")
+                                , fluidRow("Use the 'Add New Combinations' button below to add all new combinations of media, characteristic, sample fraction, and unit in the current data set 
+                                            that are not represented in the QAQC Decisions table at the bottom of the page.
+                                            Afterwards, you can use the 'Save QAQC File' button to save the combinations to Excel.")
                                 , br()
-                                , fluidRow(column(4, bsButton("QAQC_CombosAdd","Update QAQC Decision combinations", style="primary")
+                                , fluidRow(column(4, bsButton("QAQC_CombosAdd","Add New QAQC Decision Combinations", style="primary")
                                                   , bsPopover("QAQC_CombosAdd", "Update QA/QC Combinations", trigger = "hover", placement="right", options = list(container = "body")
                                                               ,"This button updates the QA/QC decisions table with any new combinations from the current data."))
                                                   )
                                 , br()
                                 , fluidRow(wellPanel(fluidRow(column(1), column(10, h3("QA/QC Decision File", style = "text-align: center")))
-                                                    , fluidRow(column(1), column(10, "Save/load Excel file with QAQC information.", style = "text-align: center"))
+                                                    #, fluidRow(column(1), column(10, "Save/load Excel file with QAQC information.", style = "text-align: center"))
                                                     #, fluidRow(column(1), column(10, "Changes made here will be reflected in the 'Filtered' data set.", style = "text-align: center"))
                                                     , fluidRow(column(1), column(10, "The table below contains the unique combinations of activity media, parameter names, units, and sample fractions. 
+                                                                                  The combinations are from the QAQC Decisions Excel file.  The user can edit the 'Apply QAQC' field below 
+                                                                                or edit the Excel file and reload with the 'Browse' button below..
                                                                                 Clicking the 'Apply QAQC Decions to Data and Save' allows the user has the ability to accept (Apply QAQC=TRUE) or refute (Apply QAQC=FALSE) each transformation.
-                                                                                The user can edit the 'Apply QAQC' column in the table below and save to Excel or edit in Excel and reload with the 'Browse' button above."
+                                                                                "
                                                                                  , style = "text-align: center"
                                                     )
                                                     )
@@ -158,7 +170,7 @@ function(){
                                                     #           )
                                                     
                                                    # , fluidRow(br())
-                                                    , fluidRow(column(3, downloadButton("SaveQAQC","Save QAQC File"))
+                                                    , fluidRow(column(3, downloadButton("SaveQAQC","Save QAQC Decisions File"))
                                                                , bsPopover("SaveQAQC", "Save QAQC", "Click to save an .XLSX file containing the QAQC decisions.",
                                                                            "top", trigger = "hover", options = list(container = "body"))
                                                                )
@@ -177,13 +189,14 @@ function(){
                                                     #                  ,bsPopover("UpdateQAQC_Default", "Default QA/QC", trigger = "hover", placement="right", options = list(container = "body")
                                                     #                             ,"This button updates the QA/QC selections from a user selected QA/QC Excel file. Must upload file first before clicking this button."))
                                                     # )
-                                                   , fluidRow("The button below applies the QAQC decisions to the filtered data and saves the file to a tab-separated file (TSV).")
-                                                   , fluidRow(column(3, downloadButton("SaveQAQCApply_filtered_data", "Apply QAQC Decisions to Data and Save")))
-                                                                     # ,bsPopover("SaveQAQCApply", "Save QA/QC Applied to Data", trigger = "hover", placement="right", options = list(container = "body")
-                                                                     #            ,"This button saves the QA/QC decisions as applied to the current data set. 
-                                                                     #            To continue working with the revised data set you must return to 'Save/Load App Data' and load the file you are creating."))))
+                                                   
                                                     )#wellPanel.END
                                           )#fluidRow.big.END
+                                , fluidRow("The button below applies the QAQC decisions to the filtered data and saves the file to a tab-separated file (TSV).")
+                                , fluidRow(column(3, downloadButton("SaveQAQCApply_filtered_data", "Apply QAQC Decisions to Data and Save")))
+                                # ,bsPopover("SaveQAQCApply", "Save QA/QC Applied to Data", trigger = "hover", placement="right", options = list(container = "body")
+                                #            ,"This button saves the QA/QC decisions as applied to the current data set. 
+                                #            To continue working with the revised data set you must return to 'Save/Load App Data' and load the file you are creating."))))
                                 , fluidRow(column(12,DT::dataTableOutput('dt_QAQC')))
                                 
                                 
@@ -202,17 +215,6 @@ function(){
                        #                                        ,"This buttons saves the data as a TSV file with the QAQC decisions applied (in the QAQC Advanced tab)."))
                        #          ),
                        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       tabPanel("Filtered Data",
-                                fluidRow(
-                                  h3("Filtered Data Set", style = "text-align: center")),
-                                fluidRow( h4(" The Filtered Dataset includes only results with units and methods. Duplicate records have been removed. 
-                                 This is the data set passed to the map and table on the 'View Data' page.",
-                                             style = "text-align: center")),
-                                fluidRow(column(5), column(2, downloadButton("Save_data6", "Save Data"))),
-                                bsPopover("Save_data6", "Save Data", "Click to download a .tsv file containing the data being viewed.",
-                                          "top", trigger = "hover", options = list(container = "body")),
-                                br(),
-                                fluidRow(DT::dataTableOutput("Filtered"))),
                        tabPanel("Summary",
                                 fluidRow(
                                   h3("Click the button below to run a summary of the data", style = "text-align: center")),

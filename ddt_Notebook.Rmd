@@ -211,6 +211,13 @@ str(myData)
 View(myData)
 ```
 
+# Utah data
+myData.rds <- readRDS(file.path(myDir,myFiles[7]))
+load(file.path(myDir,myFiles[19]))
+myData.rda <- temp_data
+
+
+
 # Data Format
 DDT uses importWQP() rather than readWQPdata().  The former returns only a data frame.  The later returns a sites/stations file as well.  They take different inputs (URL vs. parameters) and the help examples are different so have to construct similar data requests so can compare.
 ```{r, eval=FALSE}

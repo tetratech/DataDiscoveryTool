@@ -393,9 +393,25 @@ output$modal2 <- renderUI({
     session$onFlushed(function() {
       values$starting <- FALSE
     })
-url_display<-eventReactive(input$CHECK, {
-  url()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Tt Mod, CheckData, url() ####
+url_display<-eventReactive({
+  c(input$CHECK, input$LoadAppData)
+  }, {
+  # Get Import File specs
+  q <- input$LoadAppData
+  # regular (Load from web or upload file)
+  if(is.null(q)) {##IF.q.START
+    # default  
+    url()
+  } else { # Use imported file  if(!is.null(q))
+    # Import Data
+    #data_load <- readRDS(q$datapath)
+    load(q$datapath) # loads temp_url_display that was saved to RDA file
+    return(temp_url_display)
+  }##IF.q.END
 })
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     QAQC_Apply_datapath <- NULL
@@ -431,8 +447,11 @@ url_display<-eventReactive(input$CHECK, {
         return(getWQPData_app(url))
       } else { # Use imported file  if(!is.null(q))
         # Import Data
-        data_load <- readRDS(q$datapath)
+        #data_load <- readRDS(q$datapath)
+        load(q$datapath) # loads temp_data that was saved to RDA file
+        data_load <- temp_data 
         val$display2 <- "yes" # needed for leaflet map on View Data tab
+        url <- temp_url_display
         return(data_load)
       }##IF.END
       #
@@ -440,18 +459,36 @@ url_display<-eventReactive(input$CHECK, {
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Tt Mod, CheckData, Load Button ####
+    # Tt Mod, CheckData, Save/Load App Data ####
     #Save App Data
     output$SaveAppData <- downloadHandler(
       filename = function() {
-        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
+        strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
+        #strFile <- paste0("DDT_Data_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rds")
       }
       , content = function(file) {
+        # #~~~~ testing ~~~~~~
+         temp_data <- data()
+         temp_url_display <- url_display()
+        # 
+        # list = ls(all.names = TRUE)
+        # 
+        # 
+        # save(c(temp_url_display, temp_data), file=file)
+        # # 
+        # # #~~~~~~~~~~~~~~~~~~
+        
+        
         #saveRDS(all_data(),file)
-        saveRDS(data(),file)
+  #      saveRDS(data(),file)
         # testing, save environment
         #save.image(file)
-        #save(data(), file)
+       # strFile2 <- paste0("DDT_Data2_",format(Sys.time(),"%Y%m%d_%H%M%S"),".rda")
+        
+        save(temp_data, temp_url_display, file=file)
+        rm(temp_data)
+        rm(temp_url_display)
+      #  save(URL,strFile2)
         # attr(x,y)
         # x = data()
         # y = c("siteInfo", "variableInfo", "url","queryTime")
@@ -628,7 +665,7 @@ url_display<-eventReactive(input$CHECK, {
     # Save QAQC (User)
 
     ApplyQAQC.column <- 7
-    data_QAQC_caption <- "Double-click to edit a cell in column Apply.QAQC (TRUE or FALSE).
+    data_QAQC_caption <- "Double-click to edit a cell in column 'Apply QAQC' (TRUE or FALSE).
                           Edits are only allowed in this column and only for the values TRUE and FALSE (not case sensitive)."
     
     output$dt_QAQC <- DT::renderDataTable(DT::datatable(RV_QAQC$df_data
@@ -1290,7 +1327,7 @@ outputOptions(output, 'All_Data', suspendWhenHidden=TRUE)
         data <- all_data()
         metadate <- data.table(x = "Date:", y = paste(Sys.time()))
         metadata <- data.table(x = "Dataset:", y = "All data")
-        metaurl <- data.table(x = "URL:", y = NA) #url_display())
+        metaurl <- data.table(x = "URL:", y = url_display())
         metanondet <- data.table(x = "Method for non-detects:", y = non_detect_method())
         metaorg <- data.table(x = "Number of organizations:", y = length(unique(data$Organization)))
         metastat <- data.table(x = "Number of stations:", y = length(unique(data$Station)))

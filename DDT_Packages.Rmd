@@ -2,7 +2,7 @@
 title: "Data Discovery Tool, Packages"
 output: html_notebook
 ---
-2017-08-14
+2017-09-21
 
 The Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal (v1.1.0.0000).
 
@@ -57,19 +57,20 @@ data.packages = c("assertthat"
 lapply(data.packages,function(x) install.packages(x))
 ```
 
-One package, rCharts, is a non-CRANN package and needs to be installed separately.
+One package, rCharts, is a non-CRAN package and needs to be installed separately.
+
+A second package, DT, requires a specific version that is not hosted on CRAN.  This specific version of DT was used in edits to the ddt to enable on screen editing for the QAQC Decisions table.  This version of DT will need to be installed from GitHub with the code below.
 ```{r, eval=FALSE}
-# Install non-CRANN packages
+# Install non-CRAN packages from GitHub
 require(devtools)
 install_github("ramnathv/rCharts")
-
+install_github('rstudio/DT@feature/editor')
 ```
 
-If after running the ddt the user is presented with an error message about not having a package then the user should reinstall that specific package.
+If after running the ddt the user is presented with an error message about not having a package then the user should reinstall that specific package.  Replace "XLConnect" in the code below with the name of the missing package.
 ```{r, eval=FALSE}
 # libraries to be installed
-data.packages = c("MissingPackage")
+data.packages = c("XLConnect")
 # install via lapply
 lapply(data.packages,function(x) install.packages(x))
 ```
-

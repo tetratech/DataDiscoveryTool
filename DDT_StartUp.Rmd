@@ -1,0 +1,39 @@
+---
+title: "Data Discovery Tool, Start Up"
+output: html_notebook
+---
+2017-09-21
+
+The Data Discovery Tool (ddt) created by USEPA for use with Water Quality Data Portal (v1.1.0.0000).
+
+# Start Up
+The base version of the ddt ships as a self contained program.
+
+The QAQC modifications are included in a zip file with all the necessary parts to run the ddt as a stand alone application in R.  
+
+Before running the code you will need to change the working directory to where the ddt files are located.  In R, from the menu bar choose "File", "Change Dir", then select the location of the ddt files. 
+
+Then use the code below in R to start the ddt.  Just copy and paste into the R console.
+
+```{r, eval=FALSE}
+# Run the app
+require(shiny)
+runApp(launch.browser = T)
+```
+
+If you know the directory of the ddt files you can add this to the code
+```{r, eval=FALSE}
+# Change Directory
+myDir <- file.path("C:","Users","Erik.Leppo","OneDrive - Tetra Tech, Inc"
+                ,"MyDocs_OneDrive","GitHub","DataDiscoveryTool")
+setwd(myDir)
+# Run the app
+require(shiny)
+runApp(launch.browser = T)
+
+```
+
+
+```{r, eval=FALSE}
+
+```
