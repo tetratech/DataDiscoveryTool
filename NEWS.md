@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-22 12:39:51
+    #> Last Update: 2017-09-25 17:32:55
 
 Version history.
 
@@ -11,15 +11,14 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
--   Fixes from:
--   Testing.
-
 v1.1.2.9004
 ===========
 
-2017-09-22
+2017-09-25
 
 -   Change Save/Load App Data to RDA from RDS. Needed URL when saving TSV files for meta data at top of file. 20170922.
+
+-   Updated DDT\_StartUp.RMD. 20170925.
 
 v1.1.2.9003
 ===========

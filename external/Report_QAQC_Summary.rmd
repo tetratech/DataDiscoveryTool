@@ -3,22 +3,149 @@ title: "Data QAQC Summary Report"
 output: html_document
 ---
 
-```{r report_date, results='asis', echo=FALSE, warning=FALSE}
-  myReportDate <- format(Sys.Date(),"%Y%m%d %H%M%S")
+```{r report_date, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+#~~~~~~~~~~~~~~
+# import data.  This will take the place of "filtered_data()"
+# myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+# myFiles <- list.files(path=myDir, pattern="DDT_Data_R8 *")
+# #myFiles
+# myFile <- myFiles[6] #Utah
+# #myData <- readRDS(file.path(myDir,myFile)) #~10 seconds for biggest file
+# #load(file.path(myDir,myFiles[3])) #temp_data and temp_url_display
+# myData <- temp_data
+# myURL <- temp_url_display
+# myRMD_URL <- temp_url_display
+#~~~~~~~~~~~~~~~~~~
+#myData <- temp_data
+myData <- filtered_data()
+myRMD_URL <- url_display()
+
+  myReportDate <- format(Sys.time(),"%Y-%m-%d %H:%M:%S")
+
   cat(paste("**Report Date:** ",myReportDate,"\n\n",sep=""))
+  cat(paste("**Dataset:** Filtered","\n\n",sep=""))
+  cat(paste("**Number of Records:** ",formatC(nrow(myData),format="d",big.mark=","),"\n\n",sep=""))
+  cat(paste("**Web Q**","**uery:** ",myRMD_URL,"\n\n",sep=""))
 ```
 
-URL = ?
+# PLOTS and TABLES
 
-Filter = ?
+```{r plots, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+# library
+require(dplyr)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # import data.  This will take the place of "filtered_data()"
+# myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
+# myFiles <- list.files(path=myDir, pattern="DDT_Data_R8 *")
+# #myFiles
+# myFile <- myFiles[3] #Utah
+# #myData <- readRDS(file.path(myDir,myFile)) #~10 seconds for biggest file
+# load(file.path(myDir,myFiles[3])) #temp_data and temp_url_display
+# myData <- temp_data
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+myData <- filtered_data()
+# Add Year
+myData$Year <- as.numeric(format(myData$ActivityStartDate, "%Y"))
+# summarize by site
 
-# PLOTS
 
-# TABLES
+# summarize #library(dplyr)
 
-#QC TESTS, BY PARAMETER
-* **Gross Range Test (Gross):** Test if data point exceeds sensor or user defined min/max.  The values are user defined based on parameter being measured and measuring instrument.
-* **Spike Test (Spike):** Test if data point exceeds a user defined threshold relative to the previous data point.  The user defined values are based on the parameter being measured.
-* **Rate of Change Test (RoC):** Test if a data point exceeds a number of standard deviations from the previous data points over a user defined time period.  Default is a 25 hour time period and 3 standard deviations.
-* **Flat Line Test (Flat):** Test if a data point is within a user defined threshold from previous data points over a user defined range.  Default is 3 previous points for suspect and 5 points for failure.  The threshold is user defined and based on the measured parameter and sensitivity of the measuring instrument.
+summarize_Site <- myData %>%
+                    dplyr::group_by(MonitoringLocationIdentifier) %>%
+                      dplyr::summarise(nResults=n(),begYear=min(Year,na.rm=TRUE)
+                                ,endYear=max(Year,na.rm=TRUE))
+#View(summarize_Site)
+# SiteID and ActID (double summarize with pipes)
+summarize_Site_nAct <- myData %>%
+                          dplyr::group_by(MonitoringLocationIdentifier, ActivityIdentifier) %>%
+                            dplyr::summarise(n=n()) %>% 
+                              dplyr::group_by(MonitoringLocationIdentifier) %>%
+                                dplyr::summarise(nActivities=n())
+#View(summarize_Site_nAct)
+# SiteID n(Samples)
+summarize_Site_nSamps <- myData %>%
+                            dplyr::group_by(MonitoringLocationIdentifier
+                                    , ActivityStartDate
+                                    , ActivityStartTime.Time
+                                    , ActivityDepthHeightMeasure.MeasureValue) %>% 
+                              dplyr::summarize(n=n()) %>%
+                                dplyr::group_by(MonitoringLocationIdentifier) %>%
+                                  dplyr::summarize(nSamples=n())
+#View(summarize_Site_nSamps)
+# SiteID n(Parameters)
+summarize_Site_nParam <- myData %>%
+                          dplyr::group_by(MonitoringLocationIdentifier, CharacteristicName) %>%
+                            dplyr::summarize(n=n()) %>%
+                              dplyr::group_by(MonitoringLocationIdentifier) %>%
+                                dplyr::summarize(nParameters=n())
+#View(summarize_Site_nParam)
+# Create single table
+Site_Summary <- merge(summarize_Site, summarize_Site_nAct, by="MonitoringLocationIdentifier")
+Site_Summary <- merge(Site_Summary, summarize_Site_nSamps, by="MonitoringLocationIdentifier")
+Site_Summary <- merge(Site_Summary, summarize_Site_nParam, by="MonitoringLocationIdentifier")
+#View(Site_Summary)
+
+
+
+
+# Plots
+data_plot <- Site_Summary
+  ## Plot by Site
+  par(mfrow = c(2, 2))
+  with(data_plot, plot.ecdf(nResults, ylab="CDF(x)", xlab=""
+                            , main="A) Results by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nActivities, ylab="CDF(x)", xlab=""
+                            , main="B) Activities by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nSamples, ylab="CDF(x)", xlab=""
+                            , main="C) Samples by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(nParameters, ylab="CDF(x)", xlab=""
+                            , main="D) Parameters by Site"
+                            , panel.first=grid(lty=3)))
+  ## Plot by Years
+  par(mfrow = c(2, 2))
+  with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab=""
+                            , main="E) Begin Year by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf(endYear, ylab="CDF(x)", xlab=""
+                            , main="F) End Year by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot.ecdf((endYear-begYear+1), ylab="CDF(x)", xlab=""
+                            , main="G) Num Years by Site"
+                            , panel.first=grid(lty=3)))
+  with(data_plot, plot(begYear, endYear, ylab="End Year", xlab="Begin Year"
+                       , main="H) End vs. Beg. Year by Site"
+                       , panel.first=grid(lty=3)))
+# Tables
+  #~~~~~~~~~~~~~~
+  #UT tribal data is of poor quality.  Numbers won't match between tables.
+  # Some stations in more than one county.  AND more than one Type.
+  #~~~~~~~~~~~~~~
+  table_Sites_County <- myData %>%
+                          dplyr::group_by(StateName
+                                  , CountyName
+                                  , MonitoringLocationIdentifier) %>% 
+                              dplyr::summarize(nResults=n()) %>%
+                                dplyr::group_by(StateName, CountyName) %>%
+                                  dplyr::summarize(nSites=n())
+  table_Site_County_MonLocType <- myData %>%
+                              dplyr::group_by(StateName
+                                      , CountyName
+                                      , MonitoringLocationTypeName
+                                      , MonitoringLocationIdentifier) %>% 
+                                  dplyr::summarize(nResults=n()) %>%
+                                    dplyr::group_by(StateName
+                                            , CountyName
+                                            , MonitoringLocationTypeName) %>%
+                                      dplyr::summarize(nSites=n())
+  #~~~~~~~~~~~
+  knitr::kable(table_Sites_County)
+  cat("\n\n")
+  knitr::kable(table_Site_County_MonLocType)
+  cat("\n\n")
+  knitr::kable(Site_Summary)
+```
 

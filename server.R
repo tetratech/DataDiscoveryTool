@@ -2503,26 +2503,42 @@ output$timeseries <- renderChart2({
   return(ln)
   })
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Tt Mod, ViewData, Data Summary Plots/Tables ####
-# output$plot.CDF.Year.Site <- renderChart2({
-#   # data to use
-#   data_plot <- filtered_data()
-#   # add extras to data for ploting
-#   data_plot$begYear <- year(data_plot$begDate)
-#   data_plot$endYear <- year(data_plot$endDate)
-#   # plotting
-#   #par(mfrow = c(2, 2))
-#   with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab="", main="A) Begin Year by Site",
-#                         panel.first=grid(lty=3)))
-#   # with(sites, plot.ecdf(endYear, ylab="CDF(x)", xlab="", main="B) End Year by Site",
-#   #                       panel.first=grid(lty=3)))
-#   # 
-#   # with(sites, plot.ecdf((endYear-begYear+1), ylab="CDF(x)", xlab="", main="C) Num Years by Site",
-#   #                       panel.first=grid(lty=3)))
-#   # 
-#   # with(sites, plot(begYear, endYear, ylab="End Year", xlab="Begin Year", main="D) End vs. Beg. Year by Site",
-#   #                  panel.first=grid(lty=3)))
-# })
+# Tt Mod, ViewData, Plots/Tables ####
+ output$plot.CDF.Year.Site <- renderChart2({
+  # data to use
+  data_plot <- filtered_data()
+  # add extras to data for ploting
+  data_plot$begYear <- year(data_plot$begDate)
+  data_plot$endYear <- year(data_plot$endDate)
+  # plotting
+  #par(mfrow = c(2, 2))
+  with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab="", main="A) Begin Year by Site",
+                        panel.first=grid(lty=3)))
+  # with(sites, plot.ecdf(endYear, ylab="CDF(x)", xlab="", main="B) End Year by Site",
+  #                       panel.first=grid(lty=3)))
+  #
+  # with(sites, plot.ecdf((endYear-begYear+1), ylab="CDF(x)", xlab="", main="C) Num Years by Site",
+  #                       panel.first=grid(lty=3)))
+  #
+  # with(sites, plot(begYear, endYear, ylab="End Year", xlab="Begin Year", main="D) End vs. Beg. Year by Site",
+  #                  panel.first=grid(lty=3)))
+})
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Save HTML of plots and tables of filtered data
+output$SaveViewDataSummary <- downloadHandler(
+  filename = function() {
+    strFile <- paste0("DDT_SummaryPlotsTables_",format(Sys.time(),"%Y%m%d_%H%M%S"),".html")}
+  ,content = function(file) {
+    # location of RMD
+    myRMD <- file.path(".","external","Report_QAQC_Summary.rmd")
+    # render RMD
+    rmarkdown::render(myRMD, output_file = file, output_format = "html_document", quiet = TRUE)
+  }
+)
+
+
+
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 })

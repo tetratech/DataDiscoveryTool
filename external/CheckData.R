@@ -64,6 +64,7 @@ function(){
                                                           )
                                                   )
                                           # fluidRow(br())
+                                          # able to do in one step, don't need 'update' button (like query)
                                           # ,fluidRow(column(1,
                                           #                  bsButton("UpdateData", label="Update Data From File **NOT ACTIVE**", style="primary")
                                           #                  ,bsPopover("UpdateData", "Update Data", trigger = "hover", placement="right", options = list(container = "body")
@@ -198,12 +199,26 @@ function(){
                                 #            ,"This button saves the QA/QC decisions as applied to the current data set. 
                                 #            To continue working with the revised data set you must return to 'Save/Load App Data' and load the file you are creating."))))
                                 , fluidRow(column(12,DT::dataTableOutput('dt_QAQC')))
-                                
-                                
-                                
-                                
-                                
                                 ),
+                       # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       # # Tt Mod, Data Summary ####
+                       tabPanel("Data Summary Plots",
+                                fluidRow(h4("Data summary plots and tables based on filtered data.", style="text-align:center"))
+                                ,br()
+                                , fluidRow("Data used is 'filtered' data.")
+                                ,br()
+                                , fluidRow("Plots A:G are CDFs by Site for results, activities, samples, parameters, begin year, end year, and number of years.")
+                                , fluidRow("Plot H is a scatterplot by site for begin and end year.")
+                                ,br()
+                                , fluidRow("Table 1 is number of sites by county.")
+                                , fluidRow("Table 2 is number of sites by county and monitoring location type.")
+                                , fluidRow("Table 3 is SiteID with number of results, begin/end year, number of activities, samples, and paramters.")
+                                ,br()
+                                ,fluidRow("Click the button below to save the plots and tables report as an HTML file.")
+                                , br()
+                                ,fluidRow(column(1, downloadButton("SaveViewDataSummary","Save Data Summary")))
+                       ),
+                       # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                        # tabPanel("QAQC Data Set",
                        #          fluidRow((h3("Quality Assurance / Quality Control Data Set", style="text-align: center")))
                        #          #, fluidRow("button for generating summary by decision.  2nd button for output.")

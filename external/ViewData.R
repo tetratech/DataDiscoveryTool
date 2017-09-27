@@ -101,19 +101,6 @@ function() {
                                       br(),
                                       leafletOutput("map")
                                       ),
-                             # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                             # # Tt Mod, Data Summary ####
-                             # tabPanel("Data Summary",
-                             #          fluidRow("Data summary plots and tables based on filtered data.")
-                             #          ,fluidRow("Click the button below to save as HTML file.")
-                             #          ,fluidRow(column(1, downloadButton("SaveViewDataSummary","Save Data Summary")))
-                             #          , br()
-                             #          , "plots"
-                             #          
-                             #          , br()
-                             #          , "tables"
-                             #          ),
-                             # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                              tabPanel("Table",
                                       br(),
                                       fluidRow(column(5), column(2, downloadButton("save_map_data", "Save Data")),
@@ -122,6 +109,7 @@ function() {
                                       br(),
                                       # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                       # # Tt Mod, Button for Saving Table Data with QAQC Decisions ####
+                                      # didn't need.  Applied QAQC to data() and saved on Check Data tab
                                       # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                       # fluidRow(column(1), column(10, "The button below applies the QAQC decisions to the map table data and saves the file to a tab-separated file (TSV)."))
                                       # , fluidRow(column(3, downloadButton("SaveQAQCApply_MapTable_data", "Apply QAQC Decisions to Data and Save")))

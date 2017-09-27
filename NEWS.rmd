@@ -26,11 +26,20 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
-* Fixes from:
-+ Testing.
+#v1.1.2.9006
+2017-09-27
+
+* Add RMD for download on Check Data tab for summary plots and tables based on filtered_data().  20170927
+
+#v1.1.2.9005
+2017-09-25
+
+* Updated DDT_StartUp.RMD.  20170925.
+
+* Add data summary plots and tables to View tab.  20170925.
 
 #v1.1.2.9004
-2017-09-22
+2017-09-22.
 
 * Change Save/Load App Data to RDA from RDS.  Needed URL when saving TSV files for meta data at top of file.  20170922.
 
@@ -91,7 +100,7 @@ Leave in hooks but remove it from the interface.  20170915.
 
 * Query screen no longer needing 2nd push of button to update variables loaded from a file. 20170901.
 
-* Converted data_QAQC to a reativeValues RV_QAQC$df_data and the QAQC Decisions table works (savings, updates, combinations). 20170913..
+* Converted data_QAQC to a reativeValues RV_QAQC$df_data and the QAQC Decisions table works (savings, updates, combinations). 20170913.
 
 #v1.1.1.9011
 2017-08-30

@@ -730,15 +730,18 @@ myData.URL <- as.character(myData.Meta[3,2])
 
 # Summary Plots and Tables
 Test out summary plots and tables of filtered data.
+20170925.  Change from RDS to RDA.
 ```{r, eval=FALSE}
 # library
 require(dplyr)
 # import data.  This will take the place of "filtered_data()"
 myDir <- file.path("C:","Users","Erik.Leppo","Downloads")
-myFiles <- list.files(path=myDir, pattern="DDT_Data_20170830_141447_R8_Tribes_19*")
+myFiles <- list.files(path=myDir, pattern="DDT_Data_R8 *")
 myFiles
-myFile <- myFiles[6] #"DDT_Data_20170830_141447_R8_Tribes_19.rds"
-myData <- readRDS(file.path(myDir,myFile)) #~10 seconds for biggest file
+myFile <- myFiles[6] #Utah
+#myData <- readRDS(file.path(myDir,myFile)) #~10 seconds for biggest file
+load(file.path(myDir,myFiles[6])) #temp_data and temp_url_display
+myData <- temp_data
 # Add Year
 myData$Year <- as.numeric(format(myData$ActivityStartDate, "%Y"))
 # summarize by site
@@ -787,7 +790,7 @@ View(Site_Summary)
 # Plots
 data_plot <- Site_Summary
   ## Plot by Site
-  #par(mfrow = c(2, 2))
+  par(mfrow = c(2, 2))
   with(data_plot, plot.ecdf(nResults, ylab="CDF(x)", xlab=""
                             , main="A) Results by Site"
                             , panel.first=grid(lty=3)))
@@ -801,7 +804,7 @@ data_plot <- Site_Summary
                             , main="D) Parameters by Site"
                             , panel.first=grid(lty=3)))
   ## Plot by Years
-  #par(mfrow = c(2, 2))
+  par(mfrow = c(2, 2))
   with(data_plot, plot.ecdf(begYear, ylab="CDF(x)", xlab=""
                             , main="E) Begin Year by Site"
                             , panel.first=grid(lty=3)))
