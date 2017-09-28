@@ -2,7 +2,7 @@ NEWS; Data Discovery Tool QAQC Updates
 ================
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-    #> Last Update: 2017-09-25 17:32:55
+    #> Last Update: 2017-09-27 22:07:16
 
 Version history.
 
@@ -11,14 +11,42 @@ Planned Updates
 
 -   Entered issues on GitHub for remaining planned updates. <https://github.com/tetratech/DataDiscoveryTool/issues>
 
-v1.1.2.9004
+v1.1.3.0000
+===========
+
+2017-09-27
+
+-   Final deliverable.
+
+v1.1.2.9007
+===========
+
+2017-09-27
+
+-   Move documentation within DDT to a new folder, "\_Other".
+
+v1.1.2.9006
+===========
+
+2017-09-27
+
+-   Add RMD for download on Check Data tab for summary plots and tables based on filtered\_data(). 20170927
+
+v1.1.2.9005
 ===========
 
 2017-09-25
 
--   Change Save/Load App Data to RDA from RDS. Needed URL when saving TSV files for meta data at top of file. 20170922.
-
 -   Updated DDT\_StartUp.RMD. 20170925.
+
+-   Add data summary plots and tables to View tab. 20170925.
+
+v1.1.2.9004
+===========
+
+2017-09-22.
+
+-   Change Save/Load App Data to RDA from RDS. Needed URL when saving TSV files for meta data at top of file. 20170922.
 
 v1.1.2.9003
 ===========
@@ -90,7 +118,7 @@ v1.1.1.9012
 
 -   Query screen no longer needing 2nd push of button to update variables loaded from a file. 20170901.
 
--   Converted data\_QAQC to a reativeValues RV\_QAQC$df\_data and the QAQC Decisions table works (savings, updates, combinations). 20170913..
+-   Converted data\_QAQC to a reativeValues RV\_QAQC$df\_data and the QAQC Decisions table works (savings, updates, combinations). 20170913.
 
 v1.1.1.9011
 ===========

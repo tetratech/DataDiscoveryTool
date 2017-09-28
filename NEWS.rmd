@@ -26,6 +26,16 @@ Version history.
 * Entered issues on GitHub for remaining planned updates.
 https://github.com/tetratech/DataDiscoveryTool/issues
 
+#v1.1.3.0000
+2017-09-27
+
+* Final deliverable.
+
+#v1.1.2.9007
+2017-09-27
+
+* Move documentation within DDT to a new folder, "_Other". 
+
 #v1.1.2.9006
 2017-09-27
 
